@@ -1,1 +1,1 @@
-# scannersdkforwindows
+# Scanner SDK for Windows
