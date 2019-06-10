@@ -1,0 +1,604 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include "targetver.h"
+#endif
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""targetver.h""\r\n"
+    "#endif\r\n"
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#include ""res\\ScannerSDKSampleApp.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\ScannerSDKSampleApp.ico"
+
+UNKNOWN                 ICON                    "res\\Unknown.ico"
+
+UNKNOWNC                ICON                    "res\\UnknownC.ico"
+
+STB                     ICON                    "res\\STB_W.ico"
+
+LS2208                  ICON                    "res\\LS2208.ico"
+
+LS3408                  ICON                    "res\\LS3408.ico"
+
+DS9808                  ICON                    "res\\DS9808.ico"
+
+LS9203                  ICON                    "res\\LS9203.ico"
+
+LS4278                  ICON                    "res\\LS4278.ico"
+
+LS3008                  ICON                    "res\\LS3008.ico"
+
+LS3578                  ICON                    "res\\LS3578.ico"
+
+LS1203                  ICON                    "res\\LS1203.ico"
+
+DS6707                  ICON                    "res\\DS6707.ico"
+
+LS4208                  ICON                    "res\\LS4208.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_SCANNERSDKSAMPLEAPP_DIALOG DIALOGEX 0, 0, 634, 375
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Scanner SDK C++/MFC Sample Application"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_TAB1,"SysTabControl32",0x0,309,7,318,338
+    PUSHBUTTON      "Discover Scanners",IDC_BUTTON3,19,24,82,14
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | LVS_AUTOARRANGE | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,20,48,273,241
+    GROUPBOX        "Connected Scanners",IDC_STATIC,7,7,298,339,0,WS_EX_CLIENTEDGE
+    GROUPBOX        "Soft Trigger",IDC_STATIC,21,297,271,37
+    PUSHBUTTON      "Pull Trigger",IDC_BUTTON6,41,310,98,14
+    PUSHBUTTON      "Release Trigger",IDC_BUTTON7,174,310,98,14
+    EDITTEXT        IDC_EDIT2,244,358,374,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    EDITTEXT        IDC_EDIT1,7,358,232,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,7,352,620,1,WS_EX_STATICEDGE
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,243,356,1,15,WS_EX_STATICEDGE
+    COMBOBOX        IDC_COMBO1,164,25,128,15,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Select Scanner",IDC_STATIC,110,27,50,11
+END
+
+IDD_ScannerActions DIALOGEX 0, 0, 314, 311
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Scanner Actions",IDC_STATIC,7,7,300,297
+    GROUPBOX        "Enable/Disable Scanner",IDC_STATIC,26,38,87,40
+    CONTROL         "Disable Scanner",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,56,67,10
+    GROUPBOX        "Reboot Scanner",IDC_STATIC,26,89,88,30
+    PUSHBUTTON      "Reboot",IDC_BUTTON1,44,100,50,14
+    GROUPBOX        "Aim",IDC_STATIC,121,38,169,40
+    PUSHBUTTON      "Aim On",IDC_BUTTON2,146,53,50,14
+    PUSHBUTTON      "Aim Off",IDC_BUTTON3,213,53,50,14
+    GROUPBOX        "Beeper",IDC_STATIC,121,90,169,61
+    GROUPBOX        "LED",IDC_STATIC,26,159,88,110
+    COMBOBOX        IDC_COMBO1,34,179,69,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "On",IDC_BUTTON4,32,212,31,14
+    PUSHBUTTON      "Off",IDC_BUTTON5,72,212,33,14
+    PUSHBUTTON      "Beep",IDC_BUTTON6,251,116,25,14
+    COMBOBOX        IDC_COMBO2,132,116,114,14,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Switch Host Variant",IDC_STATIC,122,159,167,109
+    CONTROL         "Silent Switch Host",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,203,73,10
+    CONTROL         "Permanent Change",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,219,77,10
+    PUSHBUTTON      "Switch Host Mode",IDC_BUTTON12,168,241,75,14
+    COMBOBOX        IDC_COMBO_HOSTS,131,179,143,15,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Disconnect BT Scanner",IDC_STATIC,26,122,88,35
+    PUSHBUTTON      "Disconnect",IDC_BUTTON_Disconnect,44,136,49,14
+END
+
+IDD_XML DIALOGEX 0, 0, 316, 313
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "XML Outout",IDC_STATIC,7,263,302,43
+    PUSHBUTTON      "Clear",IDC_BUTTON1,131,279,50,14
+    CONTROL         "",IDC_EXPLORER1,"{8856F961-340A-11D0-A96B-00C04FD705A2}",WS_TABSTOP,7,7,302,250
+END
+
+IDD_Barcode DIALOGEX 0, 0, 312, 321
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Decoded Barcode Details",IDC_STATIC,7,197,298,48,0,WS_EX_TRANSPARENT
+    PUSHBUTTON      "Flush Macro  pdf",IDC_BUTTON1,7,276,64,14
+    PUSHBUTTON      "Abort Macro Pdf",IDC_BUTTON2,7,253,64,14
+    EDITTEXT        IDC_EDIT2,77,207,221,14,ES_AUTOHSCROLL
+    LTEXT           "Decoded Barcode",IDC_STATIC,15,210,60,8,0,WS_EX_TRANSPARENT
+    PUSHBUTTON      "Clear",IDC_BUTTON11,7,297,64,14
+    EDITTEXT        IDC_EDIT3,77,227,220,14,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Symbology",IDC_STATIC,34,227,36,8,0,WS_EX_TRANSPARENT
+    GROUPBOX        "Keyboard Emulation and Language/Locale Details",IDC_STATIC,83,251,214,30,0,WS_EX_TRANSPARENT
+    CONTROL         "Enable ",IDC_ENABLELANG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,90,264,36,10
+    COMBOBOX        IDC_CMBLANG,136,263,142,14,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Browse Script ...",IDC_BUTTON14,137,293,66,14
+    CONTROL         "Not Set",IDC_DRIVERADF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,90,297,42,10
+    GROUPBOX        "Application ADF",IDC_STATIC,83,283,214,30,0,WS_EX_TRANSPARENT
+    PUSHBUTTON      "Script Editor ...",IDC_BUTTON15,212,293,66,14
+    EDITTEXT        IDC_EDIT_Barcode,7,7,298,183,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | WS_HSCROLL
+END
+
+IDD_ImageVideo DIALOGEX 0, 0, 310, 309
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Image",IDC_BUTTON1,52,189,59,14
+    PUSHBUTTON      "Video",IDC_BUTTON2,123,189,59,14
+    PUSHBUTTON      "Abort Transfer",IDC_BUTTON3,198,250,74,14
+    CONTROL         "Enable Video View Finder",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,118,225,90,10
+    GROUPBOX        "Image Type",IDC_STATIC,36,222,62,60
+    CONTROL         "JPG",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,47,234,28,10
+    CONTROL         "TIFF",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,47,248,31,10
+    CONTROL         "BMP",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,47,264,29,10
+    GROUPBOX        "Image and Video",IDC_STATIC,7,7,296,295
+    CONTROL         "",IDC_STATIC_PICTURE_CONTROL,"Static",SS_BLACKFRAME | SS_CENTERIMAGE,51,27,206,138
+    PUSHBUTTON      "Save Image...",IDC_BUTTON11,119,250,74,14
+    PUSHBUTTON      "Barcode",IDC_BUTTON13,197,189,59,14
+    GROUPBOX        "Select Operating Mode",IDC_STATIC,37,175,231,39
+END
+
+IDD_RSM DIALOGEX 0, 0, 313, 313
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Get All IDs",IDC_BUTTON1,34,239,65,14
+    GROUPBOX        "RSM",IDC_STATIC,7,3,298,303
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,24,20,266,201
+    PUSHBUTTON      "Get Value",IDC_BUTTON2,34,260,65,14
+    PUSHBUTTON      "Next Value",IDC_BUTTON3,34,280,65,14
+    EDITTEXT        IDC_EDIT_Attrib,219,31,40,14,ES_AUTOHSCROLL | NOT WS_VISIBLE
+    PUSHBUTTON      "Set Value",IDC_BUTTON4,134,259,65,14
+    PUSHBUTTON      "Store Value",IDC_BUTTON5,134,239,65,14
+    PUSHBUTTON      "Select All",IDC_BUTTON6,232,238,48,14
+    PUSHBUTTON      "Clear All",IDC_BUTTON7,232,259,48,14
+    GROUPBOX        "Attributes Get/Set",IDC_STATIC,25,225,183,74
+    GROUPBOX        "Select/Clear",IDC_STATIC,226,225,61,73
+END
+
+IDD_Configuration DIALOGEX 0, 0, 310, 308
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Firmware Operations",IDC_STATIC,7,8,288,79
+    EDITTEXT        IDC_EDIT1,28,21,216,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse",IDC_BUTTON1,245,21,36,14
+    PUSHBUTTON      "Update",IDC_BUTTON2,163,43,36,14
+    PUSHBUTTON      "Abort",IDC_BUTTON3,243,43,36,14
+    PUSHBUTTON      "Launch",IDC_BUTTON4,203,43,36,14
+    CONTROL         "",IDC_PROGRESS1,"msctls_progress32",WS_BORDER,28,67,250,11
+    CONTROL         "Bulk Update",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,94,46,54,10
+    CONTROL         "Claim Scanner",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,31,108,61,10
+    GROUPBOX        "",IDC_STATIC,28,36,252,25
+    GROUPBOX        "Exclusively Claim Selected Scanner",IDC_STATIC,7,92,139,35
+    GROUPBOX        "Protocol Select",IDC_STATIC,158,93,136,34
+    COMBOBOX        IDC_COMBO1,167,106,116,13,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Custom Good Decode Tone",IDC_STATIC,7,132,287,54
+    EDITTEXT        IDC_EDIT_DecodeToneFilePath,15,148,218,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse",IDC_BUTTON_DecodeToneBrrowse,239,148,50,14
+    PUSHBUTTON      "Upload",IDC_BUTTON_DecodeToneUpload,168,168,50,14
+    PUSHBUTTON      "Erase",IDC_BUTTON_DecodeToneErase,237,169,50,14
+END
+
+IDD_Miscellaneous DIALOGEX 0, 0, 309, 311
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Miscellaneous Commands",IDC_STATIC,14,27,281,40
+    GROUPBOX        "Serial Interface Settings",IDC_STATIC,14,120,281,171
+    PUSHBUTTON      "CoreScanner Version",IDC_BUTTON2,44,43,93,14
+    PUSHBUTTON      "Get Device Topology",IDC_BUTTON3,167,43,94,14
+    PUSHBUTTON      "Set",IDC_BUTTON5,134,226,48,14
+    GROUPBOX        "Miscellaneous",IDC_STATIC,7,7,295,297
+    GROUPBOX        "Command Mode",IDC_STATIC,14,76,281,33
+    CONTROL         "Asynchronous",IDC_CHECK15,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,45,91,61,10
+    CONTROL         "Flow Control",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,62,199,72,11
+    COMBOBOX        IDC_COMBO1,61,173,90,14,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO3,195,172,90,14,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Baud Rate",IDC_STATIC,22,174,36,10
+    RTEXT           "Data Bits",IDC_STATIC,163,174,30,10
+    COMBOBOX        IDC_COMBO2,60,147,90,15,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO4,196,147,90,15,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Parity Bits",IDC_STATIC,26,149,33,10
+    RTEXT           "Stop Bits",IDC_STATIC,166,148,28,10
+END
+
+IDD_Advanced DIALOGEX 0, 0, 314, 306
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Advanced RSM",IDC_STATIC,7,7,300,292
+    COMBOBOX        IDC_COMBO1,125,24,152,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT1,27,58,255,203,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | WS_DISABLED | WS_VSCROLL
+    PUSHBUTTON      "Execute",IDC_BUTTON1,98,273,50,14
+    PUSHBUTTON      "Clear All",IDC_BUTTON2,158,273,50,14
+    LTEXT           "1. Select the Command",IDC_STATIC,28,27,75,8
+    LTEXT           "2. Enter the Input XML in following format",IDC_STATIC,28,43,134,8
+END
+
+IDD_Logs DIALOGEX 0, 0, 310, 314
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_EDIT1,7,7,291,70,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL
+    PUSHBUTTON      "Clear Event Log",IDC_BUTTON1,63,293,67,14
+    PUSHBUTTON      "Clear XML Log",IDC_BUTTON2,173,293,67,14
+    EDITTEXT        IDC_EDIT_Logs,7,85,296,199,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | WS_HSCROLL
+END
+
+IDD_TOPOLOGY DIALOGEX 0, 0, 294, 271
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Device Topology"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_TREE1,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | WS_BORDER,7,7,280,233
+    PUSHBUTTON      "Close",IDC_BUTTON1,26,244,64,16
+    ICON            "UNKNOWN",IDC_STATIC,253,243,21,20
+    LTEXT           "Hint: Unknown/Non-RSM Scanner is shown as ",IDC_STATIC,102,249,150,11
+END
+
+IDD_Scale DIALOGEX 0, 0, 309, 249
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Read Weight",IDC_BUTTON_ReadWeight,44,23,50,14
+    PUSHBUTTON      "Zero Scale",IDC_BUTTON_ZeroScale,127,23,50,14
+    PUSHBUTTON      "Scale Reset",IDC_BUTTON_ScaleReset,210,23,50,14
+    LTEXT           "Weight Measured",IDC_STATIC,74,63,59,10
+    LTEXT           "Weight Unit",IDC_STATIC,180,63,51,8
+    CTEXT           "",IDC_STATIC_WeightValue,60,82,74,15,WS_BORDER
+    CTEXT           "",IDC_STATIC_WeightUnit,170,82,74,15,WS_BORDER
+    LTEXT           "",IDC_STATIC_ScaleStatus,34,129,232,28
+    GROUPBOX        "Scale",IDC_STATIC,7,7,295,235
+END
+
+IDD_IntelDocCap DIALOGEX 0, 0, 315, 297
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_STATIC_IDC_PIC_CTRL,"Static",SS_BLACKFRAME,18,18,276,168
+    GROUPBOX        "Static",IDC_STATIC,15,196,121,90
+    GROUPBOX        "Barcode",IDC_STATIC,147,194,142,70
+    COMBOBOX        IDC_COMBO_IDC_PARAM,21,215,110,12,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_IDC_PARAM_VAL,21,237,110,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Get",IDC_BUTTON_IDC_PARAM_GET,21,253,32,13
+    PUSHBUTTON      "Set",IDC_BUTTON_IDC_PARAM_SET,60,253,32,13
+    PUSHBUTTON      "Store",IDC_BUTTON_IDC_PARAM_STORE,99,253,32,13
+    EDITTEXT        IDC_EDITI_IDC_DECODE_DATA,155,217,125,13,ES_AUTOHSCROLL
+    LTEXT           "Decode Data",IDC_STATIC,155,206,46,8
+    LTEXT           "Symbology",IDC_STATIC,155,234,36,8
+    EDITTEXT        IDC_EDIT_IDC_SYMBOLOGY,155,245,124,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Clear",IDC_BUTTON_IDC_CLEAR,226,268,38,12
+    CONTROL         "Use HID",IDC_CHECK_USE_HID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,147,268,42,10
+    GROUPBOX        "Image Data",IDC_STATIC,12,8,289,182
+END
+
+IDD_DadfScript DIALOGEX 0, 0, 294, 271
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+CAPTION "Driver ADF Script Editor"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Cancel",IDCANCEL,85,241,64,16
+    CONTROL         "",IDC_RICHEDIT21,"RichEdit20W",WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP | 0x10c4,7,7,280,226,WS_EX_DLGMODALFRAME
+    PUSHBUTTON      "Apply",IDOK,7,241,64,16
+END
+
+IDD_ScanToConnect DIALOGEX 0, 0, 303, 281
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_COMBO_ScannerType,124,29,103,16,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Scanner Type",IDC_STATIC_ScannerType,33,31,45,8,0,WS_EX_TRANSPARENT
+    LTEXT           "Protocol Name",IDC_STATIC_ProtocolName,33,58,47,8,0,WS_EX_TRANSPARENT
+    LTEXT           "Host Name",IDC_STATIC_HostName,33,85,36,8,0,WS_EX_TRANSPARENT
+    LTEXT           "Default Option",IDC_STATIC_DefaultOption,33,112,48,8,0,WS_EX_TRANSPARENT
+    LTEXT           "Image Size",IDC_STATIC_ImageSize,33,139,36,8,0,WS_EX_TRANSPARENT
+    GROUPBOX        "ScanToConnect Barcode",IDC_STATIC_ScanToConnectBarcodeGroup,12,13,284,254
+    COMBOBOX        IDC_COMBO_ProtocolName,124,56,103,30,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_HostName,124,83,103,30,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_DefaultOption,124,110,103,30,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_ImageSize,124,137,103,30,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_STATIC_ScanToConnectBarcode,"Static",SS_BLACKFRAME | SS_CENTERIMAGE | SS_REALSIZEIMAGE,15,186,270,76
+    LTEXT           "Pairing Barcode",IDC_STATIC_PairingBarcode,29,164,50,8,0,WS_EX_TRANSPARENT
+    PUSHBUTTON      "Save Barcode",IDC_BUTTON_SaveBarcode,177,162,74,14,WS_DISABLED
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 3,4,3,0
+ PRODUCTVERSION 3,4,3,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x21L
+#else
+ FILEFLAGS 0x20L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "Comments", "This is a MFC GUI application that can describe all functinalities in a Zebra Scanner by using CoreScanner service"
+            VALUE "CompanyName", "Zebra Technologies"
+            VALUE "FileDescription", "Scanner SDK (CoreScanner) Sample Application"
+            VALUE "FileVersion", "3.4.3.0"
+            VALUE "InternalName", "ScannerSDKSampleApp.exe"
+            VALUE "LegalCopyright", "©2016 Symbol Technologies LLC. All rights reserved ."
+            VALUE "OriginalFilename", "ScannerSDKSampleApp.exe"
+            VALUE "ProductName", "Scanner SDK Sample Application"
+            VALUE "ProductVersion", "3.4.3.0"
+            VALUE "SpecialBuild", "Beta"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_SCANNERSDKSAMPLEAPP_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 627
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 368
+    END
+
+    IDD_ScannerActions, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 307
+        VERTGUIDE, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 304
+    END
+
+    IDD_XML, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 306
+    END
+
+    IDD_Barcode, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 305
+        VERTGUIDE, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 317
+    END
+
+    IDD_ImageVideo, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 303
+        VERTGUIDE, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 302
+    END
+
+    IDD_RSM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 305
+        VERTGUIDE, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 306
+    END
+
+    IDD_Configuration, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 303
+        VERTGUIDE, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 301
+    END
+
+    IDD_Miscellaneous, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        VERTGUIDE, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 304
+    END
+
+    IDD_Advanced, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 307
+        VERTGUIDE, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 299
+    END
+
+    IDD_Logs, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 303
+        VERTGUIDE, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 307
+    END
+
+    IDD_TOPOLOGY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 287
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 264
+    END
+
+    IDD_Scale, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 242
+    END
+
+    IDD_IntelDocCap, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 308
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 290
+    END
+
+    IDD_DadfScript, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 287
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 264
+    END
+
+    IDD_ScanToConnect, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 286
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 274
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_XML DLGINIT
+BEGIN
+    IDC_EXPLORER1, 0x376, 160, 0
+0x0000, 0x0000, 0x004c, 0x0000, 0x2ed2, 0x0000, 0x29f6, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x004c, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 
+0x0000, 0xd0e0, 0x0057, 0x3573, 0x11cf, 0x69ae, 0x0008, 0x2e2b, 0x6212, 
+0x0008, 0x0000, 0x0000, 0x0000, 0x004c, 0x0000, 0x1401, 0x0002, 0x0000, 
+0x0000, 0x00c0, 0x0000, 0x0000, 0x4600, 0x0080, 0x0000, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+    0
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#include "res\ScannerSDKSampleApp.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"     // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
