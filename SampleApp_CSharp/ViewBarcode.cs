@@ -110,8 +110,10 @@ namespace Scanner_SDK_Sample_Application
                     return "CODE 39 TRIOPTIC";
                 case ST_BOOKLAND:
                     return "BOOKLAND";
-                case ST_COUPON:
-                    return "COUPON CODE";
+                case ST_UPCA_W_CODE128:
+                    return "UPC-A w/Code 128 Supplemental";
+                case ST_JAN13_W_CODE128:
+                    return "EAN/JAN-13 w/Code 128 Supplemental";
                 case ST_NW7:
                     return "NW-7";
                 case ST_ISBT128:
@@ -250,8 +252,8 @@ namespace Scanner_SDK_Sample_Application
                     return "MACRO MICRO PDF";
                 case ST_OCRB:
                     return "OCRB";
-                case ST_OCR:
-                    return "OCR";
+                case ST_OCRA:
+                    return "OCRA";
                 case ST_PARSED_DRIVER_LICENSE:
                     return "PARSED DRIVER LICENSE";
                 case ST_PARSED_UID:
@@ -276,6 +278,8 @@ namespace Scanner_SDK_Sample_Application
                     return "DOT CODE";
                 case BT_GRID_MATRIX:
                     return "GRID MATRIX";
+                case ST_EPC_RAW:
+                    return "EPC RAW";
                 default:
                     return "";
             }
@@ -325,6 +329,7 @@ namespace Scanner_SDK_Sample_Application
             }
         }
 
+
         /// <summary>
         /// BarcodeEvent received
         /// </summary>
@@ -346,12 +351,114 @@ namespace Scanner_SDK_Sample_Application
                         txtBarcode.Text = IndentXmlString(tmpScanData);
                     }));
                 }
+
+                if(GetSelectedTabName().Equals(SSW_TAB_NAME))
+                {
+                    if (GetScanDataType(tmpScanData) == ST_UPCA)
+                    {
+                        currentUpca = GetScanDataLabel(tmpScanData);
+                        currentUpca = GetReadableScanDataLabel(currentUpca);
+                        SetTextboxText(txtUpcaBarcode, currentUpca);
+
+                        ExtractUpcData();
+                    }
+                    if(GetScanDataType(tmpScanData) == ST_EPC_RAW) 
+                    {
+                        currentEpcId = GetScanDataLabel(tmpScanData);
+                        currentEpcId = GetReadableScanDataLabel(currentEpcId);
+                        SetTextboxText(txtEpcId, currentEpcId);
+
+                        ExtractEpcData();
+                    }                   
+                    CreateNewEpcId();
+                }
             }
-            catch (Exception)
+            catch (Exception e)
             {
             }
         }
 
+        /// <summary>
+        /// Get the selected tab name
+        /// </summary>
+        /// <returns>Name of the selected tab</returns>
+        private string GetSelectedTabName()
+        {
+            string selectedTabName = String.Empty;
+            if (tabCtrl.InvokeRequired)
+            {
+                tabCtrl.Invoke(new MethodInvoker(delegate
+                {
+                    selectedTabName = tabCtrl.SelectedTab.Name;
+                }));
+            }
+            else
+            {
+                selectedTabName = tabCtrl.SelectedTab.Name;
+            }
+            return selectedTabName;
+        }
+
+        /// <summary>
+        /// Get a readable string form the hex string
+        /// </summary>
+        /// <param name="scanDataLabel">Hex formated string</param>
+        /// <returns>Readable string</returns>
+        private string GetReadableScanDataLabel(string scanDataLabel)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            string[] numbers = scanDataLabel.Split(' ');
+
+            foreach (string number in numbers)
+            {
+                if (String.IsNullOrEmpty(number))
+                {
+                    break;
+                }
+                int character = Convert.ToInt32(number, 16);
+                stringBuilder.Append(((char)character).ToString());
+            }
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Get data label from the CoreScanner's barcode event XML
+        /// </summary>
+        /// <param name="scanDataXml">CoreScanner's barcode event XML</param>
+        /// <returns>Content of datalabel tag</returns>
+        private string GetScanDataLabel(string scanDataXml)
+        {
+            try
+            {
+                XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.LoadXml(scanDataXml);
+                return xmlDocument.DocumentElement.GetElementsByTagName("datalabel").Item(0).InnerText;
+            }
+            catch
+            {
+                return String.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Get the data type from CoreScanner's barcode event XML
+        /// </summary>
+        /// <param name="scanDataXml">CoreScanner's barcode event XML</param>
+        /// <returns>Content of datatype tag</returns>
+        private int GetScanDataType(string scanDataXml)
+        {
+            try
+            {
+                XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.LoadXml(scanDataXml);
+                return (int)Convert.ToInt32(xmlDocument.DocumentElement.GetElementsByTagName("datatype").Item(0).InnerText.Trim());
+            }
+            catch
+            {
+                return ST_NOT_APP;
+            }
+            
+        }
 
         private string m_DadfSource = "";
         private string m_DadfPath = "";

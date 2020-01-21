@@ -31,7 +31,8 @@ namespace Scanner_SDK_Sample_Application
         const int ST_UPCD = 0x14;
         const int ST_TRIOPTIC = 0x15;
         const int ST_BOOKLAND = 0x16;
-        const int ST_COUPON = 0x17;
+        const int ST_UPCA_W_CODE128 = 0x17;   // For UPC-A w/Code 128 Supplemental
+        const int ST_JAN13_W_CODE128 = 0x78; // For EAN/JAN-13 w/Code 128 Supplemental
         const int ST_NW7 = 0x18;
         const int ST_ISBT128 = 0x19;
         const int ST_MICRO_PDF = 0x1a;
@@ -101,7 +102,7 @@ namespace Scanner_SDK_Sample_Application
         const int ST_UPCE1_5 = 0x90;
         const int ST_MACRO_MICRO_PDF = 0x9A;
         const int ST_OCRB = 0xA0;
-        const int ST_OCR =  0xA1;
+        const int ST_OCRA =  0xA1;
         const int ST_PARSED_DRIVER_LICENSE  = 0xB1;
         const int ST_PARSED_UID  = 0xB2;
         const int ST_PARSED_NDC  = 0xB3;
@@ -114,6 +115,7 @@ namespace Scanner_SDK_Sample_Application
         const int BT_MAINMARK = 0xC3;
         const int BT_DOTCODE = 0xC4;
         const int BT_GRID_MATRIX = 0xC8;
+        const int ST_EPC_RAW = 0xE0;
 
 
         //End Symbology Types

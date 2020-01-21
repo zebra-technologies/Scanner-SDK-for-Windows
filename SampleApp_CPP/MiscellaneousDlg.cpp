@@ -72,7 +72,7 @@ void CMiscellaneousDlg::OnSDKVersion()
 		if( wcslen(pArg) > 0)
 		{
 			CString info;
-			info.Format(L"The Selected Scanner is Running on CoreScanner Version %s API.", pArg);
+			info.Format(L"The Selected Scanner is Running on Zebra CoreScanner Driver Version %s API.", pArg);
 			::MessageBoxW(this->m_hWnd, info, L"CoreScanner Version", MB_OK|MB_ICONINFORMATION);
 		}
 		if(p == 0) break;

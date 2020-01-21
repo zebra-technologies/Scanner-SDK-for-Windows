@@ -125,6 +125,8 @@
 #define IDC_BUTTON_Disconnect           1079
 #define IDC_BUTTON_Brows                1083
 #define IDC_BUTTON_SaveBarcode          1085
+#define IDC_SAVE_IMAGE                  1086
+#define IDC_BUTTON_IDC_SAVE_IMAGE       1086
 
 // Next default values for new objects
 // 
@@ -132,7 +134,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        151
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1086
+#define _APS_NEXT_CONTROL_VALUE         1087
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

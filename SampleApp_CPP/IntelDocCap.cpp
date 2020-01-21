@@ -20,6 +20,9 @@ IMPLEMENT_DYNAMIC(CIntelDocCap, CDialog)
 CIntelDocCap::CIntelDocCap(CWnd* pParent /*=NULL*/)
 	: CDialog(CIntelDocCap::IDD, pParent)
 {
+	m_ImageData.ImageData = 0;
+	m_ImageData.ImageSize = 0;
+
 	Async = 0;
 }
 
@@ -48,11 +51,13 @@ BEGIN_MESSAGE_MAP(CIntelDocCap, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_IDC_PARAM_STORE, &CIntelDocCap::OnBnClickedButtonIdcParamStore)
 	ON_BN_CLICKED(IDC_BUTTON_IDC_CLEAR, &CIntelDocCap::OnBnClickedButtonIdcClear)
 	ON_BN_CLICKED(IDC_CHECK_USE_HID, &CIntelDocCap::OnBnClickedCheckUseHid)
+	ON_BN_CLICKED(IDC_BUTTON_IDC_SAVE_IMAGE, &CIntelDocCap::OnBnClickedButtonIdcSaveImage)
 END_MESSAGE_MAP()
 
 
 void CIntelDocCap::OnBinaryDataEventCapture(LPBYTE MediaBuffer,LONG BufferSize, SHORT DataFormat, BSTR* bstrScannerData)
 {
+
 	//CComBSTR outXml(*bstrScannerData);
 	BSTR outXML = SysAllocString((OLECHAR*)bstrScannerData);
 	CQuickXmlParser xml(outXML);
@@ -94,6 +99,11 @@ void CIntelDocCap::OnBinaryDataEventCapture(LPBYTE MediaBuffer,LONG BufferSize, 
 	
 	if(DataFormat == ST_SIGNATURE_CAPTURE)
 	{
+		ClearImageCache();
+		m_ImageData.ImageData = new BYTE[BufferSize + 2];
+		memcpy(m_ImageData.ImageData, &MediaBuffer[6], BufferSize);
+		m_ImageData.ImageSize = BufferSize;
+
 		m_RenderEngine.Render(&MediaBuffer[6], BufferSize);
 	}
 	else
@@ -115,6 +125,11 @@ void CIntelDocCap::OnBinaryDataEventCapture(LPBYTE MediaBuffer,LONG BufferSize, 
 			case 2:
 			case 3:
 				{
+					ClearImageCache();
+					m_ImageData.ImageData = new BYTE[pDataFormat->ImageData.bImageDataLen + 2];
+					memcpy(m_ImageData.ImageData, pDataFormat->ImageData.pbImageData, pDataFormat->ImageData.bImageDataLen);
+					m_ImageData.ImageSize = pDataFormat->ImageData.bImageDataLen;
+
 					m_RenderEngine.Render(pDataFormat->ImageData.pbImageData, pDataFormat->ImageData.bImageDataLen);
 				}
 				break;
@@ -339,7 +354,8 @@ LPCTSTR CIntelDocCap::GetSymbology(int Code)
 	case ST_UPCD: return (_T("UPCD"));
 	case ST_TRIOPTIC: return (_T("TRIOPTIC"));
 	case ST_BOOKLAND: return (_T("BOOKLAND"));
-	case ST_COUPON: return (_T("COUPON"));
+	case ST_UPCA_W_CODE128:return (_T("UPC-A w/Code 128 Supplemental"));
+	case ST_JAN13_W_CODE128:return (_T("EAN/JAN-13 w/Code 128 Supplemental"));
 	case ST_NW7: return (_T("NW7"));
 	case ST_ISBT128: return (_T("ISBT128"));
 	case ST_MICRO_PDF: return (_T("MICRO PDF"));
@@ -415,5 +431,50 @@ void CIntelDocCap::OnBnClickedCheckUseHid()
 	else if(m_chkUseHID.GetCheck() == BST_UNCHECKED)
 	{
 		RSMSet(1004, L"False", L"F");
+	}
+}
+
+
+void CIntelDocCap::OnBnClickedButtonIdcSaveImage()
+{
+	if (m_ImageData.ImageData == 0) return;
+
+	CString Ext;
+	CString Filter;
+	CFile file;
+
+	GetImageType(Ext, Filter);
+
+	CFileDialog SaveDlg(FALSE, Ext, NULL, 0, Filter);
+	if (SaveDlg.DoModal() == IDOK)
+	{
+		CString csFileName = SaveDlg.GetFolderPath() + L"\\" + SaveDlg.GetFileName();
+		file.Open(csFileName, CFile::modeCreate | CFile::modeWrite);
+		file.SeekToBegin();
+		file.Write(m_ImageData.ImageData, m_ImageData.ImageSize);
+		file.Close();
+	}
+}
+
+void CIntelDocCap::GetImageType(CString &Ext, CString &Filter)
+{
+	LPBYTE p = m_ImageData.ImageData;
+	if (p[0] == 0x42 && p[1] == 0x4D)
+	{
+		Ext = _T(".bmp");
+		Filter = _T("BMP Images (*.bmp)|*.bmp||");
+		return;
+	}
+	if (p[0] == 0xFF && p[1] == 0xD8 && p[2] == 0xFF && p[3] == 0xE0)
+	{
+		Ext = _T(".jpg");
+		Filter = _T("JPEG Images (*.jpg)|*.jpg||");
+		return;
+	}
+	if (p[0] == 0x4D && p[1] == 0x4D && p[2] == 0x00 && p[3] == 0x2A)
+	{
+		Ext = _T(".tif");
+		Filter = _T("TIF Images (*.tif)|*.tif||");
+		return;
 	}
 }

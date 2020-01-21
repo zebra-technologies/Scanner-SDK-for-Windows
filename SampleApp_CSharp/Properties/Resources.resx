@@ -150,4 +150,11 @@ Sig_MAX_ROT,      652, PCT_MISC    , PVT_BYTE,      0, 45    , Anchored Rotation
 DocCap_HIBLUR,    659, PCT_MISC    , PVT_BIT,       0, 1     , Allow Blurred Anchor Barcodes</value>
     <comment>Parameters, formatted as a paramdef.txt file, for DocCap only settings</comment>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="icon_error" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\icon_error.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_success" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\icon_success.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

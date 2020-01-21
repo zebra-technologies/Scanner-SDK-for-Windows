@@ -69,6 +69,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ScannerAttribute.cs" />
+    <Compile Include="ViewSSW.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ViewScanToConnect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,6 +157,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="form.ico" />
+    <EmbeddedResource Include="Images\icon_error.png" />
+    <EmbeddedResource Include="Images\icon_success.png" />
     <Content Include="mot_logo.ico" />
   </ItemGroup>
   <ItemGroup>

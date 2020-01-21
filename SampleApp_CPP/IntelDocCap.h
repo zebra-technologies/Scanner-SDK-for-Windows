@@ -60,7 +60,7 @@ private:
 	int RSMSet(int opcode, wstring value, wstring dataType, bool isStore = false);
 	::wstring wsSelectedDataType;
 	LPCTSTR GetSymbology(int Code);
-
+	VOID GetImageType(CString &Ext, CString &Filter);
 
 public:
 	CEdit m_edit_DecodData;
@@ -84,4 +84,5 @@ public:
 	afx_msg void OnBnClickedCheckUseHid();
 	// USE HID Check box
 	CButton m_chkUseHID;
+	afx_msg void OnBnClickedButtonIdcSaveImage();
 };

@@ -86,8 +86,10 @@ LPCTSTR CBarcodeDlg::GetSymbology(int Code)
 		return (_T("CODE 39 TRIOPTIC"));
 	case ST_BOOKLAND:
 		return (_T("BOOKLAND"));
-	case ST_COUPON:
-		return (_T("COUPON CODE"));
+	case ST_UPCA_W_CODE128:
+		return (_T("UPC-A w/Code 128 Supplemental"));
+	case ST_JAN13_W_CODE128:
+		return (_T("EAN/JAN-13 w/Code 128 Supplemental"));
 	case ST_NW7:
 		return (_T("NW-7"));
 	case ST_ISBT128:
@@ -226,8 +228,8 @@ LPCTSTR CBarcodeDlg::GetSymbology(int Code)
 		return (_T("MACRO MICRO PDF"));
 	case ST_OCRB:
 		return (_T("OCRB"));
-	case ST_OCR:
-		return (_T("OCR"));
+	case ST_OCRA:
+		return (_T("OCRA"));
 	case ST_PARSED_DRIVER_LICENSE:
 		return (_T("PARSED DRIVER LICENSE"));
 	case ST_PARSED_UID:

@@ -170,7 +170,8 @@ typedef enum
 #define   ST_UPCD					0x14  
 #define   ST_TRIOPTIC				0x15  
 #define   ST_BOOKLAND				0x16  
-#define   ST_COUPON					0x17  
+#define   ST_UPCA_W_CODE128			0x17   // For UPC-A w/Code 128 Supplemental
+#define   ST_JAN13_W_CODE128			0x78 // For EAN/JAN-13 w/Code 128 Supplemental
 #define   ST_NW7					0x18  
 #define   ST_ISBT128				0x19  
 #define   ST_MICRO_PDF				0x1a  
@@ -240,7 +241,7 @@ typedef enum
 #define   ST_UPCE1_5				0x90  
 #define   ST_MACRO_MICRO_PDF		0x9A  
 #define   ST_OCRB					0xA0  
-#define   ST_OCR					0xA1  
+#define   ST_OCRA					0xA1  
 #define   ST_PARSED_DRIVER_LICENSE  0xB1  
 #define   ST_PARSED_UID				0xB2  
 #define   ST_PARSED_NDC				0xB3  

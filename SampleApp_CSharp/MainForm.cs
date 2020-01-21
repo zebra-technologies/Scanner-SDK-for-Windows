@@ -17,6 +17,7 @@ namespace Scanner_SDK_Sample_Application
     public partial class frmScannerApp : Form
     {
         Image imgCapturedImage;
+        Bitmap idcImage;
         CCoreScannerClass m_pCoreScanner;
         bool m_bSuccessOpen;//Is open success
         Scanner[] m_arScanners;
@@ -102,6 +103,7 @@ namespace Scanner_SDK_Sample_Application
             cmbScannerType.SelectedIndex = 0;
             InitISO_15434_tab();
 
+            tabCtrl.TabPages.Remove(tabSSW);
         }
 
         private void OnParameterBarcodeEvent(short eventType, int size, short imageFormat, ref object sfImageData, ref string pData)
@@ -270,27 +272,27 @@ namespace Scanner_SDK_Sample_Application
             txtDocCapDecodeData.Text = "";
             txtDocCapDecodeDataSymbol.Text = "";
             string channel = "";
-            
-            
-                checkUseHID.CheckedChanged -= this.checkUseHID_CheckedChanged;
 
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.LoadXml(pScannerData);
 
-                string txchannel = xmlDoc.DocumentElement.GetElementsByTagName("channel").Item(0).InnerText;
-                if (txchannel == "usb_HID")
-                {
-                    checkUseHID.CheckState = CheckState.Checked;
-                    channel = "Data transfered through HID channel";
+            checkUseHID.CheckedChanged -= this.checkUseHID_CheckedChanged;
 
-                }
-                else if (txchannel == "usb_BULK")
-                {
-                    checkUseHID.CheckState = CheckState.Unchecked;
-                    channel = "Data transfered through Bulk channel";
-                }
-                checkUseHID.CheckedChanged += this.checkUseHID_CheckedChanged;
-            
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(pScannerData);
+
+            string txchannel = xmlDoc.DocumentElement.GetElementsByTagName("channel").Item(0).InnerText;
+            if (txchannel == "usb_HID")
+            {
+                checkUseHID.CheckState = CheckState.Checked;
+                channel = "Data transfered through HID channel";
+
+            }
+            else if (txchannel == "usb_BULK")
+            {
+                checkUseHID.CheckState = CheckState.Unchecked;
+                channel = "Data transfered through Bulk channel";
+            }
+            checkUseHID.CheckedChanged += this.checkUseHID_CheckedChanged;
+
 
             UpdateResults("Binary Data Event Fired. " + channel);
 
@@ -329,7 +331,7 @@ namespace Scanner_SDK_Sample_Application
 
         void OnDocCapImage(object sender, DocCapImageArgs e)
         {
-            
+
             //throw new Exception("The method or operation is not implemented.");
             try
             {
@@ -337,6 +339,7 @@ namespace Scanner_SDK_Sample_Application
                 //this.m_rawData = ube.Data;
                 MemoryStream ms = new MemoryStream(e.ImgData);
                 Bitmap bm = new Bitmap(ms);
+                idcImage = bm;
                 this.pbxISO15434Image.Image = bm;
                 if (pbxISO15434Image.MaximumSize.Height < bm.Height || pbxISO15434Image.MaximumSize.Width < bm.Width)
                 {
@@ -351,6 +354,15 @@ namespace Scanner_SDK_Sample_Application
             catch
             {
                 throw new Exception("Unable to convert raw bytes to bitmap");
+            }
+
+            if(idcImage != null)
+            {
+                btnSaveIdc.Enabled = true; ;
+            }
+            else
+            {
+                btnSaveIdc.Enabled = false;
             }
         }
 
@@ -371,7 +383,7 @@ namespace Scanner_SDK_Sample_Application
             int status = STATUS_FALSE;
             ExecCmd(opCode, ref inXml, out outXml, out status);
 
-            if(STATUS_SUCCESS == status)
+            if (STATUS_SUCCESS == status)
             {
                 scnTmp.SCANNERFIRMWARE = m_xml.GetAttribXMLValue(outXml);
             }
@@ -482,7 +494,7 @@ namespace Scanner_SDK_Sample_Application
                                     progressBarFWUpdate.Value = 0;
                                 }));
                             }
-                            
+
                             UpdateResults("ScanRMD Event fired - SCANNER_UF_DL_START");
                         }
                         break;
@@ -526,7 +538,7 @@ namespace Scanner_SDK_Sample_Application
                                     progressBarFWUpdate.Value = 0;
                                 }));
                             }
-                            
+
                             UpdateResults("ScanRMD Event fired - SCANNER_UF_SESS_END");
                             btnFWUpdate.Enabled = true;
                         }
@@ -800,7 +812,7 @@ namespace Scanner_SDK_Sample_Application
         /// <param name="e"></param>
         private void OnScannerEnable(object sender, EventArgs e)
         {
-           PerformOnScannerEnable(sender, e);
+            PerformOnScannerEnable(sender, e);
         }
 
         /// <summary>
@@ -810,7 +822,7 @@ namespace Scanner_SDK_Sample_Application
         /// <param name="e"></param>
         private void btnImage_Click(object sender, EventArgs e)
         {
-           // PerformOnJpg(sender, e);//set default image type
+            // PerformOnJpg(sender, e);//set default image type
             PerformBtnImageClick(sender, e);
         }
 
@@ -821,7 +833,7 @@ namespace Scanner_SDK_Sample_Application
         /// <param name="e"></param>
         private void btnVideo_Click(object sender, EventArgs e)
         {
-            PerformBtnVideoClick(sender,e);
+            PerformBtnVideoClick(sender, e);
         }
 
         /// <summary>
@@ -831,7 +843,7 @@ namespace Scanner_SDK_Sample_Application
         /// <param name="e"></param>
         private void OnVideoViewFinderEnable(object sender, EventArgs e)
         {
-            PerformOnVideoViewFinderEnable(sender,e);
+            PerformOnVideoViewFinderEnable(sender, e);
         }
 
         /// <summary>
@@ -851,7 +863,7 @@ namespace Scanner_SDK_Sample_Application
         /// <param name="e"></param>
         private void OnTiff(object sender, EventArgs e)
         {
-           PerformOnTiff(sender,e);
+            PerformOnTiff(sender, e);
         }
 
         /// <summary>
@@ -890,8 +902,8 @@ namespace Scanner_SDK_Sample_Application
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnSoundBeeper_Click(object sender, EventArgs e)
-        {           
-           PerformBtnSoundBeeperClick(sender, e);
+        {
+            PerformBtnSoundBeeperClick(sender, e);
         }
 
         /// <summary>
@@ -916,7 +928,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void buttonFWBrowse_Click(object sender, EventArgs e)
         {
-           PerformButtonFWBrowseClick(sender, e);
+            PerformButtonFWBrowseClick(sender, e);
         }
 
         /// <summary>
@@ -926,7 +938,7 @@ namespace Scanner_SDK_Sample_Application
         /// <param name="e"></param>
         private void btnFWUpdate_Click(object sender, EventArgs e)
         {
-           PerformbtnFWUpdateClick(sender,e);
+            PerformbtnFWUpdateClick(sender, e);
         }
 
         /// <summary>
@@ -950,7 +962,7 @@ namespace Scanner_SDK_Sample_Application
                               "</inArgs>";
             int opCode = UPDATE_FIRMWARE;
 
-            if(txtFWFile.Text.EndsWith(".SCNPLG"))
+            if (txtFWFile.Text.EndsWith(".SCNPLG"))
             {
                 opCode = UPDATE_FIRMWARE_FROM_PLUGIN;
             }
@@ -968,7 +980,7 @@ namespace Scanner_SDK_Sample_Application
         /// <param name="e"></param>
         private void btnAbortFWUpdate_Click(object sender, EventArgs e)
         {
-          PerformBtnAbortFWUpdateClick(sender, e);
+            PerformBtnAbortFWUpdateClick(sender, e);
         }
 
         private string build_version_string(string strXml)
@@ -1021,7 +1033,7 @@ namespace Scanner_SDK_Sample_Application
         /// <param name="e"></param>
         private void btnSdkVersion_Click(object sender, EventArgs e)
         {
-           PerformBtnSdkVersionClick(sender, e);
+            PerformBtnSdkVersionClick(sender, e);
         }
 
         /// <summary>
@@ -1031,7 +1043,7 @@ namespace Scanner_SDK_Sample_Application
         /// <param name="e"></param>
         private void btnFlushMacroPdf_Click(object sender, EventArgs e)
         {
-            PerformBtnFlushMacroPdfClick(sender,e);
+            PerformBtnFlushMacroPdfClick(sender, e);
         }
 
         private void btnAbortMacroPdf_Click(object sender, EventArgs e)
@@ -1090,12 +1102,12 @@ namespace Scanner_SDK_Sample_Application
 
         private void btnClearAllValues_Click(object sender, EventArgs e)
         {
-            PerformBtnClearAllValuesClick( sender, e);
+            PerformBtnClearAllValuesClick(sender, e);
         }
 
         private void btnClearValue_Click(object sender, EventArgs e)
         {
-           PerformBtnClearValueClick(sender, e);
+            PerformBtnClearValueClick(sender, e);
         }
 
         private string GetRegUnregIDs(out int nEvents)
@@ -1154,18 +1166,18 @@ namespace Scanner_SDK_Sample_Application
 
             if (1 == lstvScanners.SelectedItems.Count)
             {
-                    for (int i = 0; i < scanrdisablelist.Count; i++)
+                for (int i = 0; i < scanrdisablelist.Count; i++)
+                {
+                    if (string.Compare(scanrdisablelist[i], lstvScanners.SelectedItems[0].SubItems[5].Text) == 0)
                     {
-                        if (string.Compare(scanrdisablelist[i], lstvScanners.SelectedItems[0].SubItems[5].Text) == 0)
-                        {
-                            chkScannerEnable.CheckState = CheckState.Checked;
-                            break;
-                        }
-                        else if (scanrdisablelist.Contains(lstvScanners.SelectedItems[0].SubItems[5].Text))
-                            continue;
-                        else
-                            chkScannerEnable.CheckState = CheckState.Unchecked;
+                        chkScannerEnable.CheckState = CheckState.Checked;
+                        break;
                     }
+                    else if (scanrdisablelist.Contains(lstvScanners.SelectedItems[0].SubItems[5].Text))
+                        continue;
+                    else
+                        chkScannerEnable.CheckState = CheckState.Unchecked;
+                }
                 int nSelIndex = lstvScanners.SelectedItems[0].Index;
                 if (-1 < nSelIndex && m_nTotalScanners > nSelIndex)
                 {
@@ -1179,10 +1191,10 @@ namespace Scanner_SDK_Sample_Application
 
             if (lstvScanners.SelectedItems.Count > 0)
             {
-                    scnrMode = lstvScanners.SelectedItems[0].SubItems[1].Text;
-                    cmbMode.Items.Clear();
-                    if (scnrMode.CompareTo("HID KEYBOARD") == 0)
-                    {
+                scnrMode = lstvScanners.SelectedItems[0].SubItems[1].Text;
+                cmbMode.Items.Clear();
+                if (scnrMode.CompareTo("HID KEYBOARD") == 0)
+                {
                     cmbMode.Items.Add("USB-HIDKB");
                     cmbMode.Items.Add("USB-IBMHID");
                     cmbMode.Items.Add("USB-OPOS");
@@ -1191,45 +1203,45 @@ namespace Scanner_SDK_Sample_Application
                     cmbMode.Items.Add("USB-CDC Serial Emulation");
                     cmbMode.Items.Add("USB-SSI over CDC");
                     cmbMode.Items.Add("USB-IBMTT");
-                    }
-                    //else if (scnrMode.CompareTo("IBM HANDHELD") == 0)
-                else if(scnrMode.CompareTo("SSI") == 0 || scnrMode.CompareTo("SSI_BT") == 0|| scnrMode.CompareTo("NIXMODB") == 0)
-                    {
-                        //cmbMode.Items.Add("USB-HIDKB");
-                        //cmbMode.Items.Add("USB-IBMHID");
-                        //cmbMode.Items.Add("USB-OPOS");
-                        //cmbMode.Items.Add("USB-SNAPI with Imaging");
-                        //cmbMode.Items.Add("USB-SNAPI without Imaging");
-                        //cmbMode.Items.Add("USB-CDC Serial Emulation");
-                        //cmbMode.Items.Add("USB-SSI over CDC");
-                        //cmbMode.Items.Add("USB-IBMTT");
-                        cmbMode.Items.Add("");
+                }
+                //else if (scnrMode.CompareTo("IBM HANDHELD") == 0)
+                else if (scnrMode.CompareTo("SSI") == 0 || scnrMode.CompareTo("SSI_BT") == 0 || scnrMode.CompareTo("NIXMODB") == 0)
+                {
+                    //cmbMode.Items.Add("USB-HIDKB");
+                    //cmbMode.Items.Add("USB-IBMHID");
+                    //cmbMode.Items.Add("USB-OPOS");
+                    //cmbMode.Items.Add("USB-SNAPI with Imaging");
+                    //cmbMode.Items.Add("USB-SNAPI without Imaging");
+                    //cmbMode.Items.Add("USB-CDC Serial Emulation");
+                    //cmbMode.Items.Add("USB-SSI over CDC");
+                    //cmbMode.Items.Add("USB-IBMTT");
+                    cmbMode.Items.Add("");
 
-                    }
-                    else
-                    {
-                        cmbMode.Items.Add("USB-HIDKB");
-                        cmbMode.Items.Add("USB-IBMHID");
-                        cmbMode.Items.Add("USB-OPOS");
-                        cmbMode.Items.Add("USB-SNAPI with Imaging");
-                        cmbMode.Items.Add("USB-SNAPI without Imaging");
-                        cmbMode.Items.Add("USB-CDC Serial Emulation");
-                        cmbMode.Items.Add("USB-SSI over CDC");
-                        cmbMode.Items.Add("USB-IBMTT");
-                    }
-                    cmbMode.SelectedIndex = 0;
-                    if (scnrMode.CompareTo("SNAPI") == 0 || scnrMode.CompareTo("SSI") == 0 || scnrMode.CompareTo("SSI_BT") == 0)
-                    {
-                        btnPullTrigger.Enabled = true;
-                        btnReleaseTrigger.Enabled = true;
-                        btnAbortImageXfer.Enabled = true;
-                    }
-                    else
-                    {
-                        btnPullTrigger.Enabled = false;
-                        btnReleaseTrigger.Enabled = false;
-                        btnAbortImageXfer.Enabled = false;
-                    }
+                }
+                else
+                {
+                    cmbMode.Items.Add("USB-HIDKB");
+                    cmbMode.Items.Add("USB-IBMHID");
+                    cmbMode.Items.Add("USB-OPOS");
+                    cmbMode.Items.Add("USB-SNAPI with Imaging");
+                    cmbMode.Items.Add("USB-SNAPI without Imaging");
+                    cmbMode.Items.Add("USB-CDC Serial Emulation");
+                    cmbMode.Items.Add("USB-SSI over CDC");
+                    cmbMode.Items.Add("USB-IBMTT");
+                }
+                cmbMode.SelectedIndex = 0;
+                if (scnrMode.CompareTo("SNAPI") == 0 || scnrMode.CompareTo("SSI") == 0 || scnrMode.CompareTo("SSI_BT") == 0)
+                {
+                    btnPullTrigger.Enabled = true;
+                    btnReleaseTrigger.Enabled = true;
+                    btnAbortImageXfer.Enabled = true;
+                }
+                else
+                {
+                    btnPullTrigger.Enabled = false;
+                    btnReleaseTrigger.Enabled = false;
+                    btnAbortImageXfer.Enabled = false;
+                }
             }
         }
 
@@ -1245,7 +1257,7 @@ namespace Scanner_SDK_Sample_Application
                 int opCode = CLAIM_DEVICE;
                 string strCode = "CLAIM_DEVICE";
                 string serialno = lstvScanners.SelectedItems[0].SubItems[5].Text;
-               
+
                 if (!chkClaim.Checked)
                 {
                     opCode = RELEASE_DEVICE;
@@ -1254,7 +1266,7 @@ namespace Scanner_SDK_Sample_Application
                     {
                         claimlist.Remove(serialno);
                     }
-                    
+
                     int nSelIndex = lstvScanners.SelectedItems[0].Index;
                     if (-1 < nSelIndex && m_nTotalScanners > nSelIndex)
                     {
@@ -1270,19 +1282,19 @@ namespace Scanner_SDK_Sample_Application
                 int status = STATUS_FALSE;
                 ExecCmd(opCode, ref inXml, out outXml, out status);
                 DisplayResult(status, strCode);
-                
-                if(status == STATUS_LOCKED)
+
+                if (status == STATUS_LOCKED)
                 {
                     m_bIgnoreIndexChange = true;
                     chkClaim.Checked = !chkClaim.Checked;
-                    
+
                     return;
                 }
-                else if(!chkClaim.Checked)
+                else if (!chkClaim.Checked)
                     return;
                 else
                 {
-                    int nSelIndex = lstvScanners.SelectedItems[0].Index; 
+                    int nSelIndex = lstvScanners.SelectedItems[0].Index;
                     if (-1 < nSelIndex && m_nTotalScanners > nSelIndex)
                     {
                         Scanner scanr = (Scanner)m_arScanners.GetValue(nSelIndex);
@@ -1330,10 +1342,10 @@ namespace Scanner_SDK_Sample_Application
         {
             PerformBtnSetReportClick(sender, e);
         }
-       
+
         private void btnGetDevTopology_Click(object sender, EventArgs e)
         {
-           PerformBtnGetDevTopologyClick(sender, e);
+            PerformBtnGetDevTopologyClick(sender, e);
         }
 
         private void btnRebootScanner_Click(object sender, EventArgs e)
@@ -1343,7 +1355,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void btnStartNewFW_Click(object sender, EventArgs e)
         {
-           PerformBtnStartNewFWClick(sender, e);
+            PerformBtnStartNewFWClick(sender, e);
         }
 
         private void btnClearXmlArea_Click(object sender, EventArgs e)
@@ -1393,7 +1405,7 @@ namespace Scanner_SDK_Sample_Application
             }
             btnGetScanners.Enabled = bRet;
         }
-   
+
         private void comboFilterScnrs_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (STR_FIND == btnGetScanners.Text)
@@ -1410,7 +1422,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void btnSetSrilInfce_Click(object sender, EventArgs e)
         {
-           PerformBtnSetSrilInfceClick(sender, e);
+            PerformBtnSetSrilInfceClick(sender, e);
         }
 
         private void btnSveImge_Click(object sender, EventArgs e)
@@ -1420,7 +1432,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void btnSet_Click(object sender, EventArgs e)
         {
-           SetStoreAttributeValue(RSM_ATTR_SET);
+            SetStoreAttributeValue(RSM_ATTR_SET);
         }
 
         private void btnStore_Click(object sender, EventArgs e)
@@ -1530,17 +1542,17 @@ namespace Scanner_SDK_Sample_Application
                 int status = STATUS_FALSE;
                 try
                 {
-                        m_pCoreScanner.Close(appHandle, out status);
-                        DisplayResult(status, "CLOSE");
-                        if (STATUS_SUCCESS == status)
-                        {
-                            m_bSuccessOpen = false;
-                            lstvScanners.Items.Clear();
-                            combSlcrScnr.Items.Clear();
-                            m_nTotalScanners = 0;
-                            InitScannersCount();
-                            UpdateScannerCountLabels();
-                            SetControls();
+                    m_pCoreScanner.Close(appHandle, out status);
+                    DisplayResult(status, "CLOSE");
+                    if (STATUS_SUCCESS == status)
+                    {
+                        m_bSuccessOpen = false;
+                        lstvScanners.Items.Clear();
+                        combSlcrScnr.Items.Clear();
+                        m_nTotalScanners = 0;
+                        InitScannersCount();
+                        UpdateScannerCountLabels();
+                        SetControls();
                     }
                 }
                 catch (Exception exp)
@@ -1686,7 +1698,7 @@ namespace Scanner_SDK_Sample_Application
                                 }
                             }
                         }
-                        
+
                         FillScannerList();
                         UpdateOutXml(outXML);
                         for (int index = 0; index < m_nTotalScanners; index++)
@@ -1744,22 +1756,43 @@ namespace Scanner_SDK_Sample_Application
 
             InitScannersCount();
 
+            bool deviceFound = false;
+            if (tabCtrl.TabPages.Contains(tabSSW))
+            {
+                if (tabCtrl.InvokeRequired)
+                {
+                    tabCtrl.Invoke(new MethodInvoker(delegate
+                    {
+                        tabCtrl.TabPages.Remove(tabSSW);
+                    }));
+                }
+                else
+                {
+                    tabCtrl.TabPages.Remove(tabSSW);
+                }                
+            }
+
             for (int index = 0; index < m_nTotalScanners; index++)
             {
                 Scanner objScanner = (Scanner)m_arScanners.GetValue(index);
+                if (!deviceFound)
+                {
+                    deviceFound = objScanner.MODELNO.StartsWith("DS9908");
+                }
+
                 string[] strItems = new string[] { "", "", "", "", "" };
 
-                    if (combSlcrScnr.InvokeRequired)
-                    {
-                        combSlcrScnr.Invoke(new MethodInvoker(delegate
-                        {
-                            combSlcrScnr.Items.Add(objScanner.SCANNERID + "        " + objScanner.MODELNO);
-                        }));
-                    }
-                    else
+                if (combSlcrScnr.InvokeRequired)
+                {
+                    combSlcrScnr.Invoke(new MethodInvoker(delegate
                     {
                         combSlcrScnr.Items.Add(objScanner.SCANNERID + "        " + objScanner.MODELNO);
-                    }
+                    }));
+                }
+                else
+                {
+                    combSlcrScnr.Items.Add(objScanner.SCANNERID + "        " + objScanner.MODELNO);
+                }
 
                 switch (objScanner.SCANNERTYPE)
                 {
@@ -1826,6 +1859,22 @@ namespace Scanner_SDK_Sample_Application
                     lstvScanners.Items.Insert(index, lstVItm);
                 }
             }
+
+            if (deviceFound)
+            {
+                if (tabCtrl.InvokeRequired)
+                {
+                    tabCtrl.Invoke(new MethodInvoker(delegate
+                    {
+                        tabCtrl.TabPages.Add(tabSSW);
+                    }));
+                }
+                else
+                {
+                    tabCtrl.TabPages.Add(tabSSW);
+                }                
+            }
+
 
             if (m_nTotalScanners > 0)
             {
@@ -2037,7 +2086,7 @@ namespace Scanner_SDK_Sample_Application
             {
                 return;
             }
-            
+
             Scanner.RSMAttribute rsmAttr;
             PerformRSMGetAttribute(PARAM_USE_HID, out rsmAttr);
             if (null == rsmAttr)
@@ -2070,7 +2119,7 @@ namespace Scanner_SDK_Sample_Application
                         scanParams.Add(new ParamDefs(items));
                     }
                 }
-                scanParams.Sort();                                              
+                scanParams.Sort();
                 BindingSource mySource = new BindingSource(scanParams, null);
 
                 cmbSnapiParams.DataSource = mySource;
@@ -2099,7 +2148,7 @@ namespace Scanner_SDK_Sample_Application
             }
             string snapiParamselected = ((ParamDefs)((ComboBox)sender).SelectedItem).Name;
             int paramID = ((ParamDefs)((ComboBox)sender).SelectedItem).Id;
-            
+
             Scanner.RSMAttribute rsmAttr;
             PerformRSMGetAttribute(paramID, out rsmAttr);
             if (rsmAttr == null)
@@ -2125,7 +2174,7 @@ namespace Scanner_SDK_Sample_Application
             ExecCmd(opCode, ref inXml, out outXml, out status);
 
             DisplayResult(status, "GET_PARAMETERS");
-            
+
             int paramValu;
             m_xml.ReadXmlString_Snapi(outXml, out paramValu);
             return paramValu;
@@ -2188,7 +2237,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void btnSnapiSet_Click(object sender, EventArgs e)
         {
-            if ((ParamDefs)(cmbSnapiParams.SelectedItem)  == null)
+            if ((ParamDefs)(cmbSnapiParams.SelectedItem) == null)
             {
                 return;
             }
@@ -2229,7 +2278,7 @@ namespace Scanner_SDK_Sample_Application
         {
             if (textBoxWavFile.Text != "")
             {
-                int opcode = UPDATE_DECODE_TONE; 
+                int opcode = UPDATE_DECODE_TONE;
                 string outXML; // XML Output
                 string inXML = "<inArgs>" +
                              GetOnlyScannerIDXml() +
@@ -2276,6 +2325,7 @@ namespace Scanner_SDK_Sample_Application
         {
             PerformBtnScriptEditorClick(sender, e);
         }
+
         private void btnDisconnect_Click(object sender, EventArgs e)
         {
             PerformBtnDisconnectScannerClick(sender, e);
@@ -2286,11 +2336,27 @@ namespace Scanner_SDK_Sample_Application
             SaveFileDialog sfdBC = new SaveFileDialog();
             sfdBC.Filter = "jpeg files (*.jpeg)|*.jpeg|All files (*.*)|*.*";
             var result = sfdBC.ShowDialog(this);
-            if(result == System.Windows.Forms.DialogResult.OK)
+            if (result == System.Windows.Forms.DialogResult.OK)
             {
                 picBBarcode.Image.Save(sfdBC.FileName);
             }
             sfdBC.Dispose();
+        }
+
+        private void btnSaveIdc_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveIdcImageDialog = new SaveFileDialog();
+            saveIdcImageDialog.Filter = "jpeg files (*.jpeg)|*.jpeg|All files (*.*)|*.*";
+            if (idcImage != null)
+            {
+                if (saveIdcImageDialog.ShowDialog() == DialogResult.OK)
+                {
+                    Bitmap newBitmap = new Bitmap(idcImage);
+                    newBitmap.Save(saveIdcImageDialog.FileName);
+                    newBitmap.Dispose();
+                }
+            }
+            saveIdcImageDialog.Dispose();
         }
     }
 }

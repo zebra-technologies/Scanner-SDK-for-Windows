@@ -341,9 +341,10 @@ BEGIN
     LTEXT           "Decode Data",IDC_STATIC,155,206,46,8
     LTEXT           "Symbology",IDC_STATIC,155,234,36,8
     EDITTEXT        IDC_EDIT_IDC_SYMBOLOGY,155,245,124,12,ES_AUTOHSCROLL
-    PUSHBUTTON      "Clear",IDC_BUTTON_IDC_CLEAR,226,268,38,12
+    PUSHBUTTON      "Clear",IDC_BUTTON_IDC_CLEAR,250,268,38,12
     CONTROL         "Use HID",IDC_CHECK_USE_HID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,147,268,42,10
     GROUPBOX        "Image Data",IDC_STATIC,12,8,289,182
+    PUSHBUTTON      "Save",IDC_BUTTON_IDC_SAVE_IMAGE,195,268,42,12
 END
 
 IDD_DadfScript DIALOGEX 0, 0, 294, 271
@@ -383,8 +384,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,4,3,0
- PRODUCTVERSION 3,4,3,0
+ FILEVERSION 3,5,1,0
+ PRODUCTVERSION 3,5,1,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x21L
@@ -402,12 +403,12 @@ BEGIN
             VALUE "Comments", "This is a MFC GUI application that can describe all functinalities in a Zebra Scanner by using CoreScanner service"
             VALUE "CompanyName", "Zebra Technologies"
             VALUE "FileDescription", "Scanner SDK (CoreScanner) Sample Application"
-            VALUE "FileVersion", "3.4.3.0"
+            VALUE "FileVersion", "3.5.1.0"
             VALUE "InternalName", "ScannerSDKSampleApp.exe"
-            VALUE "LegalCopyright", "©2016 Symbol Technologies LLC. All rights reserved ."
+            VALUE "LegalCopyright", "©2020 Zebra Technologies Corp. and/or its affiliates.  All rights reserved."
             VALUE "OriginalFilename", "ScannerSDKSampleApp.exe"
             VALUE "ProductName", "Scanner SDK Sample Application"
-            VALUE "ProductVersion", "3.4.3.0"
+            VALUE "ProductVersion", "3.5.1.0"
             VALUE "SpecialBuild", "Beta"
         END
     END
@@ -574,6 +575,17 @@ BEGIN
 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 0x0000, 
 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_IntelDocCap AFX_DIALOG_LAYOUT
+BEGIN
     0
 END
 

@@ -30,9 +30,12 @@ namespace Scanner_SDK_Sample_Application
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmScannerApp));
             this.tabCtrl = new System.Windows.Forms.TabControl();
             this.tabBarcode = new System.Windows.Forms.TabPage();
@@ -67,6 +70,7 @@ namespace Scanner_SDK_Sample_Application
             this.pbxImageVideo = new System.Windows.Forms.PictureBox();
             this.tabISO15434 = new System.Windows.Forms.TabPage();
             this.grpIDC = new System.Windows.Forms.GroupBox();
+            this.btnSaveIdc = new System.Windows.Forms.Button();
             this.pbxISO15434Image = new System.Windows.Forms.PictureBox();
             this.btnClearpbx = new System.Windows.Forms.Button();
             this.checkUseHID = new System.Windows.Forms.CheckBox();
@@ -184,6 +188,28 @@ namespace Scanner_SDK_Sample_Application
             this.btnSystemRest = new System.Windows.Forms.Button();
             this.btnZeroScale = new System.Windows.Forms.Button();
             this.btnReadWeight = new System.Windows.Forms.Button();
+            this.tabSSW = new System.Windows.Forms.TabPage();
+            this.btnClear = new System.Windows.Forms.Button();
+            this.txtEpcId = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.rdoHex = new System.Windows.Forms.RadioButton();
+            this.rdoASCII = new System.Windows.Forms.RadioButton();
+            this.btnVerifyTag = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.btnWriteTag = new System.Windows.Forms.Button();
+            this.cmbPartition = new System.Windows.Forms.ComboBox();
+            this.cmbFilterValue = new System.Windows.Forms.ComboBox();
+            this.statusIcon = new System.Windows.Forms.PictureBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.chkAutoIncrement = new System.Windows.Forms.CheckBox();
+            this.txtSerialNumber = new System.Windows.Forms.TextBox();
+            this.txtUserBank = new System.Windows.Forms.TextBox();
+            this.txtNewEpcId = new System.Windows.Forms.TextBox();
+            this.lblUserBank = new System.Windows.Forms.Label();
+            this.txtUpcaBarcode = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
             this.tabXml = new System.Windows.Forms.TabPage();
             this.btnClearXmlArea = new System.Windows.Forms.Button();
             this.btnClearLogsArea = new System.Windows.Forms.Button();
@@ -268,6 +294,8 @@ namespace Scanner_SDK_Sample_Application
             this.grpBaudrate.SuspendLayout();
             this.tabScale.SuspendLayout();
             this.grpScale.SuspendLayout();
+            this.tabSSW.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.statusIcon)).BeginInit();
             this.tabXml.SuspendLayout();
             this.grpResult.SuspendLayout();
             this.grpOutXml.SuspendLayout();
@@ -291,12 +319,14 @@ namespace Scanner_SDK_Sample_Application
             this.tabCtrl.Controls.Add(this.tabScan2Connect);
             this.tabCtrl.Controls.Add(this.tabMisc);
             this.tabCtrl.Controls.Add(this.tabScale);
+            this.tabCtrl.Controls.Add(this.tabSSW);
             this.tabCtrl.Controls.Add(this.tabXml);
             this.tabCtrl.Location = new System.Drawing.Point(473, 12);
             this.tabCtrl.Name = "tabCtrl";
             this.tabCtrl.SelectedIndex = 0;
             this.tabCtrl.Size = new System.Drawing.Size(519, 494);
             this.tabCtrl.TabIndex = 1;
+            this.tabCtrl.SelectedIndexChanged += new System.EventHandler(this.tabCtrl_SelectedIndexChanged);
             // 
             // tabBarcode
             // 
@@ -662,6 +692,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // grpIDC
             // 
+            this.grpIDC.Controls.Add(this.btnSaveIdc);
             this.grpIDC.Controls.Add(this.pbxISO15434Image);
             this.grpIDC.Controls.Add(this.btnClearpbx);
             this.grpIDC.Controls.Add(this.checkUseHID);
@@ -673,6 +704,16 @@ namespace Scanner_SDK_Sample_Application
             this.grpIDC.Size = new System.Drawing.Size(493, 456);
             this.grpIDC.TabIndex = 0;
             this.grpIDC.TabStop = false;
+            // 
+            // btnSaveIdc
+            // 
+            this.btnSaveIdc.Location = new System.Drawing.Point(336, 426);
+            this.btnSaveIdc.Name = "btnSaveIdc";
+            this.btnSaveIdc.Size = new System.Drawing.Size(67, 23);
+            this.btnSaveIdc.TabIndex = 4;
+            this.btnSaveIdc.Text = "Save";
+            this.btnSaveIdc.UseVisualStyleBackColor = true;
+            this.btnSaveIdc.Click += new System.EventHandler(this.btnSaveIdc_Click);
             // 
             // pbxISO15434Image
             // 
@@ -1238,15 +1279,39 @@ namespace Scanner_SDK_Sample_Application
             this.dgvAttributes.AllowUserToResizeColumns = false;
             this.dgvAttributes.AllowUserToResizeRows = false;
             this.dgvAttributes.BackgroundColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvAttributes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvAttributes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvAttributes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.attrNum,
             this.attrType,
             this.property,
             this.value});
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAttributes.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgvAttributes.GridColor = System.Drawing.SystemColors.Control;
             this.dgvAttributes.Location = new System.Drawing.Point(6, 19);
             this.dgvAttributes.Name = "dgvAttributes";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvAttributes.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvAttributes.RowHeadersWidth = 30;
             this.dgvAttributes.RowTemplate.Height = 15;
             this.dgvAttributes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1255,8 +1320,8 @@ namespace Scanner_SDK_Sample_Application
             // 
             // attrNum
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            this.attrNum.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            this.attrNum.DefaultCellStyle = dataGridViewCellStyle2;
             this.attrNum.Frozen = true;
             this.attrNum.HeaderText = "ID";
             this.attrNum.Name = "attrNum";
@@ -1267,8 +1332,8 @@ namespace Scanner_SDK_Sample_Application
             // 
             // attrType
             // 
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            this.attrType.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            this.attrType.DefaultCellStyle = dataGridViewCellStyle3;
             this.attrType.HeaderText = "Type";
             this.attrType.Name = "attrType";
             this.attrType.ReadOnly = true;
@@ -1278,8 +1343,8 @@ namespace Scanner_SDK_Sample_Application
             // 
             // property
             // 
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            this.property.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            this.property.DefaultCellStyle = dataGridViewCellStyle4;
             this.property.HeaderText = "Property";
             this.property.Name = "property";
             this.property.ReadOnly = true;
@@ -1289,8 +1354,8 @@ namespace Scanner_SDK_Sample_Application
             // 
             // value
             // 
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            this.value.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            this.value.DefaultCellStyle = dataGridViewCellStyle5;
             this.value.HeaderText = "Value";
             this.value.Name = "value";
             this.value.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -1998,6 +2063,285 @@ namespace Scanner_SDK_Sample_Application
             this.btnReadWeight.UseVisualStyleBackColor = true;
             this.btnReadWeight.Click += new System.EventHandler(this.btnReadWeight_Click);
             // 
+            // tabSSW
+            // 
+            this.tabSSW.Controls.Add(this.btnClear);
+            this.tabSSW.Controls.Add(this.txtEpcId);
+            this.tabSSW.Controls.Add(this.label14);
+            this.tabSSW.Controls.Add(this.rdoHex);
+            this.tabSSW.Controls.Add(this.rdoASCII);
+            this.tabSSW.Controls.Add(this.btnVerifyTag);
+            this.tabSSW.Controls.Add(this.label7);
+            this.tabSSW.Controls.Add(this.btnWriteTag);
+            this.tabSSW.Controls.Add(this.cmbPartition);
+            this.tabSSW.Controls.Add(this.cmbFilterValue);
+            this.tabSSW.Controls.Add(this.statusIcon);
+            this.tabSSW.Controls.Add(this.label21);
+            this.tabSSW.Controls.Add(this.label22);
+            this.tabSSW.Controls.Add(this.chkAutoIncrement);
+            this.tabSSW.Controls.Add(this.txtSerialNumber);
+            this.tabSSW.Controls.Add(this.txtUserBank);
+            this.tabSSW.Controls.Add(this.txtNewEpcId);
+            this.tabSSW.Controls.Add(this.lblUserBank);
+            this.tabSSW.Controls.Add(this.txtUpcaBarcode);
+            this.tabSSW.Controls.Add(this.label25);
+            this.tabSSW.Controls.Add(this.label23);
+            this.tabSSW.Location = new System.Drawing.Point(4, 22);
+            this.tabSSW.Margin = new System.Windows.Forms.Padding(2);
+            this.tabSSW.Name = "tabSSW";
+            this.tabSSW.Size = new System.Drawing.Size(511, 468);
+            this.tabSSW.TabIndex = 11;
+            this.tabSSW.Text = "Scan Scan Write";
+            this.tabSSW.UseVisualStyleBackColor = true;
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(237, 103);
+            this.btnClear.Margin = new System.Windows.Forms.Padding(2);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(50, 24);
+            this.btnClear.TabIndex = 35;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
+            // txtEpcId
+            // 
+            this.txtEpcId.BackColor = System.Drawing.Color.White;
+            this.txtEpcId.Location = new System.Drawing.Point(94, 53);
+            this.txtEpcId.Margin = new System.Windows.Forms.Padding(2);
+            this.txtEpcId.Name = "txtEpcId";
+            this.txtEpcId.ReadOnly = true;
+            this.txtEpcId.Size = new System.Drawing.Size(193, 20);
+            this.txtEpcId.TabIndex = 33;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(14, 54);
+            this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(79, 13);
+            this.label14.TabIndex = 34;
+            this.label14.Text = "Existing EPC Id";
+            // 
+            // rdoHex
+            // 
+            this.rdoHex.AutoSize = true;
+            this.rdoHex.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.rdoHex.Location = new System.Drawing.Point(152, 233);
+            this.rdoHex.Margin = new System.Windows.Forms.Padding(2);
+            this.rdoHex.Name = "rdoHex";
+            this.rdoHex.Size = new System.Drawing.Size(44, 17);
+            this.rdoHex.TabIndex = 32;
+            this.rdoHex.TabStop = true;
+            this.rdoHex.Text = "Hex";
+            this.rdoHex.UseVisualStyleBackColor = true;
+            this.rdoHex.CheckedChanged += new System.EventHandler(this.rdoASCII_Binary_CheckedChanged);
+            // 
+            // rdoASCII
+            // 
+            this.rdoASCII.AutoSize = true;
+            this.rdoASCII.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.rdoASCII.Location = new System.Drawing.Point(95, 232);
+            this.rdoASCII.Margin = new System.Windows.Forms.Padding(2);
+            this.rdoASCII.Name = "rdoASCII";
+            this.rdoASCII.Size = new System.Drawing.Size(52, 17);
+            this.rdoASCII.TabIndex = 31;
+            this.rdoASCII.TabStop = true;
+            this.rdoASCII.Text = "ASCII";
+            this.rdoASCII.UseVisualStyleBackColor = true;
+            this.rdoASCII.CheckedChanged += new System.EventHandler(this.rdoASCII_Binary_CheckedChanged);
+            // 
+            // btnVerifyTag
+            // 
+            this.btnVerifyTag.Location = new System.Drawing.Point(160, 103);
+            this.btnVerifyTag.Margin = new System.Windows.Forms.Padding(2);
+            this.btnVerifyTag.Name = "btnVerifyTag";
+            this.btnVerifyTag.Size = new System.Drawing.Size(72, 24);
+            this.btnVerifyTag.TabIndex = 30;
+            this.btnVerifyTag.Text = "Verify Tag";
+            this.btnVerifyTag.UseVisualStyleBackColor = true;
+            this.btnVerifyTag.Click += new System.EventHandler(this.btnVerifyTag_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(332, 83);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(73, 13);
+            this.label7.TabIndex = 28;
+            this.label7.Text = "Serial Number";
+            // 
+            // btnWriteTag
+            // 
+            this.btnWriteTag.Location = new System.Drawing.Point(94, 103);
+            this.btnWriteTag.Margin = new System.Windows.Forms.Padding(2);
+            this.btnWriteTag.Name = "btnWriteTag";
+            this.btnWriteTag.Size = new System.Drawing.Size(63, 24);
+            this.btnWriteTag.TabIndex = 27;
+            this.btnWriteTag.Text = "Write Tag";
+            this.btnWriteTag.UseVisualStyleBackColor = true;
+            this.btnWriteTag.Click += new System.EventHandler(this.btnWriteTag_Click);
+            // 
+            // cmbPartition
+            // 
+            this.cmbPartition.FormattingEnabled = true;
+            this.cmbPartition.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"});
+            this.cmbPartition.Location = new System.Drawing.Point(408, 52);
+            this.cmbPartition.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbPartition.Name = "cmbPartition";
+            this.cmbPartition.Size = new System.Drawing.Size(92, 21);
+            this.cmbPartition.TabIndex = 25;
+            this.cmbPartition.SelectedIndexChanged += new System.EventHandler(this.cmbPartition_SelectedIndexChanged);
+            // 
+            // cmbFilterValue
+            // 
+            this.cmbFilterValue.FormattingEnabled = true;
+            this.cmbFilterValue.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"});
+            this.cmbFilterValue.Location = new System.Drawing.Point(408, 24);
+            this.cmbFilterValue.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbFilterValue.Name = "cmbFilterValue";
+            this.cmbFilterValue.Size = new System.Drawing.Size(92, 21);
+            this.cmbFilterValue.TabIndex = 24;
+            this.cmbFilterValue.SelectedIndexChanged += new System.EventHandler(this.cmbFilterValue_SelectedIndexChanged);
+            // 
+            // statusIcon
+            // 
+            this.statusIcon.ErrorImage = null;
+            this.statusIcon.InitialImage = null;
+            this.statusIcon.Location = new System.Drawing.Point(291, 80);
+            this.statusIcon.Margin = new System.Windows.Forms.Padding(2);
+            this.statusIcon.Name = "statusIcon";
+            this.statusIcon.Size = new System.Drawing.Size(17, 19);
+            this.statusIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.statusIcon.TabIndex = 23;
+            this.statusIcon.TabStop = false;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(332, 55);
+            this.label21.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(45, 13);
+            this.label21.TabIndex = 14;
+            this.label21.Text = "Partition";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(332, 28);
+            this.label22.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(58, 13);
+            this.label22.TabIndex = 13;
+            this.label22.Text = "Filter value";
+            // 
+            // chkAutoIncrement
+            // 
+            this.chkAutoIncrement.AutoSize = true;
+            this.chkAutoIncrement.Location = new System.Drawing.Point(408, 107);
+            this.chkAutoIncrement.Margin = new System.Windows.Forms.Padding(2);
+            this.chkAutoIncrement.Name = "chkAutoIncrement";
+            this.chkAutoIncrement.Size = new System.Drawing.Size(97, 17);
+            this.chkAutoIncrement.TabIndex = 8;
+            this.chkAutoIncrement.Text = "Auto increment";
+            this.toolTip1.SetToolTip(this.chkAutoIncrement, "Increment provided serial number and write tags continuously.");
+            this.chkAutoIncrement.UseVisualStyleBackColor = true;
+            // 
+            // txtSerialNumber
+            // 
+            this.txtSerialNumber.Location = new System.Drawing.Point(408, 80);
+            this.txtSerialNumber.Margin = new System.Windows.Forms.Padding(2);
+            this.txtSerialNumber.Name = "txtSerialNumber";
+            this.txtSerialNumber.Size = new System.Drawing.Size(90, 20);
+            this.txtSerialNumber.TabIndex = 7;
+            this.txtSerialNumber.TextChanged += new System.EventHandler(this.txtSerialNumber_TextChanged);
+            this.txtSerialNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSerialNumber_KeyPress);
+            // 
+            // txtUserBank
+            // 
+            this.txtUserBank.BackColor = System.Drawing.Color.White;
+            this.txtUserBank.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtUserBank.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.txtUserBank.Location = new System.Drawing.Point(94, 150);
+            this.txtUserBank.Margin = new System.Windows.Forms.Padding(2);
+            this.txtUserBank.Multiline = true;
+            this.txtUserBank.Name = "txtUserBank";
+            this.txtUserBank.ReadOnly = true;
+            this.txtUserBank.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtUserBank.Size = new System.Drawing.Size(193, 81);
+            this.txtUserBank.TabIndex = 9;
+            // 
+            // txtNewEpcId
+            // 
+            this.txtNewEpcId.BackColor = System.Drawing.Color.White;
+            this.txtNewEpcId.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.txtNewEpcId.Location = new System.Drawing.Point(94, 80);
+            this.txtNewEpcId.Margin = new System.Windows.Forms.Padding(2);
+            this.txtNewEpcId.Name = "txtNewEpcId";
+            this.txtNewEpcId.ReadOnly = true;
+            this.txtNewEpcId.Size = new System.Drawing.Size(193, 20);
+            this.txtNewEpcId.TabIndex = 1;
+            this.toolTip1.SetToolTip(this.txtNewEpcId, "SGTIN 96 encoded");
+            // 
+            // lblUserBank
+            // 
+            this.lblUserBank.AutoSize = true;
+            this.lblUserBank.Location = new System.Drawing.Point(14, 150);
+            this.lblUserBank.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblUserBank.Name = "lblUserBank";
+            this.lblUserBank.Size = new System.Drawing.Size(56, 13);
+            this.lblUserBank.TabIndex = 12;
+            this.lblUserBank.Text = "User bank";
+            // 
+            // txtUpcaBarcode
+            // 
+            this.txtUpcaBarcode.BackColor = System.Drawing.Color.White;
+            this.txtUpcaBarcode.Location = new System.Drawing.Point(94, 25);
+            this.txtUpcaBarcode.Margin = new System.Windows.Forms.Padding(2);
+            this.txtUpcaBarcode.Name = "txtUpcaBarcode";
+            this.txtUpcaBarcode.ReadOnly = true;
+            this.txtUpcaBarcode.Size = new System.Drawing.Size(193, 20);
+            this.txtUpcaBarcode.TabIndex = 0;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(14, 83);
+            this.label25.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(65, 13);
+            this.label25.TabIndex = 11;
+            this.label25.Text = "New EPC Id";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(14, 28);
+            this.label23.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(74, 13);
+            this.label23.TabIndex = 10;
+            this.label23.Text = "Scan barcode";
+            // 
             // tabXml
             // 
             this.tabXml.Controls.Add(this.btnClearXmlArea);
@@ -2242,6 +2586,7 @@ namespace Scanner_SDK_Sample_Application
             // stStripResult
             // 
             this.stStripResult.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.stStripResult.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.stStripResult.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLbl,
             this.toolStripStatusLblTotal,
@@ -2406,6 +2751,9 @@ namespace Scanner_SDK_Sample_Application
             this.tabScale.ResumeLayout(false);
             this.grpScale.ResumeLayout(false);
             this.grpScale.PerformLayout();
+            this.tabSSW.ResumeLayout(false);
+            this.tabSSW.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.statusIcon)).EndInit();
             this.tabXml.ResumeLayout(false);
             this.grpResult.ResumeLayout(false);
             this.grpResult.PerformLayout();
@@ -2614,6 +2962,29 @@ namespace Scanner_SDK_Sample_Application
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ComboBox cmbHostName;
         private System.Windows.Forms.Button btnSaveBarcode;
+        private System.Windows.Forms.TabPage tabSSW;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.CheckBox chkAutoIncrement;
+        private System.Windows.Forms.TextBox txtSerialNumber;
+        private System.Windows.Forms.TextBox txtUserBank;
+        private System.Windows.Forms.TextBox txtNewEpcId;
+        private System.Windows.Forms.Label lblUserBank;
+        private System.Windows.Forms.TextBox txtUpcaBarcode;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.PictureBox statusIcon;
+        private System.Windows.Forms.ComboBox cmbPartition;
+        private System.Windows.Forms.ComboBox cmbFilterValue;
+        private System.Windows.Forms.Button btnWriteTag;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btnVerifyTag;
+        private System.Windows.Forms.RadioButton rdoASCII;
+        private System.Windows.Forms.TextBox txtEpcId;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.RadioButton rdoHex;
+        private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Button btnSaveIdc;
     }
 }
 
