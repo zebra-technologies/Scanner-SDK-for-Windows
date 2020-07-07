@@ -18,7 +18,7 @@ namespace Scanner_SDK_Sample_Application
     {
         private void PerformBtnImageClick(object sender, EventArgs e)
         {
-            if (IsMotoConnectedWithScanners())
+            if (IsScannerConnected())
             {
                 pbxImageVideo.Enabled = true;
                 pbxImageVideo.Image = null;
@@ -34,7 +34,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void PerformBtnBarcodeClick(object sender, EventArgs e)
         {
-            if (IsMotoConnectedWithScanners())
+            if (IsScannerConnected())
             {
                 string inXml = GetScannerIDXml();
                 int opCode = DEVICE_CAPTURE_BARCODE;
@@ -47,7 +47,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void PerformOnVideoViewFinderEnable(object sender, EventArgs e)
         {
-            if (!IsMotoConnectedWithScanners())
+            if (!IsScannerConnected())
             {
                 return;
             }
@@ -86,7 +86,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void PerformBtnVideoClick(object sender, EventArgs e)
         {
-            if (IsMotoConnectedWithScanners())
+            if (IsScannerConnected())
             {
                 pbxImageVideo.Enabled = true;
                 pbxImageVideo.Image = null;
@@ -101,7 +101,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void PerformBtnAbortImageXferClick(object sender, EventArgs e)
         {
-            if (IsMotoConnectedWithScanners())
+            if (IsScannerConnected())
             {
                 pbxImageVideo.Image = null;
                 pbxImageVideo.Enabled = false;
@@ -126,7 +126,7 @@ namespace Scanner_SDK_Sample_Application
         {
             if (rdoJPG.Checked)
             {
-                if (!IsMotoConnectedWithScanners())
+                if (!IsScannerConnected())
                 {
                     return;
                 }
@@ -163,7 +163,7 @@ namespace Scanner_SDK_Sample_Application
         {
             if (rdoTIFF.Checked)
             {
-                if (!IsMotoConnectedWithScanners())
+                if (!IsScannerConnected())
                 {
                     return;
                 }
@@ -206,7 +206,7 @@ namespace Scanner_SDK_Sample_Application
         {
             if (rdoBMP.Checked)
             {
-                if (!IsMotoConnectedWithScanners())
+                if (!IsScannerConnected())
                 {
                     return;
                 }

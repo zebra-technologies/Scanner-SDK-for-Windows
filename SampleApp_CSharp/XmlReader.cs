@@ -204,7 +204,7 @@ namespace Scanner_SDK_Sample_Application
 
                 string sElementName = "", sElmValue = "";
                 bool bScanner = false;
-                int nScannerCount = 0;//for multiple scanners as in cradle+cascaded
+                int nScannerCount = 0; //for multiple scanners as in cradle+cascaded
                 int nIndex = 0;
                 while (xmlRead.Read())
                 {
@@ -706,8 +706,6 @@ namespace Scanner_SDK_Sample_Application
                                     case Scanner.TAG_SCALE_STATUS:
                                         Scalestatus = Int32.Parse(sElmValue);
                                         break;
-
-
                                     //case Scanner.TAG_SCANNER_GUID:
                                     //    csGuid = sElmValue;
                                     //    break;
@@ -779,6 +777,58 @@ namespace Scanner_SDK_Sample_Application
                             }
                             break;
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        public void ReadXmlString_RSMIDList(string strXML, out List<KeyValuePair<int, string>> lstAttrList)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            lstAttrList = new List<KeyValuePair<int, string>>();
+
+            try
+            {
+                xmlDoc.LoadXml(strXML);
+
+                XmlNodeList xnList = xmlDoc.SelectNodes("/outArgs/arg-xml/response/attrib_list/attribute");
+                foreach (XmlNode xn in xnList)
+                {
+                    int iKey = Convert.ToInt32(xn.InnerText);
+                    string sValue = xn.Attributes[0].Value;
+
+                    lstAttrList.Add(new KeyValuePair<int, string>(iKey, sValue));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        public void ReadXmlString_RSMIDProperty(string strXML, out List<KeyValuePair<int, string[]>> lstProperty)
+        {
+            lstProperty = new List<KeyValuePair<int, string[]>>();
+            XmlDocument xmlDoc = new XmlDocument();
+
+            try
+            {
+                xmlDoc.LoadXml(strXML);
+
+                XmlNodeList xnList = xmlDoc.SelectNodes("/outArgs/arg-xml/response/attrib_list/attribute");
+                foreach (XmlNode xn in xnList)
+                {
+                    int iID = Convert.ToInt32(xn.ChildNodes[0].InnerText);
+                    string sDataType = xn.ChildNodes[2].InnerText;
+                    string sPermission = xn.ChildNodes[3].InnerText;
+                    string sValue = xn.ChildNodes[4].InnerText;
+
+                    string[] arr = new string[] { sDataType, sPermission, sValue };
+
+                    lstProperty.Add(new KeyValuePair<int, string[]>(iID, arr));
                 }
             }
             catch (Exception ex)

@@ -35,7 +35,6 @@ namespace Scanner_SDK_Sample_Application
         DocCapMessage m_docCapMsg = new DocCapMessage();
         byte[] m_wavFile;
         List<string> claimlist = new List<string>();
-        List<string> scanrdisablelist = new List<string>();
 
         public frmScannerApp()
         {
@@ -60,7 +59,6 @@ namespace Scanner_SDK_Sample_Application
             m_nNumberOfTypes = 0;
             m_arScannerTypes = new short[TOTAL_SCANNER_TYPES];
             m_arSelectedTypes = new bool[TOTAL_SCANNER_TYPES];
-            dgvAttributes.RowCount = Scanner.MAX_ATTRIBUTE_COUNT;
             SetControls();
             m_bIgnoreIndexChange = false;
 
@@ -90,13 +88,13 @@ namespace Scanner_SDK_Sample_Application
             m_docCapMsg.DocCapImage += new DocCapMessage.DocCapImageHandler(OnDocCapImage);
             m_docCapMsg.DocCapDecode += new DocCapMessage.DocCapDecodeHandler(OnDocCapDecode);
             comboFilterScnrs.SelectedIndex = 0;
-            comboBaudRate.SelectedIndex = 5;    // 9600
-            comboDataBits.SelectedIndex = 7;    // 8
-            comboParity.SelectedIndex = 0;      // NOPARITY
-            comboStpBits.SelectedIndex = 0;     // ONESTOPBIT
+            comboBaudRate.SelectedIndex = 5; // 9600
+            comboDataBits.SelectedIndex = 7; // 8
+            comboParity.SelectedIndex = 0; // NOPARITY
+            comboStpBits.SelectedIndex = 0; // ONESTOPBIT
             comboBeep.SelectedIndex = 0;
+            comboSCdcSHostMode.SelectedIndex = 0; //USB-IBMHID
             cmbLed.SelectedIndex = 0;
-            //cmbMode.SelectedIndex = 0;
             cmbImageSize.SelectedIndex = 1;
             cmbDefaultOption.SelectedIndex = 0;
             cmbProtocol.SelectedIndex = 0;
@@ -135,8 +133,6 @@ namespace Scanner_SDK_Sample_Application
                 UpdateResults("ParameterBarcode Event fired");
             }
         }
-
-
 
         /// <summary>
         /// Calls when a Scanner Notification Event Received
@@ -308,8 +304,6 @@ namespace Scanner_SDK_Sample_Application
         void OnDocCapDecode(object sender, EventArgs e)
         {
             DecodeData d = e as DecodeData;
-            //txtDocCapDecodeData.Text = d.Text;
-            //txtDocCapDecodeDataSymbol.Text = d.CodeType.ToString();
 
             if (txtDocCapDecodeData.InvokeRequired)
             {
@@ -365,7 +359,6 @@ namespace Scanner_SDK_Sample_Application
                 btnSaveIdc.Enabled = false;
             }
         }
-
 
         private void FillDeviceProperties(Scanner scnTmp)
         {
@@ -600,6 +593,12 @@ namespace Scanner_SDK_Sample_Application
                 case STATUS_LOCKED:
                     UpdateResults(strCmd + " - Command failed. Device is locked by another application.");
                     break;
+                case ERROR_CDC_SCANNERS_NOT_FOUND:
+                    UpdateResults(strCmd + " - No CDC device found. - Error:" + status.ToString());
+                    break;
+                case ERROR_UNABLE_TO_OPEN_CDC_COM_PORT:
+                    UpdateResults(strCmd + " - Unable to open CDC port. - Error:" + status.ToString());
+                    break;
                 default:
                     UpdateResults(strCmd + " - Command failed. Error:" + status.ToString());
                     break;
@@ -701,7 +700,7 @@ namespace Scanner_SDK_Sample_Application
             grpImageVideo.Enabled = bEnable;
             grpScnActions.Enabled = bEnable;
 
-            grpRSM.Enabled = bEnable;//get line disable, select line enable
+            grpRSM.Enabled = bEnable; //get line disable, select line enable
             gbAdvanced.Enabled = bEnable;
             grpFrmWrUpdate.Enabled = bEnable;
             grpCustomDecodeTone.Enabled = bEnable;
@@ -772,7 +771,7 @@ namespace Scanner_SDK_Sample_Application
         /// <param name="e"></param>
         private void btnPullTrigger_Click(object sender, EventArgs e)
         {
-            if (IsMotoConnectedWithScanners())
+            if (IsScannerConnected())
             {
                 pbxImageVideo.Image = null;
                 pbxImageVideo.Refresh();
@@ -794,7 +793,7 @@ namespace Scanner_SDK_Sample_Application
         /// <param name="e"></param>
         private void btnReleaseTrigger_Click(object sender, EventArgs e)
         {
-            if (IsMotoConnectedWithScanners())
+            if (IsScannerConnected())
             {
                 string inXml = GetScannerIDXml();
                 int opCode = DEVICE_RELEASE_TRIGGER;
@@ -806,13 +805,23 @@ namespace Scanner_SDK_Sample_Application
         }
 
         /// <summary>
-        /// Sends DEVICE_SCAN_DISABLE/DEVICE_SCAN_ENABLE
+        /// Sends DEVICE_SCAN_ENABLE
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnScannerEnable(object sender, EventArgs e)
+        private void btnScannerEnable_Click(object sender, EventArgs e)
         {
-            PerformOnScannerEnable(sender, e);
+            OnEnableScanner();
+        }
+
+        /// <summary>
+        /// Sends DEVICE_SCAN_DISABLE
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnScannerDisable_Click(object sender, EventArgs e)
+        {
+            OnDisableScanner();
         }
 
         /// <summary>
@@ -1066,7 +1075,7 @@ namespace Scanner_SDK_Sample_Application
         /// <param name="e"></param>
         private void btnGetAll_Click(object sender, EventArgs e)
         {
-            GetAllAttribs();
+            GetAllAttributes();
         }
 
         /// <summary>
@@ -1076,7 +1085,7 @@ namespace Scanner_SDK_Sample_Application
         /// <param name="e"></param>
         private void btnGet_Click(object sender, EventArgs e)
         {
-            PerformBtnGetClick(sender, e);
+            GetAttributes();
         }
 
         /// <summary>
@@ -1086,17 +1095,16 @@ namespace Scanner_SDK_Sample_Application
         /// <param name="e"></param>
         private void btnGetNext_Click(object sender, EventArgs e)
         {
-            PerformBtnGetNextClick(sender, e);
+            GetNextAttribute();
         }
 
         private void btnSelectAll_Click(object sender, EventArgs e)
         {
-            PerformBtnSelectAllClick(sender, e);
+            SelectAllAttributes();
         }
 
         private void btnClearAll_Click(object sender, EventArgs e)
         {
-            //clear ALL cells of all rows
             ClearAllRsmData();
         }
 
@@ -1142,7 +1150,7 @@ namespace Scanner_SDK_Sample_Application
         /// Is Open successful & scanners available
         /// </summary>
         /// <returns></returns>
-        private bool IsMotoConnectedWithScanners()
+        private bool IsScannerConnected()
         {
             return (m_bSuccessOpen && (0 < m_nTotalScanners) && IsScannerSelected());
         }
@@ -1166,18 +1174,6 @@ namespace Scanner_SDK_Sample_Application
 
             if (1 == lstvScanners.SelectedItems.Count)
             {
-                for (int i = 0; i < scanrdisablelist.Count; i++)
-                {
-                    if (string.Compare(scanrdisablelist[i], lstvScanners.SelectedItems[0].SubItems[5].Text) == 0)
-                    {
-                        chkScannerEnable.CheckState = CheckState.Checked;
-                        break;
-                    }
-                    else if (scanrdisablelist.Contains(lstvScanners.SelectedItems[0].SubItems[5].Text))
-                        continue;
-                    else
-                        chkScannerEnable.CheckState = CheckState.Unchecked;
-                }
                 int nSelIndex = lstvScanners.SelectedItems[0].Index;
                 if (-1 < nSelIndex && m_nTotalScanners > nSelIndex)
                 {
@@ -1252,7 +1248,7 @@ namespace Scanner_SDK_Sample_Application
         /// <param name="e"></param>
         private void OnClaimScanner(object sender, EventArgs e)
         {
-            if ((false == m_bIgnoreIndexChange) && IsMotoConnectedWithScanners())
+            if ((false == m_bIgnoreIndexChange) && IsScannerConnected())
             {
                 int opCode = CLAIM_DEVICE;
                 string strCode = "CLAIM_DEVICE";
@@ -2082,7 +2078,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void checkUseHID_CheckedChanged(object sender, EventArgs e)
         {
-            if (!IsMotoConnectedWithScanners())
+            if (!IsScannerConnected())
             {
                 return;
             }
@@ -2183,7 +2179,7 @@ namespace Scanner_SDK_Sample_Application
         private bool SetParameterValue(int parameID, int paramValue, bool persist)
         {
             bool ret = false;
-            if (IsMotoConnectedWithScanners())
+            if (IsScannerConnected())
             {
                 string inXml = "<inArgs>" +
                                     GetOnlyScannerIDXml() +
@@ -2263,6 +2259,7 @@ namespace Scanner_SDK_Sample_Application
             pbxISO15434Image.Image = null;
             txtDocCapDecodeDataSymbol.Text = "";
             txtDocCapDecodeData.Text = "";
+            idcImage = null;
         }
 
         private void buttonWavFileBrowse_Click(object sender, EventArgs e)
@@ -2357,6 +2354,11 @@ namespace Scanner_SDK_Sample_Application
                 }
             }
             saveIdcImageDialog.Dispose();
+        }
+
+        private void btnSCdcSwitchDevices_Click(object sender, EventArgs e)
+        {
+            PerformCDCSwitchModeClick(sender, e);
         }
     }
 }

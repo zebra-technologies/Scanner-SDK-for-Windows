@@ -15,12 +15,13 @@
     <SccAuxPath>Rational ClearCase</SccAuxPath>
     <SccProvider>Rational ClearCase</SccProvider>
     <ApplicationIcon>form.ico</ApplicationIcon>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -70,9 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ScannerAttribute.cs" />
-    <Compile Include="ViewSSW.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ViewSSW.cs" />
     <Compile Include="ViewScanToConnect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +115,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

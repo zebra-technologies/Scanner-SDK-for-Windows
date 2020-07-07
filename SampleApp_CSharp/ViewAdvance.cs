@@ -27,7 +27,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void PerformbtnFWUpdateClick(object sender, EventArgs e)
         {
-            if (IsMotoConnectedWithScanners())
+            if (IsScannerConnected())
             {
                 progressBarFWUpdate.Value = 0;
 
@@ -47,7 +47,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void PerformBtnAbortFWUpdateClick(object sender, EventArgs e)
         {
-            if (IsMotoConnectedWithScanners())
+            if (IsScannerConnected())
             {
                 progressBarFWUpdate.Value = 0;
 

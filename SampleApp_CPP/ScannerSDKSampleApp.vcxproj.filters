@@ -161,6 +161,9 @@
     <ClInclude Include="ScanToConnectDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ScannerHostTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\DS6707.ico">

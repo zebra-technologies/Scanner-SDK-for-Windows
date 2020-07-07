@@ -121,6 +121,7 @@ namespace Scanner_SDK_Sample_Application
             MacroMicroPDF = 154,
             MailMark = 195,
             DotCode = 196,
+            UDICode = 204,
             NoDecode = 255,
         }
     }
@@ -209,10 +210,10 @@ namespace Scanner_SDK_Sample_Application
     internal class DocCapMessage
     {
         // Constants for ISO15434 messages
-        private const byte ISO_RS = 0x1E;  // ISO15454 Format Trailer Character
-        private const byte ISO_GS = 0x1D;  // ISO15454 Data Element Seperator
-        private const byte ISO_EOT = 0x04;  // ISO15454 Message Trailer Character
-        private const byte MSG_EASYCAP = 0;     // ISO15451 Message DocCap message number
+        private const byte ISO_RS = 0x1E; // ISO15454 Format Trailer Character
+        private const byte ISO_GS = 0x1D; // ISO15454 Data Element Seperator
+        private const byte ISO_EOT = 0x04; // ISO15454 Message Trailer Character
+        private const byte MSG_EASYCAP = 0; // ISO15451 Message DocCap message number
 
         // Setup for Events 
         // Establish delegates
@@ -577,9 +578,9 @@ namespace Scanner_SDK_Sample_Application
             }
 
             // Internal (private) variables
-            private byte[] data;       // input data from USB
-            private int index;         // current index into data[] of latest envelope
-            private string fileType;   // File type name extracted from 09 envelope.
+            private byte[] data; // input data from USB
+            private int index; // current index into data[] of latest envelope
+            private string fileType; // File type name extracted from 09 envelope.
             private int dataLength;
             private int dataIndex;
         } // ISO15434formatEnvelope

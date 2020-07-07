@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-* ©2016 Symbol Technologies LLC. All rights reserved.
+* ©2020 Zebra Technologies Corp. and/or its affiliates.
 *
 ********************************************************************************************/
 #include "ScannerSDKSampleApp.h"

@@ -99,7 +99,8 @@ namespace Scanner_SDK_Sample_Application
             this.grpReboot = new System.Windows.Forms.GroupBox();
             this.btnRebootScanner = new System.Windows.Forms.Button();
             this.grpEnbDisScanner = new System.Windows.Forms.GroupBox();
-            this.chkScannerEnable = new System.Windows.Forms.CheckBox();
+            this.btnScannerDisable = new System.Windows.Forms.Button();
+            this.btnScannerEnable = new System.Windows.Forms.Button();
             this.grpBeeper = new System.Windows.Forms.GroupBox();
             this.comboBeep = new System.Windows.Forms.ComboBox();
             this.btnSoundBeeper = new System.Windows.Forms.Button();
@@ -162,6 +163,12 @@ namespace Scanner_SDK_Sample_Application
             this.cmbProtocol = new System.Windows.Forms.ComboBox();
             this.tabMisc = new System.Windows.Forms.TabPage();
             this.grpMiscOther = new System.Windows.Forms.GroupBox();
+            this.grpSCdcSwitch = new System.Windows.Forms.GroupBox();
+            this.btnSCdcSwitchDevices = new System.Windows.Forms.Button();
+            this.chkSCdcSIsPermanent = new System.Windows.Forms.CheckBox();
+            this.chkSCdcSIsSilent = new System.Windows.Forms.CheckBox();
+            this.comboSCdcSHostMode = new System.Windows.Forms.ComboBox();
+            this.lblSCdcSHostMode = new System.Windows.Forms.Label();
             this.grpMiscCmd = new System.Windows.Forms.GroupBox();
             this.btnGetDevTopology = new System.Windows.Forms.Button();
             this.btnSdkVersion = new System.Windows.Forms.Button();
@@ -289,6 +296,7 @@ namespace Scanner_SDK_Sample_Application
             ((System.ComponentModel.ISupportInitialize)(this.picBBarcode)).BeginInit();
             this.tabMisc.SuspendLayout();
             this.grpMiscOther.SuspendLayout();
+            this.grpSCdcSwitch.SuspendLayout();
             this.grpMiscCmd.SuspendLayout();
             this.grpAsync.SuspendLayout();
             this.grpBaudrate.SuspendLayout();
@@ -346,7 +354,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // groupBox1
             // 
-            this.groupBox1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.groupBox1.BackColor = System.Drawing.SystemColors.Window;
             this.groupBox1.Controls.Add(this.btnScriptEditor);
             this.groupBox1.Controls.Add(this.btnBrowseScript);
             this.groupBox1.Controls.Add(this.chkBoxAppADF);
@@ -392,12 +400,12 @@ namespace Scanner_SDK_Sample_Application
             // 
             // grpBoxLanguage
             // 
-            this.grpBoxLanguage.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpBoxLanguage.BackColor = System.Drawing.SystemColors.Window;
             this.grpBoxLanguage.Controls.Add(this.chkBoxEmulation);
             this.grpBoxLanguage.Controls.Add(this.cmbEmulation);
             this.grpBoxLanguage.Location = new System.Drawing.Point(19, 365);
             this.grpBoxLanguage.Name = "grpBoxLanguage";
-            this.grpBoxLanguage.Size = new System.Drawing.Size(468, 53);
+            this.grpBoxLanguage.Size = new System.Drawing.Size(468, 50);
             this.grpBoxLanguage.TabIndex = 2;
             this.grpBoxLanguage.TabStop = false;
             this.grpBoxLanguage.Text = "Keyboard Emulation and Language/Locale Details";
@@ -439,7 +447,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // grpboxBarcodeLbl
             // 
-            this.grpboxBarcodeLbl.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpboxBarcodeLbl.BackColor = System.Drawing.SystemColors.Window;
             this.grpboxBarcodeLbl.Controls.Add(this.lblSyblogy);
             this.grpboxBarcodeLbl.Controls.Add(this.txtSyblogy);
             this.grpboxBarcodeLbl.Controls.Add(this.lblDecdBarCde);
@@ -535,7 +543,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             this.grpImageVideo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpImageVideo.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpImageVideo.BackColor = System.Drawing.SystemColors.Window;
             this.grpImageVideo.Controls.Add(this.btnBarcode);
             this.grpImageVideo.Controls.Add(this.chkVideoViewFinderEnable);
             this.grpImageVideo.Controls.Add(this.btnSveImge);
@@ -707,7 +715,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // btnSaveIdc
             // 
-            this.btnSaveIdc.Location = new System.Drawing.Point(336, 426);
+            this.btnSaveIdc.Location = new System.Drawing.Point(336, 423);
             this.btnSaveIdc.Name = "btnSaveIdc";
             this.btnSaveIdc.Size = new System.Drawing.Size(67, 23);
             this.btnSaveIdc.TabIndex = 4;
@@ -729,7 +737,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // btnClearpbx
             // 
-            this.btnClearpbx.Location = new System.Drawing.Point(424, 426);
+            this.btnClearpbx.Location = new System.Drawing.Point(424, 423);
             this.btnClearpbx.Name = "btnClearpbx";
             this.btnClearpbx.Size = new System.Drawing.Size(63, 23);
             this.btnClearpbx.TabIndex = 3;
@@ -740,7 +748,7 @@ namespace Scanner_SDK_Sample_Application
             // checkUseHID
             // 
             this.checkUseHID.AutoSize = true;
-            this.checkUseHID.Location = new System.Drawing.Point(205, 430);
+            this.checkUseHID.Location = new System.Drawing.Point(205, 426);
             this.checkUseHID.Name = "checkUseHID";
             this.checkUseHID.Size = new System.Drawing.Size(67, 17);
             this.checkUseHID.TabIndex = 2;
@@ -834,7 +842,7 @@ namespace Scanner_SDK_Sample_Application
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.txtDocCapDecodeDataSymbol);
             this.groupBox2.Controls.Add(this.txtDocCapDecodeData);
-            this.groupBox2.Location = new System.Drawing.Point(205, 335);
+            this.groupBox2.Location = new System.Drawing.Point(205, 330);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(282, 83);
             this.groupBox2.TabIndex = 1;
@@ -903,18 +911,18 @@ namespace Scanner_SDK_Sample_Application
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.btnDisconnect);
-            this.groupBox4.Location = new System.Drawing.Point(16, 190);
+            this.groupBox4.Location = new System.Drawing.Point(306, 85);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(157, 59);
+            this.groupBox4.Size = new System.Drawing.Size(157, 58);
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Disconnect BT Scanner";
             // 
             // btnDisconnect
             // 
-            this.btnDisconnect.Location = new System.Drawing.Point(20, 19);
+            this.btnDisconnect.Location = new System.Drawing.Point(41, 22);
             this.btnDisconnect.Name = "btnDisconnect";
-            this.btnDisconnect.Size = new System.Drawing.Size(113, 31);
+            this.btnDisconnect.Size = new System.Drawing.Size(75, 23);
             this.btnDisconnect.TabIndex = 0;
             this.btnDisconnect.Text = "Disconnect";
             this.btnDisconnect.UseVisualStyleBackColor = true;
@@ -922,12 +930,12 @@ namespace Scanner_SDK_Sample_Application
             // 
             // grpHVS
             // 
-            this.grpHVS.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpHVS.BackColor = System.Drawing.SystemColors.Window;
             this.grpHVS.Controls.Add(this.cmbMode);
             this.grpHVS.Controls.Add(this.chkShmPermChange);
             this.grpHVS.Controls.Add(this.chkShmSilentSwitch);
             this.grpHVS.Controls.Add(this.btnSwitchHostMode);
-            this.grpHVS.Location = new System.Drawing.Point(223, 247);
+            this.grpHVS.Location = new System.Drawing.Point(31, 267);
             this.grpHVS.Name = "grpHVS";
             this.grpHVS.Size = new System.Drawing.Size(261, 175);
             this.grpHVS.TabIndex = 5;
@@ -975,20 +983,20 @@ namespace Scanner_SDK_Sample_Application
             // 
             // grpReboot
             // 
-            this.grpReboot.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpReboot.BackColor = System.Drawing.SystemColors.Window;
             this.grpReboot.Controls.Add(this.btnRebootScanner);
-            this.grpReboot.Location = new System.Drawing.Point(16, 117);
+            this.grpReboot.Location = new System.Drawing.Point(305, 19);
             this.grpReboot.Name = "grpReboot";
-            this.grpReboot.Size = new System.Drawing.Size(158, 64);
+            this.grpReboot.Size = new System.Drawing.Size(158, 58);
             this.grpReboot.TabIndex = 2;
             this.grpReboot.TabStop = false;
             this.grpReboot.Text = "Reboot Scanner";
             // 
             // btnRebootScanner
             // 
-            this.btnRebootScanner.Location = new System.Drawing.Point(20, 19);
+            this.btnRebootScanner.Location = new System.Drawing.Point(41, 21);
             this.btnRebootScanner.Name = "btnRebootScanner";
-            this.btnRebootScanner.Size = new System.Drawing.Size(113, 31);
+            this.btnRebootScanner.Size = new System.Drawing.Size(75, 23);
             this.btnRebootScanner.TabIndex = 0;
             this.btnRebootScanner.Text = "Reboot Scanner";
             this.btnRebootScanner.UseVisualStyleBackColor = true;
@@ -996,32 +1004,42 @@ namespace Scanner_SDK_Sample_Application
             // 
             // grpEnbDisScanner
             // 
-            this.grpEnbDisScanner.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.grpEnbDisScanner.Controls.Add(this.chkScannerEnable);
-            this.grpEnbDisScanner.Location = new System.Drawing.Point(16, 32);
+            this.grpEnbDisScanner.BackColor = System.Drawing.SystemColors.Window;
+            this.grpEnbDisScanner.Controls.Add(this.btnScannerDisable);
+            this.grpEnbDisScanner.Controls.Add(this.btnScannerEnable);
+            this.grpEnbDisScanner.Location = new System.Drawing.Point(31, 19);
             this.grpEnbDisScanner.Name = "grpEnbDisScanner";
-            this.grpEnbDisScanner.Size = new System.Drawing.Size(161, 69);
+            this.grpEnbDisScanner.Size = new System.Drawing.Size(261, 58);
             this.grpEnbDisScanner.TabIndex = 0;
             this.grpEnbDisScanner.TabStop = false;
             this.grpEnbDisScanner.Text = "Enable/Disable Scanner";
             // 
-            // chkScannerEnable
+            // btnScannerDisable
             // 
-            this.chkScannerEnable.AutoSize = true;
-            this.chkScannerEnable.Location = new System.Drawing.Point(20, 27);
-            this.chkScannerEnable.Name = "chkScannerEnable";
-            this.chkScannerEnable.Size = new System.Drawing.Size(104, 17);
-            this.chkScannerEnable.TabIndex = 0;
-            this.chkScannerEnable.Text = "Disable Scanner";
-            this.chkScannerEnable.UseVisualStyleBackColor = true;
-            this.chkScannerEnable.CheckedChanged += new System.EventHandler(this.OnScannerEnable);
+            this.btnScannerDisable.Location = new System.Drawing.Point(138, 21);
+            this.btnScannerDisable.Name = "btnScannerDisable";
+            this.btnScannerDisable.Size = new System.Drawing.Size(75, 23);
+            this.btnScannerDisable.TabIndex = 2;
+            this.btnScannerDisable.Text = "Disable";
+            this.btnScannerDisable.UseVisualStyleBackColor = true;
+            this.btnScannerDisable.Click += new System.EventHandler(this.btnScannerDisable_Click);
+            // 
+            // btnScannerEnable
+            // 
+            this.btnScannerEnable.Location = new System.Drawing.Point(51, 21);
+            this.btnScannerEnable.Name = "btnScannerEnable";
+            this.btnScannerEnable.Size = new System.Drawing.Size(75, 23);
+            this.btnScannerEnable.TabIndex = 1;
+            this.btnScannerEnable.Text = "Enable";
+            this.btnScannerEnable.UseVisualStyleBackColor = true;
+            this.btnScannerEnable.Click += new System.EventHandler(this.btnScannerEnable_Click);
             // 
             // grpBeeper
             // 
-            this.grpBeeper.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpBeeper.BackColor = System.Drawing.SystemColors.Window;
             this.grpBeeper.Controls.Add(this.comboBeep);
             this.grpBeeper.Controls.Add(this.btnSoundBeeper);
-            this.grpBeeper.Location = new System.Drawing.Point(223, 117);
+            this.grpBeeper.Location = new System.Drawing.Point(31, 149);
             this.grpBeeper.Name = "grpBeeper";
             this.grpBeeper.Size = new System.Drawing.Size(261, 111);
             this.grpBeeper.TabIndex = 3;
@@ -1077,13 +1095,13 @@ namespace Scanner_SDK_Sample_Application
             // 
             // grpLed
             // 
-            this.grpLed.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpLed.BackColor = System.Drawing.SystemColors.Window;
             this.grpLed.Controls.Add(this.cmbLed);
             this.grpLed.Controls.Add(this.btnLedOff);
             this.grpLed.Controls.Add(this.btnLedOn);
-            this.grpLed.Location = new System.Drawing.Point(16, 255);
+            this.grpLed.Location = new System.Drawing.Point(306, 149);
             this.grpLed.Name = "grpLed";
-            this.grpLed.Size = new System.Drawing.Size(161, 167);
+            this.grpLed.Size = new System.Drawing.Size(161, 111);
             this.grpLed.TabIndex = 4;
             this.grpLed.TabStop = false;
             this.grpLed.Text = "LED";
@@ -1096,14 +1114,14 @@ namespace Scanner_SDK_Sample_Application
             "GREEN",
             "YELLOW",
             "RED"});
-            this.cmbLed.Location = new System.Drawing.Point(20, 45);
+            this.cmbLed.Location = new System.Drawing.Point(20, 30);
             this.cmbLed.Name = "cmbLed";
             this.cmbLed.Size = new System.Drawing.Size(113, 21);
             this.cmbLed.TabIndex = 0;
             // 
             // btnLedOff
             // 
-            this.btnLedOff.Location = new System.Drawing.Point(80, 111);
+            this.btnLedOff.Location = new System.Drawing.Point(80, 70);
             this.btnLedOff.Name = "btnLedOff";
             this.btnLedOff.Size = new System.Drawing.Size(54, 23);
             this.btnLedOff.TabIndex = 2;
@@ -1113,7 +1131,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // btnLedOn
             // 
-            this.btnLedOn.Location = new System.Drawing.Point(20, 111);
+            this.btnLedOn.Location = new System.Drawing.Point(20, 70);
             this.btnLedOn.Name = "btnLedOn";
             this.btnLedOn.Size = new System.Drawing.Size(54, 23);
             this.btnLedOn.TabIndex = 1;
@@ -1123,10 +1141,10 @@ namespace Scanner_SDK_Sample_Application
             // 
             // grpAim
             // 
-            this.grpAim.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpAim.BackColor = System.Drawing.SystemColors.Window;
             this.grpAim.Controls.Add(this.btnAimOn);
             this.grpAim.Controls.Add(this.btnAimOff);
-            this.grpAim.Location = new System.Drawing.Point(223, 32);
+            this.grpAim.Location = new System.Drawing.Point(31, 85);
             this.grpAim.Name = "grpAim";
             this.grpAim.Size = new System.Drawing.Size(261, 58);
             this.grpAim.TabIndex = 1;
@@ -1135,7 +1153,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // btnAimOn
             // 
-            this.btnAimOn.Location = new System.Drawing.Point(33, 22);
+            this.btnAimOn.Location = new System.Drawing.Point(51, 22);
             this.btnAimOn.Name = "btnAimOn";
             this.btnAimOn.Size = new System.Drawing.Size(75, 23);
             this.btnAimOn.TabIndex = 0;
@@ -1145,7 +1163,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // btnAimOff
             // 
-            this.btnAimOff.Location = new System.Drawing.Point(153, 22);
+            this.btnAimOff.Location = new System.Drawing.Point(138, 22);
             this.btnAimOff.Name = "btnAimOff";
             this.btnAimOff.Size = new System.Drawing.Size(75, 23);
             this.btnAimOff.TabIndex = 1;
@@ -1295,7 +1313,7 @@ namespace Scanner_SDK_Sample_Application
             this.value});
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -1312,8 +1330,6 @@ namespace Scanner_SDK_Sample_Application
             dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvAttributes.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            this.dgvAttributes.RowHeadersWidth = 30;
-            this.dgvAttributes.RowTemplate.Height = 15;
             this.dgvAttributes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAttributes.Size = new System.Drawing.Size(474, 340);
             this.dgvAttributes.TabIndex = 2;
@@ -1322,13 +1338,10 @@ namespace Scanner_SDK_Sample_Application
             // 
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             this.attrNum.DefaultCellStyle = dataGridViewCellStyle2;
-            this.attrNum.Frozen = true;
             this.attrNum.HeaderText = "ID";
             this.attrNum.Name = "attrNum";
             this.attrNum.ReadOnly = true;
-            this.attrNum.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.attrNum.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.attrNum.Width = 45;
+            this.attrNum.Width = 50;
             // 
             // attrType
             // 
@@ -1337,9 +1350,7 @@ namespace Scanner_SDK_Sample_Application
             this.attrType.HeaderText = "Type";
             this.attrType.Name = "attrType";
             this.attrType.ReadOnly = true;
-            this.attrType.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.attrType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.attrType.Width = 40;
+            this.attrType.Width = 80;
             // 
             // property
             // 
@@ -1348,9 +1359,6 @@ namespace Scanner_SDK_Sample_Application
             this.property.HeaderText = "Property";
             this.property.Name = "property";
             this.property.ReadOnly = true;
-            this.property.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.property.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.property.Width = 55;
             // 
             // value
             // 
@@ -1376,7 +1384,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // grpCustomDecodeTone
             // 
-            this.grpCustomDecodeTone.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpCustomDecodeTone.BackColor = System.Drawing.SystemColors.Window;
             this.grpCustomDecodeTone.Controls.Add(this.btnEraseTone);
             this.grpCustomDecodeTone.Controls.Add(this.buttonWavFileUpload);
             this.grpCustomDecodeTone.Controls.Add(this.textBoxWavFile);
@@ -1457,7 +1465,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // grpFrmWrUpdate
             // 
-            this.grpFrmWrUpdate.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpFrmWrUpdate.BackColor = System.Drawing.SystemColors.Window;
             this.grpFrmWrUpdate.Controls.Add(this.grpFWoptns);
             this.grpFrmWrUpdate.Controls.Add(this.progressBarFWUpdate);
             this.grpFrmWrUpdate.Controls.Add(this.buttonFWBrowse);
@@ -1757,6 +1765,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // grpMiscOther
             // 
+            this.grpMiscOther.Controls.Add(this.grpSCdcSwitch);
             this.grpMiscOther.Controls.Add(this.grpMiscCmd);
             this.grpMiscOther.Controls.Add(this.grpAsync);
             this.grpMiscOther.Controls.Add(this.grpBaudrate);
@@ -1767,9 +1776,87 @@ namespace Scanner_SDK_Sample_Application
             this.grpMiscOther.TabStop = false;
             this.grpMiscOther.Text = "Miscellaneous";
             // 
+            // grpSCdcSwitch
+            // 
+            this.grpSCdcSwitch.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpSCdcSwitch.Controls.Add(this.btnSCdcSwitchDevices);
+            this.grpSCdcSwitch.Controls.Add(this.chkSCdcSIsPermanent);
+            this.grpSCdcSwitch.Controls.Add(this.chkSCdcSIsSilent);
+            this.grpSCdcSwitch.Controls.Add(this.comboSCdcSHostMode);
+            this.grpSCdcSwitch.Controls.Add(this.lblSCdcSHostMode);
+            this.grpSCdcSwitch.Location = new System.Drawing.Point(10, 218);
+            this.grpSCdcSwitch.Margin = new System.Windows.Forms.Padding(2);
+            this.grpSCdcSwitch.Name = "grpSCdcSwitch";
+            this.grpSCdcSwitch.Padding = new System.Windows.Forms.Padding(2);
+            this.grpSCdcSwitch.Size = new System.Drawing.Size(485, 101);
+            this.grpSCdcSwitch.TabIndex = 4;
+            this.grpSCdcSwitch.TabStop = false;
+            this.grpSCdcSwitch.Text = "CDC Switching";
+            // 
+            // btnSCdcSwitchDevices
+            // 
+            this.btnSCdcSwitchDevices.Location = new System.Drawing.Point(266, 62);
+            this.btnSCdcSwitchDevices.Name = "btnSCdcSwitchDevices";
+            this.btnSCdcSwitchDevices.Size = new System.Drawing.Size(120, 23);
+            this.btnSCdcSwitchDevices.TabIndex = 4;
+            this.btnSCdcSwitchDevices.Text = "Switch CDC Devices";
+            this.btnSCdcSwitchDevices.UseVisualStyleBackColor = true;
+            this.btnSCdcSwitchDevices.Click += new System.EventHandler(this.btnSCdcSwitchDevices_Click);
+            // 
+            // chkSCdcSIsPermanent
+            // 
+            this.chkSCdcSIsPermanent.AutoSize = true;
+            this.chkSCdcSIsPermanent.Location = new System.Drawing.Point(340, 29);
+            this.chkSCdcSIsPermanent.Margin = new System.Windows.Forms.Padding(2);
+            this.chkSCdcSIsPermanent.Name = "chkSCdcSIsPermanent";
+            this.chkSCdcSIsPermanent.Size = new System.Drawing.Size(88, 17);
+            this.chkSCdcSIsPermanent.TabIndex = 3;
+            this.chkSCdcSIsPermanent.Text = "Is Permanent";
+            this.chkSCdcSIsPermanent.UseVisualStyleBackColor = true;
+            // 
+            // chkSCdcSIsSilent
+            // 
+            this.chkSCdcSIsSilent.AutoSize = true;
+            this.chkSCdcSIsSilent.Location = new System.Drawing.Point(266, 28);
+            this.chkSCdcSIsSilent.Margin = new System.Windows.Forms.Padding(2);
+            this.chkSCdcSIsSilent.Name = "chkSCdcSIsSilent";
+            this.chkSCdcSIsSilent.Size = new System.Drawing.Size(63, 17);
+            this.chkSCdcSIsSilent.TabIndex = 2;
+            this.chkSCdcSIsSilent.Text = "Is Silent";
+            this.chkSCdcSIsSilent.UseVisualStyleBackColor = true;
+            // 
+            // comboSCdcSHostMode
+            // 
+            this.comboSCdcSHostMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboSCdcSHostMode.FormattingEnabled = true;
+            this.comboSCdcSHostMode.Items.AddRange(new object[] {
+            "USB-IBMHID",
+            "USB-IBMTT",
+            "USB-HIDKB",
+            "USB-OPOS",
+            "USB-SNAPI with Imaging",
+            "USB-SNAPI without Imaging",
+            "USB-CDC Serial Emulation",
+            "USB-SSI over CDC"});
+            this.comboSCdcSHostMode.Location = new System.Drawing.Point(75, 27);
+            this.comboSCdcSHostMode.Margin = new System.Windows.Forms.Padding(2);
+            this.comboSCdcSHostMode.Name = "comboSCdcSHostMode";
+            this.comboSCdcSHostMode.Size = new System.Drawing.Size(143, 21);
+            this.comboSCdcSHostMode.TabIndex = 1;
+            // 
+            // lblSCdcSHostMode
+            // 
+            this.lblSCdcSHostMode.AutoSize = true;
+            this.lblSCdcSHostMode.Location = new System.Drawing.Point(6, 29);
+            this.lblSCdcSHostMode.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSCdcSHostMode.Name = "lblSCdcSHostMode";
+            this.lblSCdcSHostMode.Size = new System.Drawing.Size(62, 13);
+            this.lblSCdcSHostMode.TabIndex = 0;
+            this.lblSCdcSHostMode.Text = "Host Mode ";
+            // 
             // grpMiscCmd
             // 
-            this.grpMiscCmd.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpMiscCmd.BackColor = System.Drawing.SystemColors.Window;
             this.grpMiscCmd.Controls.Add(this.btnGetDevTopology);
             this.grpMiscCmd.Controls.Add(this.btnSdkVersion);
             this.grpMiscCmd.Location = new System.Drawing.Point(10, 26);
@@ -1801,6 +1888,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // grpAsync
             // 
+            this.grpAsync.BackColor = System.Drawing.SystemColors.Window;
             this.grpAsync.Controls.Add(this.chkAsync);
             this.grpAsync.Location = new System.Drawing.Point(326, 25);
             this.grpAsync.Name = "grpAsync";
@@ -1821,7 +1909,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // grpBaudrate
             // 
-            this.grpBaudrate.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpBaudrate.BackColor = System.Drawing.SystemColors.Window;
             this.grpBaudrate.Controls.Add(this.lblStpBits);
             this.grpBaudrate.Controls.Add(this.comboStpBits);
             this.grpBaudrate.Controls.Add(this.lblParity);
@@ -1832,7 +1920,7 @@ namespace Scanner_SDK_Sample_Application
             this.grpBaudrate.Controls.Add(this.comboDataBits);
             this.grpBaudrate.Controls.Add(this.comboBaudRate);
             this.grpBaudrate.Controls.Add(this.flwCtrlChkBox);
-            this.grpBaudrate.Location = new System.Drawing.Point(10, 98);
+            this.grpBaudrate.Location = new System.Drawing.Point(10, 110);
             this.grpBaudrate.Name = "grpBaudrate";
             this.grpBaudrate.Size = new System.Drawing.Size(485, 90);
             this.grpBaudrate.TabIndex = 2;
@@ -2377,7 +2465,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // grpResult
             // 
-            this.grpResult.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpResult.BackColor = System.Drawing.SystemColors.Window;
             this.grpResult.Controls.Add(this.txtResults);
             this.grpResult.Location = new System.Drawing.Point(4, 3);
             this.grpResult.Name = "grpResult";
@@ -2400,7 +2488,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // grpOutXml
             // 
-            this.grpOutXml.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpOutXml.BackColor = System.Drawing.SystemColors.Window;
             this.grpOutXml.Controls.Add(this.txtOutXml);
             this.grpOutXml.Location = new System.Drawing.Point(4, 186);
             this.grpOutXml.Name = "grpOutXml";
@@ -2614,7 +2702,7 @@ namespace Scanner_SDK_Sample_Application
             this.toolStripStatusLblTotal.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
             this.toolStripStatusLblTotal.Name = "toolStripStatusLblTotal";
             this.toolStripStatusLblTotal.Overflow = System.Windows.Forms.ToolStripItemOverflow.Always;
-            this.toolStripStatusLblTotal.Size = new System.Drawing.Size(57, 17);
+            this.toolStripStatusLblTotal.Size = new System.Drawing.Size(56, 17);
             this.toolStripStatusLblTotal.Text = "Total = 0";
             // 
             // toolStripStatusLblIbmhid
@@ -2636,7 +2724,7 @@ namespace Scanner_SDK_Sample_Application
             // toolStripStatusIBMTT
             // 
             this.toolStripStatusIBMTT.Name = "toolStripStatusIBMTT";
-            this.toolStripStatusIBMTT.Size = new System.Drawing.Size(62, 17);
+            this.toolStripStatusIBMTT.Size = new System.Drawing.Size(60, 17);
             this.toolStripStatusIBMTT.Text = "IBMTT = 0";
             // 
             // toolStripStatusLblHidkb
@@ -2718,7 +2806,6 @@ namespace Scanner_SDK_Sample_Application
             this.grpHVS.PerformLayout();
             this.grpReboot.ResumeLayout(false);
             this.grpEnbDisScanner.ResumeLayout(false);
-            this.grpEnbDisScanner.PerformLayout();
             this.grpBeeper.ResumeLayout(false);
             this.grpLed.ResumeLayout(false);
             this.grpAim.ResumeLayout(false);
@@ -2743,6 +2830,8 @@ namespace Scanner_SDK_Sample_Application
             ((System.ComponentModel.ISupportInitialize)(this.picBBarcode)).EndInit();
             this.tabMisc.ResumeLayout(false);
             this.grpMiscOther.ResumeLayout(false);
+            this.grpSCdcSwitch.ResumeLayout(false);
+            this.grpSCdcSwitch.PerformLayout();
             this.grpMiscCmd.ResumeLayout(false);
             this.grpAsync.ResumeLayout(false);
             this.grpAsync.PerformLayout();
@@ -2833,7 +2922,6 @@ namespace Scanner_SDK_Sample_Application
         private System.Windows.Forms.GroupBox grpReboot;
         private System.Windows.Forms.Button btnRebootScanner;
         private System.Windows.Forms.GroupBox grpEnbDisScanner;
-        private System.Windows.Forms.CheckBox chkScannerEnable;
         private System.Windows.Forms.GroupBox grpBeeper;
         private System.Windows.Forms.Button btnSoundBeeper;
         private System.Windows.Forms.GroupBox grpLed;
@@ -2985,6 +3073,14 @@ namespace Scanner_SDK_Sample_Application
         private System.Windows.Forms.RadioButton rdoHex;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnSaveIdc;
+        private System.Windows.Forms.Button btnScannerDisable;
+        private System.Windows.Forms.Button btnScannerEnable;
+        private System.Windows.Forms.GroupBox grpSCdcSwitch;
+        private System.Windows.Forms.Button btnSCdcSwitchDevices;
+        private System.Windows.Forms.CheckBox chkSCdcSIsPermanent;
+        private System.Windows.Forms.CheckBox chkSCdcSIsSilent;
+        private System.Windows.Forms.ComboBox comboSCdcSHostMode;
+        private System.Windows.Forms.Label lblSCdcSHostMode;
     }
 }
 

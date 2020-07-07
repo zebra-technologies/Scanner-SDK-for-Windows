@@ -19,7 +19,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void PerformBtnAimOnClick(object sender, EventArgs e)
         {
-            if (IsMotoConnectedWithScanners())
+            if (IsScannerConnected())
             {
                 string inXml = GetScannerIDXml();
                 int opCode = DEVICE_AIM_ON;
@@ -32,7 +32,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void PerformBtnAimOffClick(object sender, EventArgs e)
         {
-            if (IsMotoConnectedWithScanners())
+            if (IsScannerConnected())
             {
                 string inXml = GetScannerIDXml();
                 int opCode = DEVICE_AIM_OFF;
@@ -45,7 +45,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void PerformBtnSoundBeeperClick(object sender, EventArgs e)
         {
-            if (!IsMotoConnectedWithScanners())
+            if (!IsScannerConnected())
             {
                 return;
             }
@@ -73,7 +73,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void PerformBtnRebootScannerClick(object sender, EventArgs e)
         {
-            if (IsMotoConnectedWithScanners())
+            if (IsScannerConnected())
             {
                 string inXml = "<inArgs>" +
                                  GetOnlyScannerIDXml() +
@@ -88,7 +88,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void PerformBtnDisconnectScannerClick(object sender, EventArgs e)
         {
-            if (IsMotoConnectedWithScanners())
+            if (IsScannerConnected())
             {
                 string inXml = "<inArgs>" +
                                  GetOnlyScannerIDXml() +
@@ -107,7 +107,7 @@ namespace Scanner_SDK_Sample_Application
             /*LEDs can be controlled with SET action command (RSM Action attribute) as well however currently some scanners like CS4070 does not support RSM action attributes.
             Following commented code segment can be used to control LEDs of other scanners*/
             bool isCS4070 = false;
-            if (IsMotoConnectedWithScanners())
+            if (IsScannerConnected())
             {
                 foreach (var item in m_arScanners)
                 {
@@ -161,54 +161,8 @@ namespace Scanner_SDK_Sample_Application
         {
             /*LEDs can be controlled with SET action command (RSM Action attribute) as well however currently some scanners like CS4070 does not support RSM action attributes.
              Following commented code segment can be used to control LEDs of other scanners*/
-
-            //if (IsMotoConnectedWithScanners())
-            //{
-            //    int offLed = GetOffLedID();
-            //    string inXml = "<inArgs>" +
-            //                       GetOnlyScannerIDXml() +
-            //                       "<cmdArgs>" +
-            //                       "<arg-int>" + offLed.ToString() + "</arg-int>" +
-            //                       "</cmdArgs>" +
-            //                       "</inArgs>";
-
-            //    int opCode = SET_ACTION;
-            //    string outXml = "";
-            //    int status = STATUS_FALSE;
-            //    ExecCmd(opCode, ref inXml, out outXml, out status);
-            //    DisplayResult(status, "SET_ACTION");
-            //}
-
-            
-
-            //if (!IsMotoConnectedWithScanners())
-            //{
-            //    return;
-            //}
-            //try
-            //{
-            //    int offLed = GetOffLedID();
-            //    string inXml = "<inArgs>" +
-            //                        GetOnlyScannerIDXml() +
-            //                        "<cmdArgs>" +
-            //                        "<arg-int>" + offLed.ToString()
-            //                        + "</arg-int>" +
-            //                        "</cmdArgs>" +
-            //                        "</inArgs>";
-
-            //    int opCode = DEVICE_LED_OFF;
-            //    string outXml = "";
-            //    int status = STATUS_FALSE;
-            //    ExecCmd(opCode, ref inXml, out outXml, out status);
-            //    DisplayResult(status, "DEVICE_LED_OFF");
-            //}
-            //catch
-            //{
-            //    UpdateResults("Please select a beep from the list, default ONESHORTHI");
-            //}
-
             bool isCS4070 = false;
-            if (IsMotoConnectedWithScanners())
+            if (IsScannerConnected())
             {
                 foreach (var item in m_arScanners)
                 {
@@ -259,7 +213,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void PerformBtnSetReportClick(object sender, EventArgs e)
         {
-            if (!IsMotoConnectedWithScanners())
+            if (!IsScannerConnected())
             {
                 return;
             }
@@ -325,34 +279,96 @@ namespace Scanner_SDK_Sample_Application
             }
         }
 
-        private void PerformOnScannerEnable(object sender, EventArgs e)
+        private void PerformCDCSwitchModeClick(object sender, EventArgs e)
         {
-            if (IsMotoConnectedWithScanners())
+            try
             {
-                int opCode = DEVICE_SCAN_ENABLE;
-                string serialno = lstvScanners.SelectedItems[0].SubItems[5].Text;
-                if (chkScannerEnable.Checked)
+                string strHostMode = comboSCdcSHostMode.Text;
+                if ("USB-IBMHID" == strHostMode)
                 {
-                    opCode = DEVICE_SCAN_DISABLE;
-                    if (!scanrdisablelist.Contains(serialno))
-                    {
-                        scanrdisablelist.Add(lstvScanners.SelectedItems[0].SubItems[5].Text);//
-                    }
+                    strHostMode = "XUA-45001-1";
+                }
+                else if ("USB-IBMTT" == strHostMode)
+                {
+                    strHostMode = "XUA-45001-2";
+                }
+                else if ("USB-HIDKB" == strHostMode)
+                {
+                    strHostMode = "XUA-45001-3";
+                }
+                else if ("USB-OPOS" == strHostMode)
+                {
+                    strHostMode = "XUA-45001-8";
+                }
+                else if ("USB-SNAPI with Imaging" == strHostMode)
+                {
+                    strHostMode = "XUA-45001-9";
+                }
+                else if ("USB-SNAPI without Imaging" == strHostMode)
+                {
+                    strHostMode = "XUA-45001-10";
+                }
+                else if ("USB-CDC Serial Emulation" == strHostMode)
+                {
+                    strHostMode = "XUA-45001-11";
+                }
+                else if ("USB-SSI over CDC" == strHostMode)
+                {
+                    strHostMode = "XUA-45001-14";
                 }
 
-                string inXml = GetScannerIDXml();
+                string strSilentChange = chkSCdcSIsSilent.Checked ? "TRUE" : "FALSE";
+                string strPermChange = chkSCdcSIsPermanent.Checked ? "TRUE" : "FALSE";
+                string inXml = "<inArgs>" +
+                                    "<cmdArgs>" +
+                                    "<arg-string>" + strHostMode + "</arg-string>" +
+                                    "<arg-bool>" + strSilentChange + "</arg-bool>" +
+                                    "<arg-bool>" + strPermChange + "</arg-bool>" +
+                                    "</cmdArgs>" +
+                                "</inArgs>";
+                int opCode = SWITCH_CDC_DEVICES;
                 string outXml = "";
                 int status = STATUS_FALSE;
                 ExecCmd(opCode, ref inXml, out outXml, out status);
+                DisplayResult(status, "SWITCH_CDC_DEVICES");
+            }
+            catch
+            {
+                UpdateResults("");
+            }
+        }
+
+
+        private void OnEnableScanner()
+        {
+            if(IsScannerConnected())
+            {
+                int iOpcode = DEVICE_SCAN_ENABLE;
+                int status = STATUS_FALSE;
+                string strSerialNumber = lstvScanners.SelectedItems[0].SubItems[5].Text;
+                string inXml = GetScannerIDXml();
+                string outXml = "";
+                string strCmd = "SCAN_ENABLE";
+
+                ExecCmd(iOpcode, ref inXml, out outXml, out status);
+
+                DisplayResult(status, strCmd);
+            }
+        }
+
+        private void OnDisableScanner()
+        {
+            if(IsScannerConnected())
+            {
+                int iOpcode = DEVICE_SCAN_DISABLE;
+                int status = STATUS_FALSE;
+                string strSerialNumber = lstvScanners.SelectedItems[0].SubItems[5].Text;
+                string inXml = GetScannerIDXml();
+                string outXml = "";
                 string strCmd = "SCAN_DISABLE";
-                if (DEVICE_SCAN_ENABLE == opCode)
-                {
-                    strCmd = "SCAN_ENABLE";
-                    if (scanrdisablelist.Contains(serialno) && !chkScannerEnable.Checked)
-                    {
-                        scanrdisablelist.Remove(serialno);
-                    }
-                }
+
+                ExecCmd(iOpcode, ref inXml, out outXml, out status);
+
                 DisplayResult(status, strCmd);
             }
         }

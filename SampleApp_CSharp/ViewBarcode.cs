@@ -20,7 +20,7 @@ namespace Scanner_SDK_Sample_Application
         /// </summary>
         private void PerformBtnFlushMacroPdfClick(object sender, EventArgs e)
         {
-            if (IsMotoConnectedWithScanners())
+            if (IsScannerConnected())
             {
                 string inXml = GetScannerIDXml(), outXml = String.Empty;
                 int iOpCode = FLUSH_MACROPDF, iStatus = STATUS_FALSE;
@@ -35,7 +35,7 @@ namespace Scanner_SDK_Sample_Application
         /// </summary>
         private void PerformBtnAbortMacroPdfClick(object sender, EventArgs e)
         {
-            if (IsMotoConnectedWithScanners())
+            if (IsScannerConnected())
             {
                 string inXml = GetScannerIDXml(), outXml = String.Empty;
                 int iOpCode = ABORT_MACROPDF, iStatus = STATUS_FALSE;
@@ -280,6 +280,8 @@ namespace Scanner_SDK_Sample_Application
                     return "GRID MATRIX";
                 case ST_EPC_RAW:
                     return "EPC RAW";
+                case BT_UDI_CODE:
+                    return "UDI CODE";
                 default:
                     return "";
             }

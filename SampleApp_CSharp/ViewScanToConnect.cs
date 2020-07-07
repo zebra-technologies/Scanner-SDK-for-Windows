@@ -116,11 +116,11 @@ namespace Scanner_SDK_Sample_Application
 
                 inXml = "<inArgs>"
                              + " <cmdArgs>"
-                                + "<arg-int>3</arg-int>"  //number of parameters
+                                + "<arg-int>3</arg-int>" //number of parameters
                                 + "<arg-int>"
-                                + protocol + ","// Protocol
-                                + defaultOption + ","// Default Option
-                                + size + ","// Image Size
+                                + protocol + "," // Protocol
+                                + defaultOption + "," // Default Option
+                                + size + "," //Image Size
                                 + "</arg-int>"
                               + " </cmdArgs>"
                           + "</inArgs>";

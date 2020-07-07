@@ -129,27 +129,28 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Scanner Actions",IDC_STATIC,7,7,300,297
-    GROUPBOX        "Enable/Disable Scanner",IDC_STATIC,26,38,87,40
-    CONTROL         "Disable Scanner",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,56,67,10
-    GROUPBOX        "Reboot Scanner",IDC_STATIC,26,89,88,30
-    PUSHBUTTON      "Reboot",IDC_BUTTON1,44,100,50,14
-    GROUPBOX        "Aim",IDC_STATIC,121,38,169,40
-    PUSHBUTTON      "Aim On",IDC_BUTTON2,146,53,50,14
-    PUSHBUTTON      "Aim Off",IDC_BUTTON3,213,53,50,14
-    GROUPBOX        "Beeper",IDC_STATIC,121,90,169,61
-    GROUPBOX        "LED",IDC_STATIC,26,159,88,110
-    COMBOBOX        IDC_COMBO1,34,179,69,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "On",IDC_BUTTON4,32,212,31,14
-    PUSHBUTTON      "Off",IDC_BUTTON5,72,212,33,14
-    PUSHBUTTON      "Beep",IDC_BUTTON6,251,116,25,14
-    COMBOBOX        IDC_COMBO2,132,116,114,14,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "Switch Host Variant",IDC_STATIC,122,159,167,109
-    CONTROL         "Silent Switch Host",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,203,73,10
-    CONTROL         "Permanent Change",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,219,77,10
-    PUSHBUTTON      "Switch Host Mode",IDC_BUTTON12,168,241,75,14
-    COMBOBOX        IDC_COMBO_HOSTS,131,179,143,15,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "Disconnect BT Scanner",IDC_STATIC,26,122,88,35
-    PUSHBUTTON      "Disconnect",IDC_BUTTON_Disconnect,44,136,49,14
+    GROUPBOX        "Enable/Disable Scanner",IDC_STATIC,12,18,169,40
+    GROUPBOX        "Reboot Scanner",IDC_STATIC,189,18,109,40
+    PUSHBUTTON      "Reboot",IDC_BUTTON1,220,33,50,14
+    GROUPBOX        "Aim",IDC_STATIC,12,61,169,40
+    PUSHBUTTON      "Aim On",IDC_BUTTON2,36,75,50,14
+    PUSHBUTTON      "Aim Off",IDC_BUTTON3,108,75,50,14
+    GROUPBOX        "Beeper",IDC_STATIC,12,106,169,61
+    GROUPBOX        "LED",IDC_STATIC,189,106,109,61
+    COMBOBOX        IDC_COMBO1,197,123,93,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "On",IDC_BUTTON4,205,144,31,14
+    PUSHBUTTON      "Off",IDC_BUTTON5,245,144,33,14
+    PUSHBUTTON      "Beep",IDC_BUTTON6,147,132,25,14
+    COMBOBOX        IDC_COMBO2,28,132,114,14,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Switch Host Variant",IDC_STATIC,12,171,169,109
+    CONTROL         "Silent Switch Host",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,61,214,73,10
+    CONTROL         "Permanent Change",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,61,230,77,10
+    PUSHBUTTON      "Switch Host Mode",IDC_BUTTON12,61,252,75,14
+    COMBOBOX        IDC_COMBO_HOSTS,24,190,143,15,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Disconnect BT Scanner",IDC_STATIC,189,61,109,40
+    PUSHBUTTON      "Disconnect",IDC_BUTTON_Disconnect,220,75,49,14
+    PUSHBUTTON      "Enable",IDC_BUTTON_ENABLE,36,34,50,14
+    PUSHBUTTON      "Disable",IDC_BUTTON_DISABLE,108,33,50,14
 END
 
 IDD_XML DIALOGEX 0, 0, 316, 313
@@ -255,22 +256,28 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Miscellaneous Commands",IDC_STATIC,14,27,281,40
-    GROUPBOX        "Serial Interface Settings",IDC_STATIC,14,120,281,171
+    GROUPBOX        "Serial Interface Settings",IDC_STATIC,14,118,281,92
     PUSHBUTTON      "CoreScanner Version",IDC_BUTTON2,44,43,93,14
     PUSHBUTTON      "Get Device Topology",IDC_BUTTON3,167,43,94,14
-    PUSHBUTTON      "Set",IDC_BUTTON5,134,226,48,14
+    PUSHBUTTON      "Set",IDC_BUTTON5,135,187,48,14
     GROUPBOX        "Miscellaneous",IDC_STATIC,7,7,295,297
     GROUPBOX        "Command Mode",IDC_STATIC,14,76,281,33
     CONTROL         "Asynchronous",IDC_CHECK15,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,45,91,61,10
-    CONTROL         "Flow Control",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,62,199,72,11
-    COMBOBOX        IDC_COMBO1,61,173,90,14,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_COMBO3,195,172,90,14,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    RTEXT           "Baud Rate",IDC_STATIC,22,174,36,10
-    RTEXT           "Data Bits",IDC_STATIC,163,174,30,10
-    COMBOBOX        IDC_COMBO2,60,147,90,15,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_COMBO4,196,147,90,15,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Parity Bits",IDC_STATIC,26,149,33,10
-    RTEXT           "Stop Bits",IDC_STATIC,166,148,28,10
+    CONTROL         "Flow Control",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,62,188,72,11
+    COMBOBOX        IDC_COMBO1,61,162,90,14,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO3,195,161,90,14,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Baud Rate",IDC_STATIC,22,163,36,10
+    RTEXT           "Data Bits",IDC_STATIC,163,163,30,10
+    COMBOBOX        IDC_COMBO2,60,136,90,15,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO4,196,136,90,15,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Parity Bits",IDC_STATIC,26,138,33,10
+    RTEXT           "Stop Bits",IDC_STATIC,166,137,28,10
+    GROUPBOX        "CDC Switching",IDC_STATIC,15,220,279,71
+    LTEXT           "Host Mode",IDC_STATIC,25,241,35,8
+    COMBOBOX        IDC_COMBO5,62,239,114,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Is Silent",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,200,239,41,10
+    CONTROL         "Is Permanent",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,200,257,59,10
+    PUSHBUTTON      "Switch CDC Device",IDC_BUTTON1,83,260,79,14
 END
 
 IDD_Advanced DIALOGEX 0, 0, 314, 306
@@ -384,8 +391,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,5,1,0
- PRODUCTVERSION 3,5,1,0
+ FILEVERSION 3,5,4,0
+ PRODUCTVERSION 3,5,4,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x21L
@@ -403,12 +410,12 @@ BEGIN
             VALUE "Comments", "This is a MFC GUI application that can describe all functinalities in a Zebra Scanner by using CoreScanner service"
             VALUE "CompanyName", "Zebra Technologies"
             VALUE "FileDescription", "Scanner SDK (CoreScanner) Sample Application"
-            VALUE "FileVersion", "3.5.1.0"
+            VALUE "FileVersion", "3.5.4.0"
             VALUE "InternalName", "ScannerSDKSampleApp.exe"
             VALUE "LegalCopyright", "©2020 Zebra Technologies Corp. and/or its affiliates.  All rights reserved."
             VALUE "OriginalFilename", "ScannerSDKSampleApp.exe"
             VALUE "ProductName", "Scanner SDK Sample Application"
-            VALUE "ProductVersion", "3.5.1.0"
+            VALUE "ProductVersion", "3.5.4.0"
             VALUE "SpecialBuild", "Beta"
         END
     END
@@ -585,6 +592,16 @@ END
 //
 
 IDD_IntelDocCap AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_ScannerActions AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_Miscellaneous AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

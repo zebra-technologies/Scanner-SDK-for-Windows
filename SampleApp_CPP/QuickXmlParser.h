@@ -16,7 +16,7 @@ Limitations	: Has no fail-over for incorrectly formatted XML
 
 Author		: VRQW74
 
-Copyrights	: ©2016 Symbol Technologies LLC. All rights reserved.
+Copyrights	: ©2020 Zebra Technologies Corp. and/or its affiliates.
 
 Revisions	: 02 July 2010 - First design & implementation
 			  05 July 2010 - Added support depth-wise parsing to handle XML records

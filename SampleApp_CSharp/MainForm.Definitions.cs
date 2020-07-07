@@ -31,7 +31,7 @@ namespace Scanner_SDK_Sample_Application
         const int ST_UPCD = 0x14;
         const int ST_TRIOPTIC = 0x15;
         const int ST_BOOKLAND = 0x16;
-        const int ST_UPCA_W_CODE128 = 0x17;   // For UPC-A w/Code 128 Supplemental
+        const int ST_UPCA_W_CODE128 = 0x17; // For UPC-A w/Code 128 Supplemental
         const int ST_JAN13_W_CODE128 = 0x78; // For EAN/JAN-13 w/Code 128 Supplemental
         const int ST_NW7 = 0x18;
         const int ST_ISBT128 = 0x19;
@@ -115,6 +115,7 @@ namespace Scanner_SDK_Sample_Application
         const int BT_MAINMARK = 0xC3;
         const int BT_DOTCODE = 0xC4;
         const int BT_GRID_MATRIX = 0xC8;
+        const int BT_UDI_CODE = 0xCC;
         const int ST_EPC_RAW = 0xE0;
 
 
@@ -165,7 +166,8 @@ namespace Scanner_SDK_Sample_Application
         const int STATUS_SUCCESS = 0;
         const int STATUS_FALSE = 1;
         const int STATUS_LOCKED = 10;
-
+        const int ERROR_CDC_SCANNERS_NOT_FOUND = 150;
+        const int ERROR_UNABLE_TO_OPEN_CDC_COM_PORT = 151;
 
         // Barcode, Image & Video event types //
         const int SCANNER_DECODE_GOOD = 1;
@@ -196,38 +198,38 @@ namespace Scanner_SDK_Sample_Application
         //------FW------------------//
 
 
-        const int MAX_NUM_DEVICES = 255;/* Maximum number of scanners to be connected*/
+        const int MAX_NUM_DEVICES = 255; /* Maximum number of scanners to be connected*/
 
         const int MAX_BUFF_SIZE = 1024;
-        const int MAX_PARAM_LEN = 2;        /* Maximum number of bytes per parameter     */
-        const uint MAX_SERIALNO_LEN = 255;      /* Maximum number of bytes for serail number */
+        const int MAX_PARAM_LEN = 2; /* Maximum number of bytes per parameter     */
+        const uint MAX_SERIALNO_LEN = 255; /* Maximum number of bytes for serail number */
 
         const ushort PARAM_USE_HID = 1004;
         const ushort PARAM_USE_HID_OLD = 122;
         const ushort PARAM_CLEAR_MEMORY = 806;
-        const ushort IMAGE_FILETYPE_PARAMNUM = 0x0130;   /* These values may change with the scanner  */
-        const ushort BMP_FILE_SELECTION = 0x0003;   /* models. Please refer scanner PRGs for     */
-        const ushort TIFF_FILE_SELECTION = 0x0004;   /* more information on scanner parameters.   */
+        const ushort IMAGE_FILETYPE_PARAMNUM = 0x0130; /* These values may change with the scanner  */
+        const ushort BMP_FILE_SELECTION = 0x0003; /* models. Please refer scanner PRGs for     */
+        const ushort TIFF_FILE_SELECTION = 0x0004; /* more information on scanner parameters.   */
         const ushort JPEG_FILE_SELECTION = 0x0001;
         const ushort VIDEOVIEWFINDER_PARAMNUM = 0x0144;
-        const ushort VIDEOVIEWFINDER_ON = 0x0001;   /* Video view finder on                      */
-        const ushort VIDEOVIEWFINDER_OFF = 0x0000;   /* Video view finder off                     */
-        const int PARAM_PERSISTANCE_ON = 0x0001;   /* Parameters persistance on                 */
-        const int PARAM_PERSISTANCE_OFF = 0x0000;   /* Parameters persistance off                */
+        const ushort VIDEOVIEWFINDER_ON = 0x0001; /* Video view finder on */
+        const ushort VIDEOVIEWFINDER_OFF = 0x0000; /* Video view finder off */
+        const int PARAM_PERSISTANCE_ON = 0x0001; /* Parameters persistance on */
+        const int PARAM_PERSISTANCE_OFF = 0x0000; /* Parameters persistance off */
 
-        const int LED_1_ON = 43;   /* Green  LED On                            */
-        const int LED_2_ON = 45;   /* Yellow  LED On                           */
-        const int LED_3_ON = 47;   /* Red  LED On                              */
+        const int LED_1_ON = 43; /* Green  LED On */
+        const int LED_2_ON = 45; /* Yellow  LED On */
+        const int LED_3_ON = 47; /* Red  LED On */
 
-        const int LED_1_OFF = 42;   /* Green  LED Off                            */
-        const int LED_2_OFF = 46;   /* Yellow  LED Off                           */
-        const int LED_3_OFF = 48;   /* Red  LED Off                              */
+        const int LED_1_OFF = 42; /* Green  LED Off */
+        const int LED_2_OFF = 46; /* Yellow  LED Off */
+        const int LED_3_OFF = 48; /* Red  LED Off */
       
         //****** CORESCANNER PROTOCOL ******//
         const int GET_VERSION = 1000;
         const int REGISTER_FOR_EVENTS = 1001;
         const int UNREGISTER_FOR_EVENTS = 1002;
-        const int GET_PAIRING_BARCODE = 1005;	// Get  Blue tooth scanner pairing bar code
+        const int GET_PAIRING_BARCODE = 1005; // Get  Blue tooth scanner pairing bar code
         const int CLAIM_DEVICE = 1500;
         const int RELEASE_DEVICE = 1501;
         const int ABORT_MACROPDF = 2000;
@@ -268,9 +270,9 @@ namespace Scanner_SDK_Sample_Application
         const int ERASE_DECODE_TONE = 5051;
         const int SET_ACTION = 6000;
         
-        const int KEYBOARD_EMULATOR_ENABLE = 6300;//6300
-        const int KEYBOARD_EMULATOR_SET_LOCALE = 6301;	//6301
-        const int KEYBOARD_EMULATOR_GET_CONFIG = 6302;	//6302
+        const int KEYBOARD_EMULATOR_ENABLE = 6300; //6300
+        const int KEYBOARD_EMULATOR_SET_LOCALE = 6301; //6301
+        const int KEYBOARD_EMULATOR_GET_CONFIG = 6302; //6302
 
         const int CONFIGURE_DADF = 6400;
         const int RESET_DADF = 6401;
@@ -285,9 +287,9 @@ namespace Scanner_SDK_Sample_Application
         // USBHIDKB - end //
 
         //Scale Commands //
-	    const int SCALE_READ_WEIGHT     			= 0x1b58;	//7000
-	    const int SCALE_ZERO_SCALE					= 0X1B5A;	//7002
-	    const int SCALE_SYSTEM_RESET				= 0X1B67;	//7015
+        const int SCALE_READ_WEIGHT = 0x1b58; //7000
+	    const int SCALE_ZERO_SCALE = 0X1B5A; //7002
+	    const int SCALE_SYSTEM_RESET = 0X1B67; //7015
         //Scale Commands //
 
         //Wave file Buffer Size (Default File Size is 10KB)//
@@ -458,6 +460,8 @@ namespace Scanner_SDK_Sample_Application
             MailMark = 195,
             ///<summary>symbology</summary>
             DotCode = 196,
+            ///<summary>symbology</summary>
+            UDICode = 204,
             ///<summary>The no-decode symbol</summary>
             NoDecode = 255,
         }

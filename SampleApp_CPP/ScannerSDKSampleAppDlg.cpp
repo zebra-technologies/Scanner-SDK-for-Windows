@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-* ©2016 Symbol Technologies LLC. All rights reserved.
+* ©2020 Zebra Technologies Corp. and/or its affiliates.
 *
 ********************************************************************************************/
 #include "stdafx.h"
@@ -770,11 +770,9 @@ void CScannerSDKSampleAppDlg::OnListItemchanged(NMHDR *pNMHDR, LRESULT *pResult)
 		GetTabManager().GetTabDlg<CImageVideoDlg>().SetScannerID(&SelectedScannerID);
 		GetTabManager().GetTabDlg<CScaleDlg>().SetScannerID(&SelectedScannerID);
 		GetTabManager().GetTabDlg<CIntelDocCap>().SetScannerID(&SelectedScannerID);
-
 		GetTabManager().GetTabDlg<CConfigurationDlg>().UpdateClaimedStatus(scnID);
-	    GetTabManager().GetTabDlg<CScannerActionDlg>().UpdateScannerDisabledStatus(scnID);
 
-		SCANNER* p = GetScannerInfo(SelectedScannerID);
+		/*SCANNER* p = GetScannerInfo(SelectedScannerID);
 		if(p->HostMode == MODE_SNAPI_IMG || p->HostMode == MODE_SSI|| p->HostMode == MODE_SSI_BT)
 		{
 			btnPullTri.EnableWindow(1);
@@ -786,7 +784,7 @@ void CScannerSDKSampleAppDlg::OnListItemchanged(NMHDR *pNMHDR, LRESULT *pResult)
 			btnPullTri.EnableWindow(0);
 			btnRelTri.EnableWindow(0);
 			GetTabManager().GetTabDlg<CImageVideoDlg>().SetAbortFirmwareState(0);
-		}
+		}*/
 	}
 	*pResult = 0;
 }
@@ -794,8 +792,6 @@ void CScannerSDKSampleAppDlg::OnListItemchanged(NMHDR *pNMHDR, LRESULT *pResult)
 
 void CScannerSDKSampleAppDlg::UpdateScannerClaimedStatus()
 {
-  
-	
 	CList<int,int> tempLst;
  	POSITION pos = m_ClaimedScannerList.GetHeadPosition();
     while(pos != NULL)
@@ -811,18 +807,17 @@ void CScannerSDKSampleAppDlg::UpdateScannerClaimedStatus()
 		if (!ScannerListContains(ID))
 		{
 			 POSITION loc=m_ClaimedScannerList.Find(ID);
-		     if (loc!=NULL)
-			    m_ClaimedScannerList.RemoveAt(loc);
+			 if (loc != NULL)
+			 {
+				 m_ClaimedScannerList.RemoveAt(loc);
+			 }
 		}
 	}	
-
 }
 
 
 void CScannerSDKSampleAppDlg::UpdateDisabledScannerStatus()
 {
-  
-	
 	CList<int,int> tempLst;
  	POSITION pos = m_DisabledScannerList.GetHeadPosition();
     while(pos != NULL)
@@ -842,12 +837,10 @@ void CScannerSDKSampleAppDlg::UpdateDisabledScannerStatus()
 			    m_DisabledScannerList.RemoveAt(loc);
 		}
 	}	
-
 }
 
 bool CScannerSDKSampleAppDlg::ScannerListContains(int scnID)
 {
-  
 	SCANNER sc;
 	int ID;
 
@@ -855,11 +848,12 @@ bool CScannerSDKSampleAppDlg::ScannerListContains(int scnID)
 	while(pos != NULL)
 	{
 		m_ScannerMap.GetNextAssoc(pos, ID, sc);
-		if (ID==scnID)
+		if (ID == scnID)
+		{
 			return true;
+		}
 	}
 	return false;
-
 }
 
 void CScannerSDKSampleAppDlg::SetCommandMode(int Async)
@@ -880,7 +874,11 @@ void CScannerSDKSampleAppDlg::SetCommandMode(int Async)
 
 void CScannerSDKSampleAppDlg::OnPullTrigger()
 {
-	if(m_ScannerCommands == 0) return;
+	if (m_ScannerCommands == 0)
+	{
+		return;
+	}
+	
 	long status =1;
 	m_ScannerCommands->cmdPullTrigger(SelectedScannerID,Async,&status);
 	LOG(status, "PULL_TRIGGER");
@@ -888,7 +886,11 @@ void CScannerSDKSampleAppDlg::OnPullTrigger()
 
 void CScannerSDKSampleAppDlg::OnReleaseTrigger()
 {
-	if(m_ScannerCommands == 0) return;
+	if (m_ScannerCommands == 0)
+	{
+		return;
+	}
+	
 	long status =1;
 	m_ScannerCommands->cmdReleaseTrigger(SelectedScannerID,Async,&status);
 	LOG(status, "RELEASE_TRIGGER");
@@ -897,8 +899,10 @@ void CScannerSDKSampleAppDlg::OnReleaseTrigger()
 HBRUSH CScannerSDKSampleAppDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
-	if(!m_brush.m_hObject)
+	if (!m_brush.m_hObject)
+	{
 		m_brush.CreateSolidBrush(RGB(233, 238, 239));
+	}
 
 	SetLabelBkg(pDC, pWnd, IDC_EDIT1);
 	SetLabelBkg(pDC, pWnd, IDC_EDIT2);
@@ -924,14 +928,11 @@ void CScannerSDKSampleAppDlg::OnSelectChangeScannerCombo()
 	}
 
 	GetTabManager().GetTabDlg<CConfigurationDlg>().UpdateClaimedStatus(ID);
-    GetTabManager().GetTabDlg<CScannerActionDlg>().UpdateScannerDisabledStatus(ID);
-
 }
 
 void CScannerSDKSampleAppDlg::OnOK()
 {
 }
-
 
 void CScannerSDKSampleAppDlg::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 {

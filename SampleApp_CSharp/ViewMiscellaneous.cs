@@ -73,14 +73,14 @@ namespace Scanner_SDK_Sample_Application
             string data_bits = comboDataBits.SelectedItem.ToString();
             inXml = "<inArgs>" + GetOnlyScannerIDXml()
                          + " <cmdArgs>"
-                            + "<arg-int>5</arg-int>"  //number of parameters
+                            + "<arg-int>5</arg-int>" //number of parameters
                             + "<arg-int>"
-                            + baud_rate + ","// <!-- Baud Rrate-->"
-                            + data_bits + ","// <!-- data_bits -->";
-                            + parity_bit + ","// <!-- parity -->";
-                            + stop_bit + ","// <!-- stop_bit -->";
+                            + baud_rate + "," // <!-- Baud Rrate-->"
+                            + data_bits + "," // <!-- data_bits -->";
+                            + parity_bit + "," // <!-- parity -->";
+                            + stop_bit + "," // <!-- stop_bit -->";
                             + flow_ctrl
-                            + "</arg-int>"// <!-- flow_control -->";
+                            + "</arg-int>" // <!-- flow_control -->";
                           + " </cmdArgs>"
                       + "</inArgs>";
 

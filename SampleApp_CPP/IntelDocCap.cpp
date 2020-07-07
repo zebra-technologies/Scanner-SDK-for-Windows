@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-* ©2016 Symbol Technologies LLC. All rights reserved.
+* ©2020 Zebra Technologies Corp. and/or its affiliates.
 *
 ********************************************************************************************/
 // IntelDocCap.cpp : implementation file
@@ -420,6 +420,7 @@ void CIntelDocCap::OnBnClickedButtonIdcClear()
 	m_RenderEngine.ClearImage();
 	m_edit_DecodData.SetWindowText(L"");
 	m_edit_DocCapBarcodeSymbology.SetWindowText(L"");
+	ClearImageCache();
 }
 
 void CIntelDocCap::OnBnClickedCheckUseHid()
