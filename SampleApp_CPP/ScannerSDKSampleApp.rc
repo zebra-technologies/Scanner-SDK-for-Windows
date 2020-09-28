@@ -151,6 +151,10 @@ BEGIN
     PUSHBUTTON      "Disconnect",IDC_BUTTON_Disconnect,220,75,49,14
     PUSHBUTTON      "Enable",IDC_BUTTON_ENABLE,36,34,50,14
     PUSHBUTTON      "Disable",IDC_BUTTON_DISABLE,108,33,50,14
+    GROUPBOX        "Pager Motor",IDC_STATIC,190,175,108,104
+    PUSHBUTTON      "Start",IDC_BUTTON7,215,190,50,14
+    LTEXT           "Duration (10 ms) :",IDC_STATIC,213,215,75,8
+    EDITTEXT        IDC_EDIT2,215,230,49,14,ES_AUTOHSCROLL
 END
 
 IDD_XML DIALOGEX 0, 0, 316, 313
@@ -391,8 +395,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,5,4,0
- PRODUCTVERSION 3,5,4,0
+ FILEVERSION 3,6,1,0
+ PRODUCTVERSION 3,6,1,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x21L
@@ -410,12 +414,12 @@ BEGIN
             VALUE "Comments", "This is a MFC GUI application that can describe all functinalities in a Zebra Scanner by using CoreScanner service"
             VALUE "CompanyName", "Zebra Technologies"
             VALUE "FileDescription", "Scanner SDK (CoreScanner) Sample Application"
-            VALUE "FileVersion", "3.5.4.0"
+            VALUE "FileVersion", "3.6.1.0"
             VALUE "InternalName", "ScannerSDKSampleApp.exe"
             VALUE "LegalCopyright", "©2020 Zebra Technologies Corp. and/or its affiliates.  All rights reserved."
             VALUE "OriginalFilename", "ScannerSDKSampleApp.exe"
             VALUE "ProductName", "Scanner SDK Sample Application"
-            VALUE "ProductVersion", "3.5.4.0"
+            VALUE "ProductVersion", "3.6.1.0"
             VALUE "SpecialBuild", "Beta"
         END
     END

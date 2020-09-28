@@ -130,7 +130,7 @@ void CScanToConnectDlg::SetAsync(int *ParaA)
 void CScanToConnectDlg::OnParameterBarcode(LPBYTE MediaBuffer, LONG BufferSize)
 {
 	ClearImageCache();
-	m_ImageData.ImageData = new BYTE[BufferSize + 2];
+	m_ImageData.ImageData = new BYTE[BufferSize + (std::size_t) 2];
 	memcpy(m_ImageData.ImageData, MediaBuffer, BufferSize);
 	m_ImageData.ImageSize = BufferSize;
 
@@ -169,7 +169,7 @@ void CScanToConnectDlg::RequestPairingBarcode()
 		}
 		else
 		{
-			if(m_cmbHostName.GetItemData(m_cmbHostName.GetCurSel()) == PAIRE_BC_HOST_SSI_BT)
+			if( m_cmbHostName.GetItemData(m_cmbHostName.GetCurSel()) == PAIRE_BC_HOST_SSI_BT)
 			{
 				protocol = 22;
 			}
@@ -177,7 +177,7 @@ void CScanToConnectDlg::RequestPairingBarcode()
 	}
 
 
-	SC->cmdGetBluetoothPairingBarcode(SelectedScannerID, Async, &status, protocol, m_cmbDefaultOption.GetItemData(m_cmbDefaultOption.GetCurSel()), m_cmbImageSize.GetItemData(m_cmbImageSize.GetCurSel()), L"");
+	SC->cmdGetBluetoothPairingBarcode(SelectedScannerID, Async, &status, protocol,(int) m_cmbDefaultOption.GetItemData(m_cmbDefaultOption.GetCurSel()),(int) m_cmbImageSize.GetItemData(m_cmbImageSize.GetCurSel()), L"");
 	LOG(status, "GET_PAIRING_BARCODE");
 }
 

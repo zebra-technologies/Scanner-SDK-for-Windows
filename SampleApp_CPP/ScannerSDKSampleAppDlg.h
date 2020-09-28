@@ -31,7 +31,7 @@ enum HostMode
 typedef struct _SCANNER
 {
 	CString Type;
-	int ID;
+	int ID{ -1 };
 	CString Model;
 	CString Serial;
 	CString GUID;
@@ -39,7 +39,7 @@ typedef struct _SCANNER
 	CString PID;
 	CString DoM;
 	CString Firmware;
-	int HostMode;
+	int HostMode{ -2 };
 
 } SCANNER, *PSCANNER;
 
@@ -131,7 +131,7 @@ private:
 	class CScannerCommands *m_ScannerCommands;
 	HICON m_hIcon;
 	wstring SelectedScannerID;
-	int Async;
+	int Async{ 0 };
 
 	ScannerMap		m_ScannerMap;	//Populated by During PNP Attach/Detach and a forced discovery via command interface.
 public:

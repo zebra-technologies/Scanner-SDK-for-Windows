@@ -647,18 +647,19 @@ namespace Scanner_SDK_Sample_Application
             this.data = rawData;
             this.format = 0x00;
         }
-        private byte[] data;
-        private byte flags;
-        private byte format;
-        private int height;
-        private int size;
-        private int widh;
+        private byte[] data=default;
+        private byte flags = default;
+        private byte format = default;
+        private int height = default;
+        private int size = default;
+        private int widh = default;
 
         public byte[] Data
         {
             get { return data; }
         }
-        public byte Flags { get { return flags; } }
+        public byte Flags
+        { get { return flags; } }
         public byte Format { get { return format; } }
         public int Height { get { return height; } }
         public int Size { get { return size; } }

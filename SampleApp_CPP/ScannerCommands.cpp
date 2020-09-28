@@ -541,6 +541,21 @@ long CScannerCommands::cmdSetSerialInterface(wstring ScannerID, wstring BaudSett
     return Execute(DEVICE_SET_SERIAL_PORT_SETTINGS, &input, &outXml, 0, Status);
 }
 
+long CScannerCommands::cmdPagerMotor(wstring ScannerID, wstring duration, int Async, long *Status)
+{
+    BSTR outXml;
+    wstring inXml = L"<inArgs><scannerID>";
+    inXml.append(ScannerID);
+    inXml.append(L"</scannerID><cmdArgs><arg-xml><attrib_list><attribute><id>");
+    inXml.append(to_wstring( PAGER_MOTOR_ACTION));
+    inXml.append(L"</id><datatype>X</datatype><value>");
+    inXml.append(duration);
+    inXml.append(L"</value></attribute></attrib_list></arg-xml></cmdArgs></inArgs>");
+
+    CComBSTR input = inXml.c_str();
+
+    return Execute(RSM_ATTR_SET, &input, &outXml, Async, Status);
+}
 
 long CScannerCommands::cmdBeep(wstring ScannerID,wstring BeepCode,int Async,long *Status)
 {
@@ -587,8 +602,9 @@ long CScannerCommands::cmdLED(wstring ScannerID,wstring LED,int Async,long *Stat
         else
         {
             return Execute(SET_ACTION, &input, &outXml, Async, Status);
-        }
+        }      
     }
+    return S_FALSE;
 }
 
 long CScannerCommands::cmdLEDOff(wstring ScannerID,wstring LED,int Async,long *Status,SCANNER* p)
@@ -600,18 +616,19 @@ long CScannerCommands::cmdLEDOff(wstring ScannerID,wstring LED,int Async,long *S
     inXml.append(L"</scannerID><cmdArgs><arg-int>");
     inXml.append(LED);
     inXml.append(L"</arg-int></cmdArgs></inArgs>");
-    CComBSTR input = inXml.c_str();
+    CComBSTR input = inXml.c_str();    
     if(NULL != p)
     {
         if(p->Model.Left(6).Compare(L"PL3300")==0)
         {
-            return Execute(DEVICE_LED_OFF, &input, &outXml, Async, Status);
+            return Execute(DEVICE_LED_OFF, &input, &outXml, Async, Status);            
         }
         else
         {
-            return Execute(SET_ACTION, &input, &outXml, Async, Status);
+            return Execute(SET_ACTION, &input, &outXml, Async, Status);            
         }
     }
+    return S_FALSE;    
 }
 
 long CScannerCommands::cmdRegisterEvents(int nEvents,wstring strEventsIDs,long *Status)

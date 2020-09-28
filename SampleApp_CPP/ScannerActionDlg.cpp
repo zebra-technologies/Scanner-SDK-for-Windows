@@ -8,6 +8,8 @@
 #include "ScannerActionDlg.h"
 #include "LogsDlg.h"
 #include "ScannerHostTypes.h"
+#include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -33,6 +35,7 @@ void CScannerActionDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CHECK4, chkPermanantChange);
     DDX_Control(pDX, IDC_BUTTON_ENABLE, m_btnScannerEnable);
     DDX_Control(pDX, IDC_BUTTON_DISABLE, m_btnScannerDisable);
+    DDX_Control(pDX, IDC_EDIT2, m_editPMDuration);
 }
 
 BEGIN_MESSAGE_MAP(CScannerActionDlg, CDialog)
@@ -47,6 +50,7 @@ BEGIN_MESSAGE_MAP(CScannerActionDlg, CDialog)
     ON_BN_CLICKED(IDC_BUTTON_ENABLE, &CScannerActionDlg::OnEnableScanner)
     ON_BN_CLICKED(IDC_BUTTON_DISABLE, &CScannerActionDlg::OnDisableScanner)
     ON_WM_CTLCOLOR()
+    ON_BN_CLICKED(IDC_BUTTON7, &CScannerActionDlg::OnPagerMotor)
 END_MESSAGE_MAP()
 
 void CScannerActionDlg::OnReboot()
@@ -74,6 +78,11 @@ void CScannerActionDlg::InitLEDCombo()
     CmbLED.SetItemData(CmbLED.AddString(L"YELLOW"), 2);
     CmbLED.SetItemData(CmbLED.AddString(L"RED"), 4);
     CmbLED.SetCurSel(0);
+}
+
+void CScannerActionDlg::InitPagerMotor()
+{
+    m_editPMDuration.SetWindowText((LPCTSTR)defaultVibrationDuration.c_str());
 }
 
 void CScannerActionDlg::InitBeepList()
@@ -203,6 +212,7 @@ BOOL CScannerActionDlg::OnInitDialog()
 {
     CDialog::OnInitDialog();
     InitLEDCombo();
+    InitPagerMotor();
     InitBeepList();
     InitHostCombo(MODE_ALL);
     return TRUE;  
@@ -247,4 +257,38 @@ void CScannerActionDlg::OnSwitchHostMode()
         SC->cmdSwitchHostMode(SelectedScannerID, ReqHostType, strSilentSwitch, strPermChange, Async, &status);
         LOG(status, "DEVICE_SWITCH_HOST_MODE");
     }
+}
+
+bool CScannerActionDlg::IsDigit(const std::string str)
+{
+    return str.find_first_not_of("0123456789") == std::string::npos;
+}
+
+void CScannerActionDlg::OnPagerMotor()
+{
+    CHECK_CMD0;
+    
+    CString dValue;
+    wstring pagerMotorDuration;
+    
+    m_editPMDuration.GetWindowTextW(dValue);
+    if (dValue == "") {
+        dValue = "0";
+        m_editPMDuration.SetWindowTextW((LPCTSTR) L"0");
+    }
+    CT2CA pszConvertedAnsiString(dValue);
+    std::string s(pszConvertedAnsiString);
+
+    if (CScannerActionDlg::IsDigit(s)) {
+        pagerMotorDuration = (LPCTSTR)dValue;
+
+        long status = -1;
+        SC->cmdPagerMotor(SelectedScannerID, pagerMotorDuration, Async, &status);
+        LOG(status, "START_PAGER_MOTOR");
+    }
+    else {
+        LOG(-1, "Please enter a numeric value for pager motor duration");
+    }
+    
+
 }

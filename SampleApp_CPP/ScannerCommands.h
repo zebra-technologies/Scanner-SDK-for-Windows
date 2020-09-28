@@ -41,6 +41,7 @@ public:
     long cmdGet(wstring,wstring,BSTR * outXml,int,long *Status);
     long cmdExecute(DWORD nCmdID,wstring,BSTR * outXml,int,long *Status);
     long cmdBeep(wstring,wstring,int,long *Status);
+    long cmdPagerMotor(wstring, wstring, int, long *Status);
     long cmdRegisterEvents(int,wstring,long *Status);
     long cmdUnRegisterEvents(int,wstring,long *Status);
     long cmdSet(wstring,wstring,int,long *Status);

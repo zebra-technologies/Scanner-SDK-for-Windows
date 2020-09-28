@@ -89,6 +89,10 @@ namespace Scanner_SDK_Sample_Application
             this.txtDocCapDecodeData = new System.Windows.Forms.TextBox();
             this.tabScnAction = new System.Windows.Forms.TabPage();
             this.grpScnActions = new System.Windows.Forms.GroupBox();
+            this.grpPagerMotor = new System.Windows.Forms.GroupBox();
+            this.lblPagerMotorTimeout = new System.Windows.Forms.Label();
+            this.txtPagerMotorDuration = new System.Windows.Forms.TextBox();
+            this.btnEnablePagerMotor = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnDisconnect = new System.Windows.Forms.Button();
             this.grpHVS = new System.Windows.Forms.GroupBox();
@@ -273,6 +277,7 @@ namespace Scanner_SDK_Sample_Application
             this.groupBox2.SuspendLayout();
             this.tabScnAction.SuspendLayout();
             this.grpScnActions.SuspendLayout();
+            this.grpPagerMotor.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.grpHVS.SuspendLayout();
             this.grpReboot.SuspendLayout();
@@ -442,6 +447,7 @@ namespace Scanner_SDK_Sample_Application
             this.txtBarcode.Multiline = true;
             this.txtBarcode.Name = "txtBarcode";
             this.txtBarcode.ReadOnly = true;
+            this.txtBarcode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtBarcode.Size = new System.Drawing.Size(468, 248);
             this.txtBarcode.TabIndex = 0;
             // 
@@ -895,6 +901,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // grpScnActions
             // 
+            this.grpScnActions.Controls.Add(this.grpPagerMotor);
             this.grpScnActions.Controls.Add(this.groupBox4);
             this.grpScnActions.Controls.Add(this.grpHVS);
             this.grpScnActions.Controls.Add(this.grpReboot);
@@ -908,12 +915,52 @@ namespace Scanner_SDK_Sample_Application
             this.grpScnActions.TabIndex = 41;
             this.grpScnActions.TabStop = false;
             // 
+            // grpPagerMotor
+            // 
+            this.grpPagerMotor.Controls.Add(this.lblPagerMotorTimeout);
+            this.grpPagerMotor.Controls.Add(this.txtPagerMotorDuration);
+            this.grpPagerMotor.Controls.Add(this.btnEnablePagerMotor);
+            this.grpPagerMotor.Location = new System.Drawing.Point(306, 267);
+            this.grpPagerMotor.Name = "grpPagerMotor";
+            this.grpPagerMotor.Size = new System.Drawing.Size(177, 175);
+            this.grpPagerMotor.TabIndex = 7;
+            this.grpPagerMotor.TabStop = false;
+            this.grpPagerMotor.Text = "Pager Motor";
+            // 
+            // lblPagerMotorTimeout
+            // 
+            this.lblPagerMotorTimeout.AutoSize = true;
+            this.lblPagerMotorTimeout.Location = new System.Drawing.Point(20, 76);
+            this.lblPagerMotorTimeout.Name = "lblPagerMotorTimeout";
+            this.lblPagerMotorTimeout.Size = new System.Drawing.Size(84, 13);
+            this.lblPagerMotorTimeout.TabIndex = 2;
+            this.lblPagerMotorTimeout.Text = "Duration (10 ms)";
+            // 
+            // txtPagerMotorDuration
+            // 
+            this.txtPagerMotorDuration.Location = new System.Drawing.Point(20, 95);
+            this.txtPagerMotorDuration.Name = "txtPagerMotorDuration";
+            this.txtPagerMotorDuration.Size = new System.Drawing.Size(127, 20);
+            this.txtPagerMotorDuration.TabIndex = 1;
+            this.txtPagerMotorDuration.Text = "10";
+            // 
+            // btnEnablePagerMotor
+            // 
+            this.btnEnablePagerMotor.Location = new System.Drawing.Point(20, 33);
+            this.btnEnablePagerMotor.Name = "btnEnablePagerMotor";
+            this.btnEnablePagerMotor.Size = new System.Drawing.Size(127, 23);
+            this.btnEnablePagerMotor.TabIndex = 0;
+            this.btnEnablePagerMotor.Text = "Start";
+            this.btnEnablePagerMotor.UseVisualStyleBackColor = true;
+            this.btnEnablePagerMotor.Click += new System.EventHandler(this.btnEnablePageMotor_Click);
+            this.txtPagerMotorDuration.KeyPress += TxtPagerMotorDuration_KeyPress;
+            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.btnDisconnect);
             this.groupBox4.Location = new System.Drawing.Point(306, 85);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(157, 58);
+            this.groupBox4.Size = new System.Drawing.Size(177, 58);
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Disconnect BT Scanner";
@@ -987,7 +1034,7 @@ namespace Scanner_SDK_Sample_Application
             this.grpReboot.Controls.Add(this.btnRebootScanner);
             this.grpReboot.Location = new System.Drawing.Point(305, 19);
             this.grpReboot.Name = "grpReboot";
-            this.grpReboot.Size = new System.Drawing.Size(158, 58);
+            this.grpReboot.Size = new System.Drawing.Size(178, 58);
             this.grpReboot.TabIndex = 2;
             this.grpReboot.TabStop = false;
             this.grpReboot.Text = "Reboot Scanner";
@@ -1101,7 +1148,7 @@ namespace Scanner_SDK_Sample_Application
             this.grpLed.Controls.Add(this.btnLedOn);
             this.grpLed.Location = new System.Drawing.Point(306, 149);
             this.grpLed.Name = "grpLed";
-            this.grpLed.Size = new System.Drawing.Size(161, 111);
+            this.grpLed.Size = new System.Drawing.Size(177, 111);
             this.grpLed.TabIndex = 4;
             this.grpLed.TabStop = false;
             this.grpLed.Text = "LED";
@@ -1116,12 +1163,12 @@ namespace Scanner_SDK_Sample_Application
             "RED"});
             this.cmbLed.Location = new System.Drawing.Point(20, 30);
             this.cmbLed.Name = "cmbLed";
-            this.cmbLed.Size = new System.Drawing.Size(113, 21);
+            this.cmbLed.Size = new System.Drawing.Size(127, 21);
             this.cmbLed.TabIndex = 0;
             // 
             // btnLedOff
             // 
-            this.btnLedOff.Location = new System.Drawing.Point(80, 70);
+            this.btnLedOff.Location = new System.Drawing.Point(93, 70);
             this.btnLedOff.Name = "btnLedOff";
             this.btnLedOff.Size = new System.Drawing.Size(54, 23);
             this.btnLedOff.TabIndex = 2;
@@ -2801,6 +2848,8 @@ namespace Scanner_SDK_Sample_Application
             this.groupBox2.PerformLayout();
             this.tabScnAction.ResumeLayout(false);
             this.grpScnActions.ResumeLayout(false);
+            this.grpPagerMotor.ResumeLayout(false);
+            this.grpPagerMotor.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.grpHVS.ResumeLayout(false);
             this.grpHVS.PerformLayout();
@@ -2857,6 +2906,18 @@ namespace Scanner_SDK_Sample_Application
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+
+        /// <summary>
+        /// This method allows only digits to be entered as pager motor duration
+        /// Sends DEVICE_PAGE_MOTOR_CONTROL
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TxtPagerMotorDuration_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            PerformPagerMotorTxtKeyPress(sender, e);
         }
 
         #endregion
@@ -3081,6 +3142,10 @@ namespace Scanner_SDK_Sample_Application
         private System.Windows.Forms.CheckBox chkSCdcSIsSilent;
         private System.Windows.Forms.ComboBox comboSCdcSHostMode;
         private System.Windows.Forms.Label lblSCdcSHostMode;
+        private System.Windows.Forms.GroupBox grpPagerMotor;
+        private System.Windows.Forms.Button btnEnablePagerMotor;
+        private System.Windows.Forms.Label lblPagerMotorTimeout;
+        private System.Windows.Forms.TextBox txtPagerMotorDuration;
     }
 }
 

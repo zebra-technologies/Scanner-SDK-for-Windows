@@ -1226,16 +1226,12 @@ namespace Scanner_SDK_Sample_Application
                     cmbMode.Items.Add("USB-IBMTT");
                 }
                 cmbMode.SelectedIndex = 0;
-                if (scnrMode.CompareTo("SNAPI") == 0 || scnrMode.CompareTo("SSI") == 0 || scnrMode.CompareTo("SSI_BT") == 0)
-                {
-                    btnPullTrigger.Enabled = true;
-                    btnReleaseTrigger.Enabled = true;
+                if (scnrMode.CompareTo("SNAPI") == 0 || scnrMode.CompareTo("SSI") == 0 || scnrMode.CompareTo("SSI_BT") == 0 )
+                {                    
                     btnAbortImageXfer.Enabled = true;
                 }
                 else
                 {
-                    btnPullTrigger.Enabled = false;
-                    btnReleaseTrigger.Enabled = false;
                     btnAbortImageXfer.Enabled = false;
                 }
             }
@@ -2276,7 +2272,6 @@ namespace Scanner_SDK_Sample_Application
             if (textBoxWavFile.Text != "")
             {
                 int opcode = UPDATE_DECODE_TONE;
-                string outXML; // XML Output
                 string inXML = "<inArgs>" +
                              GetOnlyScannerIDXml() +
                              "<cmdArgs>" +
@@ -2294,7 +2289,6 @@ namespace Scanner_SDK_Sample_Application
         private void btnEraseTone_Click(object sender, EventArgs e)
         {
             int opcode = ERASE_DECODE_TONE;
-            string outXML; // XML Output
             string inXML = GetScannerIDXml();
 
             string outXml = "";
@@ -2360,5 +2354,18 @@ namespace Scanner_SDK_Sample_Application
         {
             PerformCDCSwitchModeClick(sender, e);
         }
-    }
+
+
+        /// <summary>
+        /// Sends DEVICE_PAGE_MOTOR_CONTROL
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnEnablePageMotor_Click(object sender, EventArgs e)
+        {
+            PerformPagerMotorEableClick(sender, e);
+        }
+
+        
+    } 
 }

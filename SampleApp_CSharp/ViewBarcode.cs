@@ -377,6 +377,7 @@ namespace Scanner_SDK_Sample_Application
             }
             catch (Exception e)
             {
+                UpdateResults("Failed to scan data  "+e.Message);
             }
         }
 

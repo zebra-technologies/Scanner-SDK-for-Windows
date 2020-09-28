@@ -100,7 +100,7 @@ void CIntelDocCap::OnBinaryDataEventCapture(LPBYTE MediaBuffer,LONG BufferSize, 
 	if(DataFormat == ST_SIGNATURE_CAPTURE)
 	{
 		ClearImageCache();
-		m_ImageData.ImageData = new BYTE[BufferSize + 2];
+		m_ImageData.ImageData = new BYTE[BufferSize + (std::size_t)2];
 		memcpy(m_ImageData.ImageData, &MediaBuffer[6], BufferSize);
 		m_ImageData.ImageSize = BufferSize;
 
@@ -126,7 +126,8 @@ void CIntelDocCap::OnBinaryDataEventCapture(LPBYTE MediaBuffer,LONG BufferSize, 
 			case 3:
 				{
 					ClearImageCache();
-					m_ImageData.ImageData = new BYTE[pDataFormat->ImageData.bImageDataLen + 2];
+					std::size_t image_data_array_size = pDataFormat->ImageData.bImageDataLen + (std::size_t)2;
+					m_ImageData.ImageData = new BYTE[image_data_array_size];
 					memcpy(m_ImageData.ImageData, pDataFormat->ImageData.pbImageData, pDataFormat->ImageData.bImageDataLen);
 					m_ImageData.ImageSize = pDataFormat->ImageData.bImageDataLen;
 

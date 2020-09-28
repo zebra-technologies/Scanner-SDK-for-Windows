@@ -108,12 +108,12 @@ public:
 
 private: 
 
-	bool m_State;
+	bool m_State{ true };
 	HGLOBAL m_hGlobal;
-	ULONG_PTR m_gdiplusToken;
-	IStream *m_pStrm;
+	ULONG_PTR m_gdiplusToken ;
+	IStream *m_pStrm ;
 	CRect m_rcStatic;
-	Graphics *m_pGraphics;
+	Graphics* m_pGraphics{ 0 };
 	LARGE_INTEGER m_LargeInt;
 
 };

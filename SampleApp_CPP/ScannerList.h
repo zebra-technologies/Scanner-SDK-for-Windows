@@ -66,7 +66,8 @@ public:
 		UINT i;
 		if (u > 0)
 		{
-			SelIndicesArray = new int[u + 1];
+			std::size_t indices_array_size = u + (std::size_t)1;
+			SelIndicesArray = new int[indices_array_size];
 			for (i = 0; i < u; i++)
 			{
 				nItem = GetNextItem(nItem, LVNI_SELECTED);

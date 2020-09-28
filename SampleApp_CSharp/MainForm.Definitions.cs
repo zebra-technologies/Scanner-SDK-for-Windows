@@ -269,6 +269,8 @@ namespace Scanner_SDK_Sample_Application
         const int UPDATE_DECODE_TONE = 5050;
         const int ERASE_DECODE_TONE = 5051;
         const int SET_ACTION = 6000;
+
+        const int PAGER_MOTOR_ACTION = 6033;
         
         const int KEYBOARD_EMULATOR_ENABLE = 6300; //6300
         const int KEYBOARD_EMULATOR_SET_LOCALE = 6301; //6301

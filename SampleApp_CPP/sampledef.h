@@ -80,6 +80,7 @@ typedef enum
     SET_ACTION                          = 0x1770,   //6000
     DEVICE_SWITCH_HOST_MODE             = 0x1838,   //6200
     SWITCH_CDC_DEVICES                  = 0x1839,   //6201
+    PAGER_MOTOR_ACTION                  = 0x1791,   //6033
     
     //HID keyboard emulator opcodes
     KEYBOARD_EMULATOR_ENABLE            = 0x189C,   //6300

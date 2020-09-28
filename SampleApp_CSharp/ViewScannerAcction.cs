@@ -71,6 +71,72 @@ namespace Scanner_SDK_Sample_Application
             }
         }
 
+
+        /// <summary>
+        /// This method allows only digits to be entered as pager motor duration
+        /// Sends DEVICE_PAGE_MOTOR_CONTROL
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PerformPagerMotorTxtKeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
+        }
+
+        private void PerformPagerMotorEableClick(object sender, EventArgs e)
+        {
+            if (!IsScannerConnected())
+            {
+                return;
+            }
+            try
+            {              
+                double i = 0;
+                string pagerMotorDuration= txtPagerMotorDuration.Text;
+
+                if (pagerMotorDuration == "")
+                {
+                    pagerMotorDuration = "0";
+                    txtPagerMotorDuration.Text = "0";
+                }
+
+                bool isNumeric = double.TryParse(pagerMotorDuration, out i);
+                if (isNumeric)
+                {
+                    string inXml = "<inArgs>" +
+                         GetOnlyScannerIDXml() +
+                        "<cmdArgs>" +
+                            "<arg-xml>" +
+                                "<attrib_list>" +
+                                    "<attribute>" +
+                                        "<id>" + PAGER_MOTOR_ACTION + "</id>" +
+                                        "<datatype>" + "X" + "</datatype>" +
+                                        "<value>" + pagerMotorDuration + "</value>" +
+                                    "</attribute>" +
+                                "</attrib_list>" +
+                            "</arg-xml>" +
+                         "</cmdArgs>" +
+                         "</inArgs>";
+
+                    int opCode = RSM_ATTR_SET;
+                    string outXml = "";
+                    int status = STATUS_FALSE;
+                    ExecCmd(opCode, ref inXml, out outXml, out status);
+
+                    DisplayResult(status, "START_PAGER_MOTOR");
+                }
+                else
+                {
+                    UpdateResults("Please enter a numeric value for pager motor duration");
+                }               
+                
+            }
+            catch
+            {
+                UpdateResults("Please enter a numeric value for pager motor duration");
+            }
+        }
+
         private void PerformBtnRebootScannerClick(object sender, EventArgs e)
         {
             if (IsScannerConnected())

@@ -46,7 +46,7 @@ BOOL CScannerSDKSampleAppApp::InitInstance()
 	COM_CHECK(hr);
 
 	m_pMainWnd = &dlg;
-	int nResponse = dlg.DoModal();
+	INT_PTR nResponse = dlg.DoModal();
 
 	CoUninitialize();
 

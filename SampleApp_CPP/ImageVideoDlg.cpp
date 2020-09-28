@@ -172,7 +172,7 @@ HBRUSH CImageVideoDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 void CImageVideoDlg::OnImageCapture(LPBYTE MediaBuffer, LONG BufferSize)
 {
 	ClearImageCache();
-	m_ImageData.ImageData = new BYTE[BufferSize + 2];
+	m_ImageData.ImageData = new BYTE[BufferSize + (std::size_t)2];
 	memcpy(m_ImageData.ImageData, MediaBuffer, BufferSize);
 	m_ImageData.ImageSize = BufferSize;
 

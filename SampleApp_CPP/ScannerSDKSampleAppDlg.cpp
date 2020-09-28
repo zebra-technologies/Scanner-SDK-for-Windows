@@ -32,7 +32,7 @@ CScannerSDKSampleAppDlg::CScannerSDKSampleAppDlg(CWnd* pParent /*=NULL*/)
 : CDialog(CScannerSDKSampleAppDlg::IDD, pParent)
 
 {
-	
+
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_ScannerCommands = 0;
 	m_OpenAndRegistered = false;
@@ -253,7 +253,8 @@ void CScannerSDKSampleAppDlg::UpdateScannerStatus()
 		if(ScannerMap.Lookup(sc.Type, count) > 0)
 		{
 			val = (int)count;
-			ScannerMap.SetAt(sc.Type, (CObject*)(val + 1));
+			int new_val = val + 1;
+			ScannerMap.SetAt(sc.Type, (CObject*)new_val);
 		}
 		else
 			ScannerMap.SetAt(sc.Type, (CObject*)(1));

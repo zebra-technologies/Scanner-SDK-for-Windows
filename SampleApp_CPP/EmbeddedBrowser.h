@@ -79,13 +79,14 @@ public:
 
 // Attributes
 public:
-enum
+typedef enum 
 {
     CSC_UPDATECOMMANDS = -1,
     CSC_NAVIGATEFORWARD = 1,
     CSC_NAVIGATEBACK = 2
 }CommandStateChangeConstants;
-enum
+
+typedef enum 
 {
     OLECMDID_OPEN = 1,
     OLECMDID_NEW = 2,
@@ -145,7 +146,8 @@ enum
     OLECMDID_FOCUSVIEWCONTROLSQUERY = 58,
     OLECMDID_SHOWPAGEACTIONMENU = 59
 }OLECMDID;
-enum
+
+typedef enum 
 {
     OLECMDF_SUPPORTED = 1,
     OLECMDF_ENABLED = 2,
@@ -154,14 +156,16 @@ enum
     OLECMDF_INVISIBLE = 16,
     OLECMDF_DEFHIDEONCTXTMENU = 32
 }OLECMDF;
-enum
+
+typedef enum 
 {
     OLECMDEXECOPT_DODEFAULT = 0,
     OLECMDEXECOPT_PROMPTUSER = 1,
     OLECMDEXECOPT_DONTPROMPTUSER = 2,
     OLECMDEXECOPT_SHOWHELP = 3
 }OLECMDEXECOPT;
-enum
+
+typedef enum 
 {
     READYSTATE_UNINITIALIZED = 0,
     READYSTATE_LOADING = 1,
@@ -169,7 +173,8 @@ enum
     READYSTATE_INTERACTIVE = 3,
     READYSTATE_COMPLETE = 4
 }tagREADYSTATE;
-enum
+
+typedef enum 
 {
     secureLockIconUnsecure = 0,
     secureLockIconMixed = 1,
@@ -179,19 +184,21 @@ enum
     secureLockIconSecureFortezza = 5,
     secureLockIconSecure128Bit = 6
 }SecureLockIconConstants;
-enum
+
+typedef enum 
 {
     SWC_EXPLORER = 0,
     SWC_BROWSER = 1,
     SWC_3RDPARTY = 2,
     SWC_CALLBACK = 4
 }ShellWindowTypeConstants;
-enum
+
+typedef enum
 {
     SWFO_NEEDDISPATCH = 1,
     SWFO_INCLUDEPENDING = 2,
     SWFO_COOKIEPASSED = 4
-}ShellWindowFindWindowOptions;
+} ShellWindowFindWindowOptions;
 
 
 public:
