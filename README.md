@@ -1,5 +1,5 @@
 # BARCODE SCANNER SDK FOR WINDOWS 
-This repository provides the source codes for the demonstration of all the functionalities for Barcode Scanner SDK for Windows.
+This site provides source codes for the most commonly requested programming capabilities using the Scanner SDK for Windows.
 
 ## Prerequisites
 Following dependencies is required to run the C# and C++ sample applications.
