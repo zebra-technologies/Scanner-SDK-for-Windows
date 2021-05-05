@@ -48,16 +48,16 @@ namespace Scanner_SDK_Sample_Application
             // 
             // treeView1
             // 
-            this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.treeView1.ImageIndex = 0;
             this.treeView1.ImageList = this.imageList1;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Margin = new System.Windows.Forms.Padding(0);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
-            this.treeView1.Size = new System.Drawing.Size(556, 531);
+            this.treeView1.Size = new System.Drawing.Size(418, 432);
             this.treeView1.TabIndex = 0;
             // 
             // imageList1
@@ -79,14 +79,18 @@ namespace Scanner_SDK_Sample_Application
             this.imageList1.Images.SetKeyName(12, "Unknown.ico");
             this.imageList1.Images.SetKeyName(13, "UnknownC.ico");
             this.imageList1.Images.SetKeyName(14, "xroot_node.ico");
+            this.imageList1.Images.SetKeyName(15, "DS2278.ico");
+            this.imageList1.Images.SetKeyName(16, "MPXXX.ico");
+            this.imageList1.Images.SetKeyName(17, "DS9208.ico");
+            this.imageList1.Images.SetKeyName(18, "MX101.ico");
+            this.imageList1.Images.SetKeyName(19, "DS36X8.ico");
             // 
             // close
             // 
             this.close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.close.Location = new System.Drawing.Point(13, 558);
-            this.close.Margin = new System.Windows.Forms.Padding(4);
+            this.close.Location = new System.Drawing.Point(10, 453);
             this.close.Name = "close";
-            this.close.Size = new System.Drawing.Size(91, 28);
+            this.close.Size = new System.Drawing.Size(68, 23);
             this.close.TabIndex = 1;
             this.close.Text = "Close";
             this.close.UseVisualStyleBackColor = true;
@@ -100,26 +104,26 @@ namespace Scanner_SDK_Sample_Application
             this.lblTopologyHint.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblTopologyHint.ImageIndex = 12;
             this.lblTopologyHint.ImageList = this.imageList1;
-            this.lblTopologyHint.Location = new System.Drawing.Point(120, 560);
+            this.lblTopologyHint.Location = new System.Drawing.Point(90, 455);
+            this.lblTopologyHint.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTopologyHint.Name = "lblTopologyHint";
             this.lblTopologyHint.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lblTopologyHint.Size = new System.Drawing.Size(340, 35);
+            this.lblTopologyHint.Size = new System.Drawing.Size(255, 28);
             this.lblTopologyHint.TabIndex = 2;
             this.lblTopologyHint.Text = "Hint: Unknown/Non-RSM scanner is shown as ";
             this.lblTopologyHint.Click += new System.EventHandler(this.label1_Click);
             // 
             // TopologyPopupForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(556, 608);
+            this.ClientSize = new System.Drawing.Size(417, 494);
             this.Controls.Add(this.lblTopologyHint);
             this.Controls.Add(this.close);
             this.Controls.Add(this.treeView1);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(546, 644);
+            this.MinimumSize = new System.Drawing.Size(414, 531);
             this.Name = "TopologyPopupForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Device Topology";

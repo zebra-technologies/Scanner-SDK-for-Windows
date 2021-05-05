@@ -74,4 +74,9 @@ public:
 	afx_msg void OnBnClickedButtonDecodetoneupload();
 	// Decode Tone File Path Text Box
 	CEdit txtDecodeToneFilePath;
+	afx_msg void OnBnClickedButtonElectricFenceCustomToneBrowse();
+	// Electric fence custom tone wave file name
+	CEdit txtElectricFenceCustomToneWaveFileName;
+	afx_msg void OnBnClickedButtonElectricFenceCustomToneUpload();
+	afx_msg void OnBnClickedButtonElectricFenceCustomToneErase();
 };

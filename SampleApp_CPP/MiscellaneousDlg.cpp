@@ -27,11 +27,6 @@ void CMiscellaneousDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_CHECK15, chkAsync);
-    DDX_Control(pDX, IDC_CHECK2, m_chkFlow);
-    DDX_Control(pDX, IDC_COMBO1, m_cmbBaud);
-    DDX_Control(pDX, IDC_COMBO3, m_cmbDatabits);
-    DDX_Control(pDX, IDC_COMBO2, m_cmbParityBits);
-    DDX_Control(pDX, IDC_COMBO4, m_cmbStopBits);
     DDX_Control(pDX, IDC_COMBO5, m_cmbSCdcSHostMode);
     DDX_Control(pDX, IDC_CHECK1, m_chkSCdcSIsSilent);
     DDX_Control(pDX, IDC_CHECK3, m_chkSCdcSIsPermanent);
@@ -40,7 +35,6 @@ void CMiscellaneousDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CMiscellaneousDlg, CDialog)
     ON_BN_CLICKED(IDC_BUTTON2, &CMiscellaneousDlg::OnSDKVersion)
     ON_BN_CLICKED(IDC_BUTTON3, &CMiscellaneousDlg::OnGetDeviceTopology)
-    ON_BN_CLICKED(IDC_BUTTON5, &CMiscellaneousDlg::OnSetSerialInterface)
     ON_WM_CTLCOLOR()
     ON_BN_CLICKED(IDC_CHECK15, &CMiscellaneousDlg::OnAsyncMode)
     ON_BN_CLICKED(IDC_BUTTON1, &CMiscellaneousDlg::OnSCdcSwitchHostMode)
@@ -104,79 +98,6 @@ void CMiscellaneousDlg::OnGetDeviceTopology()
     topo.DoModal();
 }
 
-void CMiscellaneousDlg::OnSetSerialInterface()
-{
-    CHECK_CMD0;
-
-    int IsParity = (int) m_cmbParityBits.GetItemData(m_cmbParityBits.GetCurSel());
-    int IsStop = (int) m_cmbStopBits.GetItemData(m_cmbStopBits.GetCurSel());
-    int IsFlow = (m_chkFlow.GetCheck() == BST_CHECKED) ? 1 : 0;
-
-    CString sBaud;
-    m_cmbBaud.GetWindowText(sBaud);
-    CString sData;
-    m_cmbDatabits.GetWindowText(sData);
-
-    CString sSerialSettings;
-    sSerialSettings.Format(_T("%s,%s,%d,%d,%d"), sBaud, sData, IsParity, IsStop, IsFlow);
-    wstring Settings = sSerialSettings;
-    long status=1;
-
-    SC->cmdSetSerialInterface(SelectedScannerID, Settings, Async, &status);
-    LOG(status, "SERIAL_INTERFACE_SETTINGS");
-
-}
-
-void CMiscellaneousDlg::InitBaudCombo()
-{
-    m_cmbBaud.AddString(L"110");
-    m_cmbBaud.AddString(L"300");
-    m_cmbBaud.AddString(L"1200");
-    m_cmbBaud.AddString(L"2400");
-    m_cmbBaud.AddString(L"4800");
-    m_cmbBaud.AddString(L"9600");
-    m_cmbBaud.AddString(L"19200");
-    m_cmbBaud.AddString(L"38400");
-    m_cmbBaud.AddString(L"57600");
-    m_cmbBaud.AddString(L"115200");
-    m_cmbBaud.AddString(L"230400");
-    m_cmbBaud.AddString(L"460800");
-    m_cmbBaud.AddString(L"921600");
-
-    m_cmbBaud.SetCurSel(5);
-}
-
-void CMiscellaneousDlg::InitDatabitsCombo()
-{
-    m_cmbDatabits.AddString(L"8");
-    m_cmbDatabits.AddString(L"7");
-    m_cmbDatabits.AddString(L"6");
-    m_cmbDatabits.AddString(L"5");
-    m_cmbDatabits.AddString(L"4");
-    m_cmbDatabits.AddString(L"3");
-    m_cmbDatabits.AddString(L"2");
-    m_cmbDatabits.AddString(L"1");
-
-    m_cmbDatabits.SetCurSel(0);
-}
-
-void CMiscellaneousDlg::InitParitybitsCombo()
-{
-    m_cmbParityBits.SetItemData(m_cmbParityBits.AddString(L"NONE"),		NOPARITY);
-    m_cmbParityBits.SetItemData(m_cmbParityBits.AddString(L"ODD"),		ODDPARITY);
-    m_cmbParityBits.SetItemData(m_cmbParityBits.AddString(L"EVEN"),		EVENPARITY);
-    m_cmbParityBits.SetItemData(m_cmbParityBits.AddString(L"MARK"),		MARKPARITY);
-    m_cmbParityBits.SetItemData(m_cmbParityBits.AddString(L"SPACE"),	SPACEPARITY);
-    m_cmbParityBits.SetCurSel(0);
-}
-void CMiscellaneousDlg::InitStopbitsCombo()
-{
-    m_cmbStopBits.SetItemData(m_cmbStopBits.AddString(L"1   BIT"),	ONESTOPBIT);
-    m_cmbStopBits.SetItemData(m_cmbStopBits.AddString(L"1.5 BITS"), ONE5STOPBITS);
-    m_cmbStopBits.SetItemData(m_cmbStopBits.AddString(L"2   BITS"),	TWOSTOPBITS);
-    m_cmbStopBits.SetCurSel(0);
-}
-
 void CMiscellaneousDlg::InitSCdcSHostModeCombo()
 {
     for (int i = MODE_IBMHID; i <= MODE_IBMTT; ++i)
@@ -190,10 +111,6 @@ void CMiscellaneousDlg::InitSCdcSHostModeCombo()
 BOOL CMiscellaneousDlg::OnInitDialog()
 {
     CDialog::OnInitDialog();
-    InitBaudCombo();
-    InitDatabitsCombo();
-    InitParitybitsCombo();
-    InitStopbitsCombo();
     InitSCdcSHostModeCombo();
     return TRUE;  
 }

@@ -31,6 +31,7 @@ void CConfigurationDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_CHECK3, ChkClaim);
 	DDX_Control(pDX, IDC_COMBO1, m_cmbProtocol);
 	DDX_Control(pDX, IDC_EDIT_DecodeToneFilePath, txtDecodeToneFilePath);
+	DDX_Control(pDX, IDC_EDIT_ElectricFenceCustomTonePath, txtElectricFenceCustomToneWaveFileName);
 }
 
 
@@ -45,6 +46,9 @@ BEGIN_MESSAGE_MAP(CConfigurationDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_DecodeToneBrrowse, &CConfigurationDlg::OnBnClickedButtonDecodetonebrrowse)
 	ON_BN_CLICKED(IDC_BUTTON_DecodeToneErase, &CConfigurationDlg::OnBnClickedButtonDecodetoneerase)
 	ON_BN_CLICKED(IDC_BUTTON_DecodeToneUpload, &CConfigurationDlg::OnBnClickedButtonDecodetoneupload)
+	ON_BN_CLICKED(IDC_BUTTON_ElectricFenceCustomToneBrowse, &CConfigurationDlg::OnBnClickedButtonElectricFenceCustomToneBrowse)
+	ON_BN_CLICKED(IDC_BUTTON_ElectricFenceCustomToneUpload, &CConfigurationDlg::OnBnClickedButtonElectricFenceCustomToneUpload)
+	ON_BN_CLICKED(IDC_BUTTON_ElectricFenceCustomToneErase, &CConfigurationDlg::OnBnClickedButtonElectricFenceCustomToneErase)
 END_MESSAGE_MAP()
 
 
@@ -353,4 +357,44 @@ void CConfigurationDlg::OnBnClickedButtonDecodetoneupload()
 	FilePath = LPCTSTR(CSFilePath);
 	SC->cmdUpdateDecodeTone(SelectedScannerID, FilePath, &status);
 	LOG(status, "UPDATE_DECODE_TONE");
+}
+
+
+void CConfigurationDlg::OnBnClickedButtonElectricFenceCustomToneBrowse()
+{
+	CFileDialog fOpenDlg(TRUE, L"dat", L"", OFN_HIDEREADONLY | OFN_FILEMUSTEXIST,
+		L"Wave files (*.wav)|*.wav|Wave files (*.wave)|*.wave||", this);
+
+	fOpenDlg.m_pOFN->lpstrTitle = L"Electric Fence Custom Tone";
+
+	if (fOpenDlg.DoModal() == IDOK)
+	{
+		txtElectricFenceCustomToneWaveFileName.SetWindowTextW(fOpenDlg.GetPathName());
+	}
+}
+
+
+void CConfigurationDlg::OnBnClickedButtonElectricFenceCustomToneUpload()
+{
+	CHECK_CMD0;
+
+	long status = 1;
+	CString CSFilePath;
+	wstring FilePath;
+	txtElectricFenceCustomToneWaveFileName.GetWindowTextW(CSFilePath);
+	if (!PathFileExists(CSFilePath)) return;
+
+	FilePath = LPCTSTR(CSFilePath);
+	SC->cmdUploadElectricFenceCustomTone(SelectedScannerID, FilePath, &status);
+	LOG(status, "UPDATE_ELECTRIC_FENCE_CUSTOM_TONE");
+}
+
+
+void CConfigurationDlg::OnBnClickedButtonElectricFenceCustomToneErase()
+{
+	CHECK_CMD0;
+
+	long status = 1;
+	SC->cmdEraseElectricFenceCustomTone(SelectedScannerID, &status);
+	LOG(status, "ERASE_ELECTRIC_FENCE_CUSTOM_TONE");
 }

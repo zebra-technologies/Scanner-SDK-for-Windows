@@ -85,8 +85,27 @@ namespace Scanner_SDK_Sample_Application
                         case "LS9203":
                             index = 9;
                             break;
-                        case "STB427":
+                        case "STB4278":
                             index = 11;
+                            break;
+                        case "DS2278":
+                            index = 15;
+                            break;
+                        case "MP6000":
+                        case "MP6200":
+                        case "MP7000":
+                        case "MP7001":
+                            index = 16;
+                            break;
+                        case "DS9208":
+                            index = 17;
+                            break;
+                        case "MX101":
+                            index = 18;
+                            break;
+                        case "DS3608":
+                        case "DS3678":
+                            index = 19;
                             break;
                         default:
                             //model_name = "Unknown";

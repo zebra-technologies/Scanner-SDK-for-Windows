@@ -31,7 +31,7 @@
     <ProjectGuid>{F84774C6-FE5C-4DAD-9DF1-2A10CBE79934}</ProjectGuid>
     <RootNamespace>ScannerSDKSampleApp</RootNamespace>
     <Keyword>MFCProj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

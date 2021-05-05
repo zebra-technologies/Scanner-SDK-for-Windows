@@ -69,6 +69,8 @@ typedef enum
     REFRESH_TOPOLOGY                    = 0x138F,   //5007
     UPDATE_DECODE_TONE                  = 0x13BA,   //5050
     ERASE_DECODE_TONE                   = 0x13BB,   //5051
+    UPDATE_ELECTRIC_FENCE_CUSTOM_TONE   = 0x13BC,   //5052
+    ERASE_ELECTRIC_FENCE_CUSTOM_TONE    = 0x13BD,   //5053
     
     START_NEW_FIRMWARE                  = 0x1396,   //5014
     UPDATE_ATTRIB_META_FILE             = 0x1397,   //5015

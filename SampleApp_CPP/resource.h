@@ -111,9 +111,13 @@
 #define IDC_EDIT_DecodeToneFilePath     1066
 #define IDC_STATIC_ScannerType          1066
 #define IDC_STATIC_ProtocolName         1067
+#define IDC_EDIT_ElectricFenceCustomTonePath 1067
 #define IDC_STATIC_HostName             1068
+#define IDC_BUTTON_ElectricFenceCustomToneBrowse 1068
 #define IDC_STATIC_DefaultOption        1069
+#define IDC_BUTTON_ElectricFenceCustomToneUpload 1069
 #define IDC_STATIC_ImageSize            1070
+#define IDC_BUTTON_ElectricFenceCustomToneErase 1070
 #define IDC_STATIC_BMPPath              1071
 #define IDC_STATIC_ScanToConnectBarcodeGroup 1072
 #define IDC_COMBO5                      1073
@@ -134,7 +138,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        153
+#define _APS_NEXT_RESOURCE_VALUE        154
 #define _APS_NEXT_COMMAND_VALUE         32771
 #define _APS_NEXT_CONTROL_VALUE         1088
 #define _APS_NEXT_SYMED_VALUE           101

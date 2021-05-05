@@ -88,10 +88,6 @@ namespace Scanner_SDK_Sample_Application
             m_docCapMsg.DocCapImage += new DocCapMessage.DocCapImageHandler(OnDocCapImage);
             m_docCapMsg.DocCapDecode += new DocCapMessage.DocCapDecodeHandler(OnDocCapDecode);
             comboFilterScnrs.SelectedIndex = 0;
-            comboBaudRate.SelectedIndex = 5; // 9600
-            comboDataBits.SelectedIndex = 7; // 8
-            comboParity.SelectedIndex = 0; // NOPARITY
-            comboStpBits.SelectedIndex = 0; // ONESTOPBIT
             comboBeep.SelectedIndex = 0;
             comboSCdcSHostMode.SelectedIndex = 0; //USB-IBMHID
             cmbLed.SelectedIndex = 0;
@@ -704,7 +700,7 @@ namespace Scanner_SDK_Sample_Application
             gbAdvanced.Enabled = bEnable;
             grpFrmWrUpdate.Enabled = bEnable;
             grpCustomDecodeTone.Enabled = bEnable;
-            grpBaudrate.Enabled = bEnable;
+            grpElectricFenceCustomTone.Enabled = bEnable;
             grpHVS.Enabled = bEnable;
         }
 
@@ -1412,11 +1408,6 @@ namespace Scanner_SDK_Sample_Application
             GetLanguageConfigInfo();
         }
 
-        private void btnSetSrilInfce_Click(object sender, EventArgs e)
-        {
-            PerformBtnSetSrilInfceClick(sender, e);
-        }
-
         private void btnSveImge_Click(object sender, EventArgs e)
         {
             PerformBtnSveImgeClick(sender, e);
@@ -1569,6 +1560,7 @@ namespace Scanner_SDK_Sample_Application
             grpRSM.Enabled = bEnable;
             gbAdvanced.Enabled = bEnable;
             grpFrmWrUpdate.Enabled = bEnable;
+            grpElectricFenceCustomTone.Enabled = bEnable;
             grpCustomDecodeTone.Enabled = bEnable;
             grpMiscOther.Enabled = bEnable;
             grpScale.Enabled = bEnable;
@@ -2260,6 +2252,7 @@ namespace Scanner_SDK_Sample_Application
 
         private void buttonWavFileBrowse_Click(object sender, EventArgs e)
         {
+            openFileDialogWavFile.Title = "Decode Tone File";
             openFileDialogWavFile.FileName = "";
             if (openFileDialogWavFile.ShowDialog() == DialogResult.OK)
             {
@@ -2366,6 +2359,45 @@ namespace Scanner_SDK_Sample_Application
             PerformPagerMotorEableClick(sender, e);
         }
 
-        
+        private void buttonElectricFenceWavFileBrowse_Click(object sender, EventArgs e)
+        {
+            openFileDialogWavFile.Title = "Electric Fence Custom Tone";
+            openFileDialogWavFile.FileName = "";
+
+            if (openFileDialogWavFile.ShowDialog() == DialogResult.OK)
+            {
+                textBoxElectricFenceWaveFile.Text = openFileDialogWavFile.FileName;
+            }
+        }
+
+        private void buttonElectricFenceWavFileUpload_Click(object sender, EventArgs e)
+        {
+            if (textBoxElectricFenceWaveFile.Text != "")
+            {
+                int opcode = UPDATE_ELECTRIC_FENCE_CUSTOM_TONE;
+                string inXML = "<inArgs>" +
+                             GetOnlyScannerIDXml() +
+                             "<cmdArgs>" +
+                             "<arg-string>" + textBoxElectricFenceWaveFile.Text + "</arg-string>" +
+                             "</cmdArgs>" +
+                             "</inArgs>";
+
+                string outXml = "";
+                int status = STATUS_FALSE;
+                ExecCmd(opcode, ref inXML, out outXml, out status);
+                DisplayResult(status, "UPDATE_ELECTRIC_FENCE_CUSTOM_TONE");
+            }
+        }
+
+        private void btnElectricFenceEraseTone_Click(object sender, EventArgs e)
+        {
+            int opcode = ERASE_ELECTRIC_FENCE_CUSTOM_TONE;
+            string inXML = GetScannerIDXml();
+
+            string outXml = "";
+            int status = STATUS_FALSE;
+            ExecCmd(opcode, ref inXML, out outXml, out status);
+            DisplayResult(status, "ERASE_ELECTRIC_FENCE_CUSTOM_TONE");
+        }
     } 
 }

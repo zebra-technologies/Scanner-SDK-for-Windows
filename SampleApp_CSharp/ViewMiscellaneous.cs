@@ -59,35 +59,5 @@ namespace Scanner_SDK_Sample_Application
                 form.ShowDialog();
             }
         }
-
-        private void PerformBtnSetSrilInfceClick(object sender, EventArgs e)
-        {
-            int status = STATUS_FALSE;
-            string outXml = "";
-            string inXml = "";
-
-            string parity_bit = comboParity.SelectedIndex.ToString();
-            string stop_bit = comboStpBits.SelectedItem.ToString();
-            string flow_ctrl = (true == flwCtrlChkBox.Checked ? "1" : "0");
-            string baud_rate = comboBaudRate.SelectedItem.ToString();
-            string data_bits = comboDataBits.SelectedItem.ToString();
-            inXml = "<inArgs>" + GetOnlyScannerIDXml()
-                         + " <cmdArgs>"
-                            + "<arg-int>5</arg-int>" //number of parameters
-                            + "<arg-int>"
-                            + baud_rate + "," // <!-- Baud Rrate-->"
-                            + data_bits + "," // <!-- data_bits -->";
-                            + parity_bit + "," // <!-- parity -->";
-                            + stop_bit + "," // <!-- stop_bit -->";
-                            + flow_ctrl
-                            + "</arg-int>" // <!-- flow_control -->";
-                          + " </cmdArgs>"
-                      + "</inArgs>";
-
-            ExecCmd(DEVICE_SET_SERIAL_PORT_SETTINGS, ref inXml, out outXml, out status);
-            DisplayResult(status, "DEVICE_SET_SERIAL_PORT_SETTINGS");
-
-        }
-
     }
 }

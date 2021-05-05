@@ -78,7 +78,6 @@ public:
     long cmdSetBarcodeMode(wstring ScannerID, int Async, long *Status);
     long cmdCaptureVideo(wstring,int,long *Status);
     long cmdAbortImageXfer(wstring,int,long *Status);
-    long cmdSetSerialInterface(wstring ScannerID, wstring BaudSettings, int Async, long *Status);
     long cmdGetBluetoothPairingBarcode(wstring ScannerID,int Async,long *Status, int protocol, int defailtOption, int size, wstring FilePath);
 
     long cmdEnableKeyboardEmulator(bool bEnable, int Async, long *Status); //VRQW74
@@ -112,6 +111,11 @@ public:
     long cmdUpdateDecodeTone(wstring ScannerID, wstring FilePath, long* Status);
     // Erase Decode Tone
     long cmdEraseDecodeTone(wstring ScannerID, long* Status);
+
+    //Upload Oxpeker decode tone
+    long cmdUploadElectricFenceCustomTone(wstring ScannerID, wstring FilePath, long* Status);
+    //Erase Oxpeker decode tone
+    long cmdEraseElectricFenceCustomTone(wstring ScannerID, long* Status);
 };
 
 #define SC (CScannerCommands::GetScannerCommand())

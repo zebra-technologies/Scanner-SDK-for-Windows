@@ -19,10 +19,6 @@ public:
 
     void SetScannerID(wstring * ScannerID);
     void SetAsync(int *ParaAsync);
-    void InitBaudCombo();
-    void InitDatabitsCombo();
-    void InitParitybitsCombo();
-    void InitStopbitsCombo();
     void InitSCdcSHostModeCombo();
 
     enum { IDD = IDD_Miscellaneous };
@@ -37,7 +33,6 @@ public:
 
     afx_msg void OnSDKVersion();
     afx_msg void OnGetDeviceTopology();
-    afx_msg void OnSetSerialInterface();
     afx_msg void OnAsyncMode();
 
 public:
@@ -49,11 +44,6 @@ private:
     CBrush  m_brush;
 
     CButton chkAsync;
-    CButton m_chkFlow;
-    CComboBox m_cmbBaud;
-    CComboBox m_cmbDatabits;
-    CComboBox m_cmbParityBits;
-    CComboBox m_cmbStopBits;
 
     wstring SelectedScannerID;
     int Async;

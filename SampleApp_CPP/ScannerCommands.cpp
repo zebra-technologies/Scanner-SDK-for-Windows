@@ -525,22 +525,6 @@ long CScannerCommands::cmdGetParameters(wstring ScannerID,wstring Parent,int Asy
     return Execute(DEVICE_GET_PARAMETERS, &input, &outXml, Async, Status);
 }
 
-long CScannerCommands::cmdSetSerialInterface(wstring ScannerID, wstring BaudSettings, int Async, long *Status)
-{
-    HRESULT hr = S_FALSE;
-
-    wstring inXml=L"<inArgs><scannerID>";
-    inXml.append(ScannerID);
-    inXml.append(L"</scannerID><cmdArgs><arg-int>5</arg-int><arg-int>");
-    inXml.append(BaudSettings);
-    inXml.append(L"</arg-int></cmdArgs></inArgs>");
-    BSTR outXml;
-
-    CComBSTR input = inXml.c_str();
-
-    return Execute(DEVICE_SET_SERIAL_PORT_SETTINGS, &input, &outXml, 0, Status);
-}
-
 long CScannerCommands::cmdPagerMotor(wstring ScannerID, wstring duration, int Async, long *Status)
 {
     BSTR outXml;
@@ -918,6 +902,32 @@ long CScannerCommands::cmdEraseDecodeTone(wstring ScannerID, long* Status)
     HRESULT hr = S_FALSE;
 
     return Execute(ERASE_DECODE_TONE, &input, &outXml, 0, Status);
+}
+
+long CScannerCommands::cmdUploadElectricFenceCustomTone(wstring ScannerID, wstring FilePath, long* Status)
+{
+    BSTR outXml;
+    wstring inXml = L"<inArgs><scannerID>";
+    inXml.append(ScannerID);
+    inXml.append(L"</scannerID><cmdArgs><arg-string>");
+    inXml.append(FilePath);
+    inXml.append(L"</arg-string></cmdArgs></inArgs>");
+    CComBSTR input = inXml.c_str();
+    HRESULT hr = S_FALSE;
+
+    return Execute(UPDATE_ELECTRIC_FENCE_CUSTOM_TONE, &input, &outXml, 0, Status);
+}
+
+long CScannerCommands::cmdEraseElectricFenceCustomTone(wstring ScannerID, long* Status)
+{
+    BSTR outXml;
+    wstring inXml = L"<inArgs><scannerID>";
+    inXml.append(ScannerID);
+    inXml.append(L"</scannerID></inArgs>");
+    CComBSTR input = inXml.c_str();
+    HRESULT hr = S_FALSE;
+
+    return Execute(ERASE_ELECTRIC_FENCE_CUSTOM_TONE, &input, &outXml, 0, Status);
 }
 
 long CScannerCommands::cmdSetDADFSource(wstring Source, int Async, long *Status) //VRQW74

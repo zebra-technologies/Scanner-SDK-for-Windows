@@ -150,6 +150,11 @@ namespace Scanner_SDK_Sample_Application
             this.txtFWFile = new System.Windows.Forms.TextBox();
             this.grpScannerProp = new System.Windows.Forms.GroupBox();
             this.chkClaim = new System.Windows.Forms.CheckBox();
+            this.grpElectricFenceCustomTone = new System.Windows.Forms.GroupBox();
+            this.btnElectricFenceEraseTone = new System.Windows.Forms.Button();
+            this.buttonElectricFenceWavFileUpload = new System.Windows.Forms.Button();
+            this.textBoxElectricFenceWaveFile = new System.Windows.Forms.TextBox();
+            this.buttonElectricFenceWavFileBrowse = new System.Windows.Forms.Button();
             this.tabScan2Connect = new System.Windows.Forms.TabPage();
             this.grpScan2Connect = new System.Windows.Forms.GroupBox();
             this.btnSaveBarcode = new System.Windows.Forms.Button();
@@ -178,17 +183,6 @@ namespace Scanner_SDK_Sample_Application
             this.btnSdkVersion = new System.Windows.Forms.Button();
             this.grpAsync = new System.Windows.Forms.GroupBox();
             this.chkAsync = new System.Windows.Forms.CheckBox();
-            this.grpBaudrate = new System.Windows.Forms.GroupBox();
-            this.lblStpBits = new System.Windows.Forms.Label();
-            this.comboStpBits = new System.Windows.Forms.ComboBox();
-            this.lblParity = new System.Windows.Forms.Label();
-            this.comboParity = new System.Windows.Forms.ComboBox();
-            this.btnSetSrilInfce = new System.Windows.Forms.Button();
-            this.lblDataBit = new System.Windows.Forms.Label();
-            this.lblBaudRte = new System.Windows.Forms.Label();
-            this.comboDataBits = new System.Windows.Forms.ComboBox();
-            this.comboBaudRate = new System.Windows.Forms.ComboBox();
-            this.flwCtrlChkBox = new System.Windows.Forms.CheckBox();
             this.tabScale = new System.Windows.Forms.TabPage();
             this.grpScale = new System.Windows.Forms.GroupBox();
             this.lblScalStatusDesc = new System.Windows.Forms.Label();
@@ -296,6 +290,7 @@ namespace Scanner_SDK_Sample_Application
             this.grpFrmWrUpdate.SuspendLayout();
             this.grpFWoptns.SuspendLayout();
             this.grpScannerProp.SuspendLayout();
+            this.grpElectricFenceCustomTone.SuspendLayout();
             this.tabScan2Connect.SuspendLayout();
             this.grpScan2Connect.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBBarcode)).BeginInit();
@@ -304,7 +299,6 @@ namespace Scanner_SDK_Sample_Application
             this.grpSCdcSwitch.SuspendLayout();
             this.grpMiscCmd.SuspendLayout();
             this.grpAsync.SuspendLayout();
-            this.grpBaudrate.SuspendLayout();
             this.tabScale.SuspendLayout();
             this.grpScale.SuspendLayout();
             this.tabSSW.SuspendLayout();
@@ -953,7 +947,6 @@ namespace Scanner_SDK_Sample_Application
             this.btnEnablePagerMotor.Text = "Start";
             this.btnEnablePagerMotor.UseVisualStyleBackColor = true;
             this.btnEnablePagerMotor.Click += new System.EventHandler(this.btnEnablePageMotor_Click);
-            this.txtPagerMotorDuration.KeyPress += TxtPagerMotorDuration_KeyPress;
             // 
             // groupBox4
             // 
@@ -1352,6 +1345,7 @@ namespace Scanner_SDK_Sample_Application
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvAttributes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvAttributes.ColumnHeadersHeight = 29;
             this.dgvAttributes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvAttributes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.attrNum,
@@ -1377,6 +1371,7 @@ namespace Scanner_SDK_Sample_Application
             dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvAttributes.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.dgvAttributes.RowHeadersWidth = 51;
             this.dgvAttributes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAttributes.Size = new System.Drawing.Size(474, 340);
             this.dgvAttributes.TabIndex = 2;
@@ -1386,6 +1381,7 @@ namespace Scanner_SDK_Sample_Application
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             this.attrNum.DefaultCellStyle = dataGridViewCellStyle2;
             this.attrNum.HeaderText = "ID";
+            this.attrNum.MinimumWidth = 6;
             this.attrNum.Name = "attrNum";
             this.attrNum.ReadOnly = true;
             this.attrNum.Width = 50;
@@ -1395,6 +1391,7 @@ namespace Scanner_SDK_Sample_Application
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
             this.attrType.DefaultCellStyle = dataGridViewCellStyle3;
             this.attrType.HeaderText = "Type";
+            this.attrType.MinimumWidth = 6;
             this.attrType.Name = "attrType";
             this.attrType.ReadOnly = true;
             this.attrType.Width = 80;
@@ -1404,14 +1401,17 @@ namespace Scanner_SDK_Sample_Application
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
             this.property.DefaultCellStyle = dataGridViewCellStyle4;
             this.property.HeaderText = "Property";
+            this.property.MinimumWidth = 6;
             this.property.Name = "property";
             this.property.ReadOnly = true;
+            this.property.Width = 125;
             // 
             // value
             // 
             dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
             this.value.DefaultCellStyle = dataGridViewCellStyle5;
             this.value.HeaderText = "Value";
+            this.value.MinimumWidth = 6;
             this.value.Name = "value";
             this.value.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.value.Width = 320;
@@ -1422,6 +1422,7 @@ namespace Scanner_SDK_Sample_Application
             this.tabConfig.Controls.Add(this.filterScnrs);
             this.tabConfig.Controls.Add(this.grpFrmWrUpdate);
             this.tabConfig.Controls.Add(this.grpScannerProp);
+            this.tabConfig.Controls.Add(this.grpElectricFenceCustomTone);
             this.tabConfig.Location = new System.Drawing.Point(4, 22);
             this.tabConfig.Name = "tabConfig";
             this.tabConfig.Size = new System.Drawing.Size(511, 468);
@@ -1436,7 +1437,7 @@ namespace Scanner_SDK_Sample_Application
             this.grpCustomDecodeTone.Controls.Add(this.buttonWavFileUpload);
             this.grpCustomDecodeTone.Controls.Add(this.textBoxWavFile);
             this.grpCustomDecodeTone.Controls.Add(this.buttonWavFileBrowse);
-            this.grpCustomDecodeTone.Location = new System.Drawing.Point(16, 213);
+            this.grpCustomDecodeTone.Location = new System.Drawing.Point(16, 208);
             this.grpCustomDecodeTone.Margin = new System.Windows.Forms.Padding(2);
             this.grpCustomDecodeTone.Name = "grpCustomDecodeTone";
             this.grpCustomDecodeTone.Padding = new System.Windows.Forms.Padding(2);
@@ -1625,6 +1626,62 @@ namespace Scanner_SDK_Sample_Application
             this.chkClaim.Text = "Claim Scanner";
             this.chkClaim.UseVisualStyleBackColor = false;
             this.chkClaim.CheckedChanged += new System.EventHandler(this.OnClaimScanner);
+            // 
+            // grpElectricFenceCustomTone
+            // 
+            this.grpElectricFenceCustomTone.BackColor = System.Drawing.SystemColors.Window;
+            this.grpElectricFenceCustomTone.Controls.Add(this.btnElectricFenceEraseTone);
+            this.grpElectricFenceCustomTone.Controls.Add(this.buttonElectricFenceWavFileUpload);
+            this.grpElectricFenceCustomTone.Controls.Add(this.textBoxElectricFenceWaveFile);
+            this.grpElectricFenceCustomTone.Controls.Add(this.buttonElectricFenceWavFileBrowse);
+            this.grpElectricFenceCustomTone.Location = new System.Drawing.Point(16, 318);
+            this.grpElectricFenceCustomTone.Margin = new System.Windows.Forms.Padding(2);
+            this.grpElectricFenceCustomTone.Name = "grpElectricFenceCustomTone";
+            this.grpElectricFenceCustomTone.Padding = new System.Windows.Forms.Padding(2);
+            this.grpElectricFenceCustomTone.Size = new System.Drawing.Size(468, 89);
+            this.grpElectricFenceCustomTone.TabIndex = 4;
+            this.grpElectricFenceCustomTone.TabStop = false;
+            this.grpElectricFenceCustomTone.Text = "Electric Fence Custom Tone";
+            // 
+            // btnElectricFenceEraseTone
+            // 
+            this.btnElectricFenceEraseTone.Location = new System.Drawing.Point(339, 51);
+            this.btnElectricFenceEraseTone.Name = "btnElectricFenceEraseTone";
+            this.btnElectricFenceEraseTone.Size = new System.Drawing.Size(113, 25);
+            this.btnElectricFenceEraseTone.TabIndex = 3;
+            this.btnElectricFenceEraseTone.Text = "Erase Tone";
+            this.btnElectricFenceEraseTone.UseVisualStyleBackColor = true;
+            this.btnElectricFenceEraseTone.Click += new System.EventHandler(this.btnElectricFenceEraseTone_Click);
+            // 
+            // buttonElectricFenceWavFileUpload
+            // 
+            this.buttonElectricFenceWavFileUpload.Location = new System.Drawing.Point(209, 51);
+            this.buttonElectricFenceWavFileUpload.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonElectricFenceWavFileUpload.Name = "buttonElectricFenceWavFileUpload";
+            this.buttonElectricFenceWavFileUpload.Size = new System.Drawing.Size(125, 25);
+            this.buttonElectricFenceWavFileUpload.TabIndex = 2;
+            this.buttonElectricFenceWavFileUpload.Text = "Upload To Scanner";
+            this.buttonElectricFenceWavFileUpload.UseVisualStyleBackColor = true;
+            this.buttonElectricFenceWavFileUpload.Click += new System.EventHandler(this.buttonElectricFenceWavFileUpload_Click);
+            // 
+            // textBoxElectricFenceWaveFile
+            // 
+            this.textBoxElectricFenceWaveFile.Location = new System.Drawing.Point(8, 24);
+            this.textBoxElectricFenceWaveFile.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxElectricFenceWaveFile.Name = "textBoxElectricFenceWaveFile";
+            this.textBoxElectricFenceWaveFile.Size = new System.Drawing.Size(354, 20);
+            this.textBoxElectricFenceWaveFile.TabIndex = 0;
+            // 
+            // buttonElectricFenceWavFileBrowse
+            // 
+            this.buttonElectricFenceWavFileBrowse.Location = new System.Drawing.Point(375, 20);
+            this.buttonElectricFenceWavFileBrowse.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonElectricFenceWavFileBrowse.Name = "buttonElectricFenceWavFileBrowse";
+            this.buttonElectricFenceWavFileBrowse.Size = new System.Drawing.Size(77, 26);
+            this.buttonElectricFenceWavFileBrowse.TabIndex = 1;
+            this.buttonElectricFenceWavFileBrowse.Text = "Browse";
+            this.buttonElectricFenceWavFileBrowse.UseVisualStyleBackColor = true;
+            this.buttonElectricFenceWavFileBrowse.Click += new System.EventHandler(this.buttonElectricFenceWavFileBrowse_Click);
             // 
             // tabScan2Connect
             // 
@@ -1815,7 +1872,6 @@ namespace Scanner_SDK_Sample_Application
             this.grpMiscOther.Controls.Add(this.grpSCdcSwitch);
             this.grpMiscOther.Controls.Add(this.grpMiscCmd);
             this.grpMiscOther.Controls.Add(this.grpAsync);
-            this.grpMiscOther.Controls.Add(this.grpBaudrate);
             this.grpMiscOther.Location = new System.Drawing.Point(3, 3);
             this.grpMiscOther.Name = "grpMiscOther";
             this.grpMiscOther.Size = new System.Drawing.Size(500, 459);
@@ -1831,7 +1887,7 @@ namespace Scanner_SDK_Sample_Application
             this.grpSCdcSwitch.Controls.Add(this.chkSCdcSIsSilent);
             this.grpSCdcSwitch.Controls.Add(this.comboSCdcSHostMode);
             this.grpSCdcSwitch.Controls.Add(this.lblSCdcSHostMode);
-            this.grpSCdcSwitch.Location = new System.Drawing.Point(10, 218);
+            this.grpSCdcSwitch.Location = new System.Drawing.Point(10, 109);
             this.grpSCdcSwitch.Margin = new System.Windows.Forms.Padding(2);
             this.grpSCdcSwitch.Name = "grpSCdcSwitch";
             this.grpSCdcSwitch.Padding = new System.Windows.Forms.Padding(2);
@@ -1953,151 +2009,6 @@ namespace Scanner_SDK_Sample_Application
             this.chkAsync.TabIndex = 0;
             this.chkAsync.Text = "Asynchronous";
             this.chkAsync.UseVisualStyleBackColor = true;
-            // 
-            // grpBaudrate
-            // 
-            this.grpBaudrate.BackColor = System.Drawing.SystemColors.Window;
-            this.grpBaudrate.Controls.Add(this.lblStpBits);
-            this.grpBaudrate.Controls.Add(this.comboStpBits);
-            this.grpBaudrate.Controls.Add(this.lblParity);
-            this.grpBaudrate.Controls.Add(this.comboParity);
-            this.grpBaudrate.Controls.Add(this.btnSetSrilInfce);
-            this.grpBaudrate.Controls.Add(this.lblDataBit);
-            this.grpBaudrate.Controls.Add(this.lblBaudRte);
-            this.grpBaudrate.Controls.Add(this.comboDataBits);
-            this.grpBaudrate.Controls.Add(this.comboBaudRate);
-            this.grpBaudrate.Controls.Add(this.flwCtrlChkBox);
-            this.grpBaudrate.Location = new System.Drawing.Point(10, 110);
-            this.grpBaudrate.Name = "grpBaudrate";
-            this.grpBaudrate.Size = new System.Drawing.Size(485, 90);
-            this.grpBaudrate.TabIndex = 2;
-            this.grpBaudrate.TabStop = false;
-            this.grpBaudrate.Text = "Serial Interface Settings";
-            // 
-            // lblStpBits
-            // 
-            this.lblStpBits.AutoSize = true;
-            this.lblStpBits.Location = new System.Drawing.Point(204, 25);
-            this.lblStpBits.Name = "lblStpBits";
-            this.lblStpBits.Size = new System.Drawing.Size(49, 13);
-            this.lblStpBits.TabIndex = 14;
-            this.lblStpBits.Text = "Stop Bits";
-            // 
-            // comboStpBits
-            // 
-            this.comboStpBits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboStpBits.FormattingEnabled = true;
-            this.comboStpBits.Items.AddRange(new object[] {
-            "1",
-            "1.5",
-            "2"});
-            this.comboStpBits.Location = new System.Drawing.Point(266, 22);
-            this.comboStpBits.Name = "comboStpBits";
-            this.comboStpBits.Size = new System.Drawing.Size(121, 21);
-            this.comboStpBits.TabIndex = 2;
-            // 
-            // lblParity
-            // 
-            this.lblParity.AutoSize = true;
-            this.lblParity.Location = new System.Drawing.Point(6, 22);
-            this.lblParity.Name = "lblParity";
-            this.lblParity.Size = new System.Drawing.Size(33, 13);
-            this.lblParity.TabIndex = 12;
-            this.lblParity.Text = "Parity";
-            // 
-            // comboParity
-            // 
-            this.comboParity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboParity.FormattingEnabled = true;
-            this.comboParity.Items.AddRange(new object[] {
-            "NONE",
-            "ODD",
-            "EVEN",
-            "MARK",
-            "SPACE"});
-            this.comboParity.Location = new System.Drawing.Point(75, 19);
-            this.comboParity.Name = "comboParity";
-            this.comboParity.Size = new System.Drawing.Size(121, 21);
-            this.comboParity.TabIndex = 0;
-            // 
-            // btnSetSrilInfce
-            // 
-            this.btnSetSrilInfce.Location = new System.Drawing.Point(404, 48);
-            this.btnSetSrilInfce.Name = "btnSetSrilInfce";
-            this.btnSetSrilInfce.Size = new System.Drawing.Size(75, 23);
-            this.btnSetSrilInfce.TabIndex = 5;
-            this.btnSetSrilInfce.Text = "Set";
-            this.btnSetSrilInfce.UseVisualStyleBackColor = true;
-            this.btnSetSrilInfce.Click += new System.EventHandler(this.btnSetSrilInfce_Click);
-            // 
-            // lblDataBit
-            // 
-            this.lblDataBit.AutoSize = true;
-            this.lblDataBit.Location = new System.Drawing.Point(204, 52);
-            this.lblDataBit.Name = "lblDataBit";
-            this.lblDataBit.Size = new System.Drawing.Size(50, 13);
-            this.lblDataBit.TabIndex = 9;
-            this.lblDataBit.Text = "Data Bits";
-            // 
-            // lblBaudRte
-            // 
-            this.lblBaudRte.AutoSize = true;
-            this.lblBaudRte.Location = new System.Drawing.Point(6, 49);
-            this.lblBaudRte.Name = "lblBaudRte";
-            this.lblBaudRte.Size = new System.Drawing.Size(58, 13);
-            this.lblBaudRte.TabIndex = 8;
-            this.lblBaudRte.Text = "Baud Rate";
-            // 
-            // comboDataBits
-            // 
-            this.comboDataBits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboDataBits.FormattingEnabled = true;
-            this.comboDataBits.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8"});
-            this.comboDataBits.Location = new System.Drawing.Point(266, 49);
-            this.comboDataBits.Name = "comboDataBits";
-            this.comboDataBits.Size = new System.Drawing.Size(121, 21);
-            this.comboDataBits.TabIndex = 3;
-            // 
-            // comboBaudRate
-            // 
-            this.comboBaudRate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBaudRate.FormattingEnabled = true;
-            this.comboBaudRate.Items.AddRange(new object[] {
-            "110",
-            "300",
-            "1200",
-            "2400",
-            "4800",
-            "9600",
-            "19200",
-            "38400",
-            "57600",
-            "115200",
-            "230400",
-            "460800",
-            "921600"});
-            this.comboBaudRate.Location = new System.Drawing.Point(75, 46);
-            this.comboBaudRate.Name = "comboBaudRate";
-            this.comboBaudRate.Size = new System.Drawing.Size(121, 21);
-            this.comboBaudRate.TabIndex = 1;
-            // 
-            // flwCtrlChkBox
-            // 
-            this.flwCtrlChkBox.AutoSize = true;
-            this.flwCtrlChkBox.Location = new System.Drawing.Point(395, 22);
-            this.flwCtrlChkBox.Name = "flwCtrlChkBox";
-            this.flwCtrlChkBox.Size = new System.Drawing.Size(84, 17);
-            this.flwCtrlChkBox.TabIndex = 4;
-            this.flwCtrlChkBox.Text = "Flow Control";
-            this.flwCtrlChkBox.UseVisualStyleBackColor = true;
             // 
             // tabScale
             // 
@@ -2873,6 +2784,8 @@ namespace Scanner_SDK_Sample_Application
             this.grpFWoptns.PerformLayout();
             this.grpScannerProp.ResumeLayout(false);
             this.grpScannerProp.PerformLayout();
+            this.grpElectricFenceCustomTone.ResumeLayout(false);
+            this.grpElectricFenceCustomTone.PerformLayout();
             this.tabScan2Connect.ResumeLayout(false);
             this.grpScan2Connect.ResumeLayout(false);
             this.grpScan2Connect.PerformLayout();
@@ -2884,8 +2797,6 @@ namespace Scanner_SDK_Sample_Application
             this.grpMiscCmd.ResumeLayout(false);
             this.grpAsync.ResumeLayout(false);
             this.grpAsync.PerformLayout();
-            this.grpBaudrate.ResumeLayout(false);
-            this.grpBaudrate.PerformLayout();
             this.tabScale.ResumeLayout(false);
             this.grpScale.ResumeLayout(false);
             this.grpScale.PerformLayout();
@@ -2995,7 +2906,6 @@ namespace Scanner_SDK_Sample_Application
         private System.Windows.Forms.GroupBox grpMiscCmd;
         private System.Windows.Forms.Button btnGetDevTopology;
         private System.Windows.Forms.Button btnSdkVersion;
-        private System.Windows.Forms.GroupBox grpBaudrate;
         private System.Windows.Forms.StatusStrip stStripResult;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLbl;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLblTotal;
@@ -3020,16 +2930,6 @@ namespace Scanner_SDK_Sample_Application
         private System.Windows.Forms.TextBox txtBarcodeLbl;
         private System.Windows.Forms.GroupBox filterScnrs;
         private System.Windows.Forms.ComboBox comboFilterScnrs;
-        private System.Windows.Forms.ComboBox comboDataBits;
-        private System.Windows.Forms.ComboBox comboBaudRate;
-        private System.Windows.Forms.CheckBox flwCtrlChkBox;
-        private System.Windows.Forms.Label lblDataBit;
-        private System.Windows.Forms.Label lblBaudRte;
-        private System.Windows.Forms.Button btnSetSrilInfce;
-        private System.Windows.Forms.Label lblStpBits;
-        private System.Windows.Forms.ComboBox comboStpBits;
-        private System.Windows.Forms.Label lblParity;
-        private System.Windows.Forms.ComboBox comboParity;
         private System.Windows.Forms.Button btnSveImge;
         private System.Windows.Forms.SaveFileDialog saveImgFileDialog;
         private System.Windows.Forms.Label lblSlctScnnr;
@@ -3146,6 +3046,11 @@ namespace Scanner_SDK_Sample_Application
         private System.Windows.Forms.Button btnEnablePagerMotor;
         private System.Windows.Forms.Label lblPagerMotorTimeout;
         private System.Windows.Forms.TextBox txtPagerMotorDuration;
+        private System.Windows.Forms.Button btnElectricFenceEraseTone;
+        private System.Windows.Forms.Button buttonElectricFenceWavFileUpload;
+        private System.Windows.Forms.TextBox textBoxElectricFenceWaveFile;
+        private System.Windows.Forms.Button buttonElectricFenceWavFileBrowse;
+        private System.Windows.Forms.GroupBox grpElectricFenceCustomTone;
     }
 }
 

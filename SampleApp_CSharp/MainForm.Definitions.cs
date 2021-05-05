@@ -268,6 +268,8 @@ namespace Scanner_SDK_Sample_Application
         const int UPDATE_FIRMWARE_FROM_PLUGIN = 5017;
         const int UPDATE_DECODE_TONE = 5050;
         const int ERASE_DECODE_TONE = 5051;
+        const int UPDATE_ELECTRIC_FENCE_CUSTOM_TONE = 5052;
+        const int ERASE_ELECTRIC_FENCE_CUSTOM_TONE = 5053;
         const int SET_ACTION = 6000;
 
         const int PAGER_MOTOR_ACTION = 6033;
