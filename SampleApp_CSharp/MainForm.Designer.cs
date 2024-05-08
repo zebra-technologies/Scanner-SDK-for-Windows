@@ -48,6 +48,8 @@ namespace Scanner_SDK_Sample_Application
             this.cmbEmulation = new System.Windows.Forms.ComboBox();
             this.txtBarcode = new System.Windows.Forms.TextBox();
             this.grpboxBarcodeLbl = new System.Windows.Forms.GroupBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.cmbEncoding = new System.Windows.Forms.ComboBox();
             this.lblSyblogy = new System.Windows.Forms.Label();
             this.txtSyblogy = new System.Windows.Forms.TextBox();
             this.lblDecdBarCde = new System.Windows.Forms.Label();
@@ -106,7 +108,7 @@ namespace Scanner_SDK_Sample_Application
             this.btnScannerDisable = new System.Windows.Forms.Button();
             this.btnScannerEnable = new System.Windows.Forms.Button();
             this.grpBeeper = new System.Windows.Forms.GroupBox();
-            this.comboBeep = new System.Windows.Forms.ComboBox();
+            this.cmbBeep = new System.Windows.Forms.ComboBox();
             this.btnSoundBeeper = new System.Windows.Forms.Button();
             this.grpLed = new System.Windows.Forms.GroupBox();
             this.cmbLed = new System.Windows.Forms.ComboBox();
@@ -135,10 +137,10 @@ namespace Scanner_SDK_Sample_Application
             this.grpCustomDecodeTone = new System.Windows.Forms.GroupBox();
             this.btnEraseTone = new System.Windows.Forms.Button();
             this.buttonWavFileUpload = new System.Windows.Forms.Button();
-            this.textBoxWavFile = new System.Windows.Forms.TextBox();
+            this.txtWavFile = new System.Windows.Forms.TextBox();
             this.buttonWavFileBrowse = new System.Windows.Forms.Button();
             this.filterScnrs = new System.Windows.Forms.GroupBox();
-            this.comboFilterScnrs = new System.Windows.Forms.ComboBox();
+            this.cmbFilterScnrs = new System.Windows.Forms.ComboBox();
             this.grpFrmWrUpdate = new System.Windows.Forms.GroupBox();
             this.grpFWoptns = new System.Windows.Forms.GroupBox();
             this.chkBulk = new System.Windows.Forms.CheckBox();
@@ -153,7 +155,7 @@ namespace Scanner_SDK_Sample_Application
             this.grpElectricFenceCustomTone = new System.Windows.Forms.GroupBox();
             this.btnElectricFenceEraseTone = new System.Windows.Forms.Button();
             this.buttonElectricFenceWavFileUpload = new System.Windows.Forms.Button();
-            this.textBoxElectricFenceWaveFile = new System.Windows.Forms.TextBox();
+            this.txtElectricFenceWaveFile = new System.Windows.Forms.TextBox();
             this.buttonElectricFenceWavFileBrowse = new System.Windows.Forms.Button();
             this.tabScan2Connect = new System.Windows.Forms.TabPage();
             this.grpScan2Connect = new System.Windows.Forms.GroupBox();
@@ -176,7 +178,7 @@ namespace Scanner_SDK_Sample_Application
             this.btnSCdcSwitchDevices = new System.Windows.Forms.Button();
             this.chkSCdcSIsPermanent = new System.Windows.Forms.CheckBox();
             this.chkSCdcSIsSilent = new System.Windows.Forms.CheckBox();
-            this.comboSCdcSHostMode = new System.Windows.Forms.ComboBox();
+            this.cmbSCdcSHostMode = new System.Windows.Forms.ComboBox();
             this.lblSCdcSHostMode = new System.Windows.Forms.Label();
             this.grpMiscCmd = new System.Windows.Forms.GroupBox();
             this.btnGetDevTopology = new System.Windows.Forms.Button();
@@ -228,7 +230,7 @@ namespace Scanner_SDK_Sample_Application
             this.gbAdvanced = new System.Windows.Forms.GroupBox();
             this.grpGeneral = new System.Windows.Forms.GroupBox();
             this.lblSlctScnnr = new System.Windows.Forms.Label();
-            this.combSlcrScnr = new System.Windows.Forms.ComboBox();
+            this.cmbSlcrScnr = new System.Windows.Forms.ComboBox();
             this.grpScanners = new System.Windows.Forms.GroupBox();
             this.lstvScanners = new System.Windows.Forms.ListView();
             this.clmId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -255,6 +257,7 @@ namespace Scanner_SDK_Sample_Application
             this.openFileDialogWavFile = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogDADF = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialogBarcodePath = new System.Windows.Forms.FolderBrowserDialog();
+            this.clmCnfig = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabCtrl.SuspendLayout();
             this.tabBarcode.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -442,12 +445,14 @@ namespace Scanner_SDK_Sample_Application
             this.txtBarcode.Name = "txtBarcode";
             this.txtBarcode.ReadOnly = true;
             this.txtBarcode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBarcode.Size = new System.Drawing.Size(468, 248);
+            this.txtBarcode.Size = new System.Drawing.Size(468, 217);
             this.txtBarcode.TabIndex = 0;
             // 
             // grpboxBarcodeLbl
             // 
             this.grpboxBarcodeLbl.BackColor = System.Drawing.SystemColors.Window;
+            this.grpboxBarcodeLbl.Controls.Add(this.label15);
+            this.grpboxBarcodeLbl.Controls.Add(this.cmbEncoding);
             this.grpboxBarcodeLbl.Controls.Add(this.lblSyblogy);
             this.grpboxBarcodeLbl.Controls.Add(this.txtSyblogy);
             this.grpboxBarcodeLbl.Controls.Add(this.lblDecdBarCde);
@@ -455,17 +460,40 @@ namespace Scanner_SDK_Sample_Application
             this.grpboxBarcodeLbl.Controls.Add(this.btnAbortMacroPdf);
             this.grpboxBarcodeLbl.Controls.Add(this.btnBarcodeClear);
             this.grpboxBarcodeLbl.Controls.Add(this.btnFlushMacroPdf);
-            this.grpboxBarcodeLbl.Location = new System.Drawing.Point(19, 264);
+            this.grpboxBarcodeLbl.Location = new System.Drawing.Point(19, 238);
             this.grpboxBarcodeLbl.Name = "grpboxBarcodeLbl";
-            this.grpboxBarcodeLbl.Size = new System.Drawing.Size(468, 98);
+            this.grpboxBarcodeLbl.Size = new System.Drawing.Size(468, 124);
             this.grpboxBarcodeLbl.TabIndex = 1;
             this.grpboxBarcodeLbl.TabStop = false;
             this.grpboxBarcodeLbl.Text = "Barcode Scanning";
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(53, 20);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(52, 13);
+            this.label15.TabIndex = 41;
+            this.label15.Text = "Encoding";
+            // 
+            // cmbEncoding
+            // 
+            this.cmbEncoding.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbEncoding.FormattingEnabled = true;
+            this.cmbEncoding.Items.AddRange(new object[] {
+            "ASCII",
+            "UTF-8",
+            "UTF-16",
+            "UTF-32"});
+            this.cmbEncoding.Location = new System.Drawing.Point(121, 17);
+            this.cmbEncoding.Name = "cmbEncoding";
+            this.cmbEncoding.Size = new System.Drawing.Size(121, 21);
+            this.cmbEncoding.TabIndex = 40;
+            // 
             // lblSyblogy
             // 
             this.lblSyblogy.AutoSize = true;
-            this.lblSyblogy.Location = new System.Drawing.Point(49, 46);
+            this.lblSyblogy.Location = new System.Drawing.Point(47, 72);
             this.lblSyblogy.Name = "lblSyblogy";
             this.lblSyblogy.Size = new System.Drawing.Size(58, 13);
             this.lblSyblogy.TabIndex = 39;
@@ -474,7 +502,7 @@ namespace Scanner_SDK_Sample_Application
             // txtSyblogy
             // 
             this.txtSyblogy.BackColor = System.Drawing.Color.White;
-            this.txtSyblogy.Location = new System.Drawing.Point(121, 44);
+            this.txtSyblogy.Location = new System.Drawing.Point(121, 69);
             this.txtSyblogy.Name = "txtSyblogy";
             this.txtSyblogy.ReadOnly = true;
             this.txtSyblogy.Size = new System.Drawing.Size(332, 20);
@@ -483,7 +511,7 @@ namespace Scanner_SDK_Sample_Application
             // lblDecdBarCde
             // 
             this.lblDecdBarCde.AutoSize = true;
-            this.lblDecdBarCde.Location = new System.Drawing.Point(11, 21);
+            this.lblDecdBarCde.Location = new System.Drawing.Point(11, 46);
             this.lblDecdBarCde.Name = "lblDecdBarCde";
             this.lblDecdBarCde.Size = new System.Drawing.Size(94, 13);
             this.lblDecdBarCde.TabIndex = 0;
@@ -492,7 +520,7 @@ namespace Scanner_SDK_Sample_Application
             // txtBarcodeLbl
             // 
             this.txtBarcodeLbl.BackColor = System.Drawing.Color.White;
-            this.txtBarcodeLbl.Location = new System.Drawing.Point(121, 19);
+            this.txtBarcodeLbl.Location = new System.Drawing.Point(121, 44);
             this.txtBarcodeLbl.Multiline = true;
             this.txtBarcodeLbl.Name = "txtBarcodeLbl";
             this.txtBarcodeLbl.Size = new System.Drawing.Size(331, 20);
@@ -500,7 +528,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // btnAbortMacroPdf
             // 
-            this.btnAbortMacroPdf.Location = new System.Drawing.Point(224, 71);
+            this.btnAbortMacroPdf.Location = new System.Drawing.Point(224, 96);
             this.btnAbortMacroPdf.Name = "btnAbortMacroPdf";
             this.btnAbortMacroPdf.Size = new System.Drawing.Size(104, 23);
             this.btnAbortMacroPdf.TabIndex = 3;
@@ -510,7 +538,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // btnBarcodeClear
             // 
-            this.btnBarcodeClear.Location = new System.Drawing.Point(349, 71);
+            this.btnBarcodeClear.Location = new System.Drawing.Point(349, 96);
             this.btnBarcodeClear.Name = "btnBarcodeClear";
             this.btnBarcodeClear.Size = new System.Drawing.Size(103, 23);
             this.btnBarcodeClear.TabIndex = 4;
@@ -520,7 +548,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             // btnFlushMacroPdf
             // 
-            this.btnFlushMacroPdf.Location = new System.Drawing.Point(95, 71);
+            this.btnFlushMacroPdf.Location = new System.Drawing.Point(95, 96);
             this.btnFlushMacroPdf.Name = "btnFlushMacroPdf";
             this.btnFlushMacroPdf.Size = new System.Drawing.Size(104, 23);
             this.btnFlushMacroPdf.TabIndex = 2;
@@ -1077,7 +1105,7 @@ namespace Scanner_SDK_Sample_Application
             // grpBeeper
             // 
             this.grpBeeper.BackColor = System.Drawing.SystemColors.Window;
-            this.grpBeeper.Controls.Add(this.comboBeep);
+            this.grpBeeper.Controls.Add(this.cmbBeep);
             this.grpBeeper.Controls.Add(this.btnSoundBeeper);
             this.grpBeeper.Location = new System.Drawing.Point(31, 149);
             this.grpBeeper.Name = "grpBeeper";
@@ -1086,11 +1114,11 @@ namespace Scanner_SDK_Sample_Application
             this.grpBeeper.TabStop = false;
             this.grpBeeper.Text = "Beeper";
             // 
-            // comboBeep
+            // cmbBeep
             // 
-            this.comboBeep.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBeep.FormattingEnabled = true;
-            this.comboBeep.Items.AddRange(new object[] {
+            this.cmbBeep.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbBeep.FormattingEnabled = true;
+            this.cmbBeep.Items.AddRange(new object[] {
             "ONE SHORT HIGH",
             "TWO SHORT HIGH",
             "THREE SHORT HIGH",
@@ -1118,10 +1146,10 @@ namespace Scanner_SDK_Sample_Application
             "HIGH LOW HIGH",
             "LOW HIGH LOW",
             "HIGH HIGH LOW LOW"});
-            this.comboBeep.Location = new System.Drawing.Point(87, 43);
-            this.comboBeep.Name = "comboBeep";
-            this.comboBeep.Size = new System.Drawing.Size(168, 21);
-            this.comboBeep.TabIndex = 0;
+            this.cmbBeep.Location = new System.Drawing.Point(87, 43);
+            this.cmbBeep.Name = "cmbBeep";
+            this.cmbBeep.Size = new System.Drawing.Size(168, 21);
+            this.cmbBeep.TabIndex = 0;
             // 
             // btnSoundBeeper
             // 
@@ -1435,7 +1463,7 @@ namespace Scanner_SDK_Sample_Application
             this.grpCustomDecodeTone.BackColor = System.Drawing.SystemColors.Window;
             this.grpCustomDecodeTone.Controls.Add(this.btnEraseTone);
             this.grpCustomDecodeTone.Controls.Add(this.buttonWavFileUpload);
-            this.grpCustomDecodeTone.Controls.Add(this.textBoxWavFile);
+            this.grpCustomDecodeTone.Controls.Add(this.txtWavFile);
             this.grpCustomDecodeTone.Controls.Add(this.buttonWavFileBrowse);
             this.grpCustomDecodeTone.Location = new System.Drawing.Point(16, 208);
             this.grpCustomDecodeTone.Margin = new System.Windows.Forms.Padding(2);
@@ -1465,15 +1493,15 @@ namespace Scanner_SDK_Sample_Application
             this.buttonWavFileUpload.TabIndex = 2;
             this.buttonWavFileUpload.Text = "Upload To Scanner";
             this.buttonWavFileUpload.UseVisualStyleBackColor = true;
-            this.buttonWavFileUpload.Click += new System.EventHandler(this.buttonWavFileUpload_Click);
+            this.buttonWavFileUpload.Click += new System.EventHandler(this.btnWavFileUpload_Click);
             // 
-            // textBoxWavFile
+            // txtWavFile
             // 
-            this.textBoxWavFile.Location = new System.Drawing.Point(8, 24);
-            this.textBoxWavFile.Margin = new System.Windows.Forms.Padding(2);
-            this.textBoxWavFile.Name = "textBoxWavFile";
-            this.textBoxWavFile.Size = new System.Drawing.Size(354, 20);
-            this.textBoxWavFile.TabIndex = 0;
+            this.txtWavFile.Location = new System.Drawing.Point(8, 24);
+            this.txtWavFile.Margin = new System.Windows.Forms.Padding(2);
+            this.txtWavFile.Name = "txtWavFile";
+            this.txtWavFile.Size = new System.Drawing.Size(354, 20);
+            this.txtWavFile.TabIndex = 0;
             // 
             // buttonWavFileBrowse
             // 
@@ -1484,11 +1512,11 @@ namespace Scanner_SDK_Sample_Application
             this.buttonWavFileBrowse.TabIndex = 1;
             this.buttonWavFileBrowse.Text = "Browse";
             this.buttonWavFileBrowse.UseVisualStyleBackColor = true;
-            this.buttonWavFileBrowse.Click += new System.EventHandler(this.buttonWavFileBrowse_Click);
+            this.buttonWavFileBrowse.Click += new System.EventHandler(this.btnWavFileBrowse_Click);
             // 
             // filterScnrs
             // 
-            this.filterScnrs.Controls.Add(this.comboFilterScnrs);
+            this.filterScnrs.Controls.Add(this.cmbFilterScnrs);
             this.filterScnrs.Location = new System.Drawing.Point(321, 152);
             this.filterScnrs.Name = "filterScnrs";
             this.filterScnrs.Size = new System.Drawing.Size(163, 51);
@@ -1496,20 +1524,20 @@ namespace Scanner_SDK_Sample_Application
             this.filterScnrs.TabStop = false;
             this.filterScnrs.Text = "Protocol Select";
             // 
-            // comboFilterScnrs
+            // cmbFilterScnrs
             // 
-            this.comboFilterScnrs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboFilterScnrs.FormattingEnabled = true;
-            this.comboFilterScnrs.Items.AddRange(new object[] {
+            this.cmbFilterScnrs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFilterScnrs.FormattingEnabled = true;
+            this.cmbFilterScnrs.Items.AddRange(new object[] {
             "ALL",
             "HID KEYBOARD",
             "IBM HANDHELD",
             "SNAPI"});
-            this.comboFilterScnrs.Location = new System.Drawing.Point(33, 17);
-            this.comboFilterScnrs.Name = "comboFilterScnrs";
-            this.comboFilterScnrs.Size = new System.Drawing.Size(121, 21);
-            this.comboFilterScnrs.TabIndex = 0;
-            this.comboFilterScnrs.SelectedIndexChanged += new System.EventHandler(this.comboFilterScnrs_SelectedIndexChanged);
+            this.cmbFilterScnrs.Location = new System.Drawing.Point(33, 17);
+            this.cmbFilterScnrs.Name = "cmbFilterScnrs";
+            this.cmbFilterScnrs.Size = new System.Drawing.Size(121, 21);
+            this.cmbFilterScnrs.TabIndex = 0;
+            this.cmbFilterScnrs.SelectedIndexChanged += new System.EventHandler(this.cmbFilterScnrs_SelectedIndexChanged);
             // 
             // grpFrmWrUpdate
             // 
@@ -1577,7 +1605,7 @@ namespace Scanner_SDK_Sample_Application
             this.btnLaunchNewFW.TabIndex = 3;
             this.btnLaunchNewFW.Text = "Launch";
             this.btnLaunchNewFW.UseVisualStyleBackColor = true;
-            this.btnLaunchNewFW.Click += new System.EventHandler(this.btnStartNewFW_Click);
+            this.btnLaunchNewFW.Click += new System.EventHandler(this.btnLaunchNewFW_Click);
             // 
             // progressBarFWUpdate
             // 
@@ -1595,7 +1623,7 @@ namespace Scanner_SDK_Sample_Application
             this.buttonFWBrowse.TabIndex = 1;
             this.buttonFWBrowse.Text = "Browse";
             this.buttonFWBrowse.UseVisualStyleBackColor = true;
-            this.buttonFWBrowse.Click += new System.EventHandler(this.buttonFWBrowse_Click);
+            this.buttonFWBrowse.Click += new System.EventHandler(this.btnFWBrowse_Click);
             // 
             // txtFWFile
             // 
@@ -1632,7 +1660,7 @@ namespace Scanner_SDK_Sample_Application
             this.grpElectricFenceCustomTone.BackColor = System.Drawing.SystemColors.Window;
             this.grpElectricFenceCustomTone.Controls.Add(this.btnElectricFenceEraseTone);
             this.grpElectricFenceCustomTone.Controls.Add(this.buttonElectricFenceWavFileUpload);
-            this.grpElectricFenceCustomTone.Controls.Add(this.textBoxElectricFenceWaveFile);
+            this.grpElectricFenceCustomTone.Controls.Add(this.txtElectricFenceWaveFile);
             this.grpElectricFenceCustomTone.Controls.Add(this.buttonElectricFenceWavFileBrowse);
             this.grpElectricFenceCustomTone.Location = new System.Drawing.Point(16, 318);
             this.grpElectricFenceCustomTone.Margin = new System.Windows.Forms.Padding(2);
@@ -1662,15 +1690,15 @@ namespace Scanner_SDK_Sample_Application
             this.buttonElectricFenceWavFileUpload.TabIndex = 2;
             this.buttonElectricFenceWavFileUpload.Text = "Upload To Scanner";
             this.buttonElectricFenceWavFileUpload.UseVisualStyleBackColor = true;
-            this.buttonElectricFenceWavFileUpload.Click += new System.EventHandler(this.buttonElectricFenceWavFileUpload_Click);
+            this.buttonElectricFenceWavFileUpload.Click += new System.EventHandler(this.btnElectricFenceWavFileUpload_Click);
             // 
-            // textBoxElectricFenceWaveFile
+            // txtElectricFenceWaveFile
             // 
-            this.textBoxElectricFenceWaveFile.Location = new System.Drawing.Point(8, 24);
-            this.textBoxElectricFenceWaveFile.Margin = new System.Windows.Forms.Padding(2);
-            this.textBoxElectricFenceWaveFile.Name = "textBoxElectricFenceWaveFile";
-            this.textBoxElectricFenceWaveFile.Size = new System.Drawing.Size(354, 20);
-            this.textBoxElectricFenceWaveFile.TabIndex = 0;
+            this.txtElectricFenceWaveFile.Location = new System.Drawing.Point(8, 24);
+            this.txtElectricFenceWaveFile.Margin = new System.Windows.Forms.Padding(2);
+            this.txtElectricFenceWaveFile.Name = "txtElectricFenceWaveFile";
+            this.txtElectricFenceWaveFile.Size = new System.Drawing.Size(354, 20);
+            this.txtElectricFenceWaveFile.TabIndex = 0;
             // 
             // buttonElectricFenceWavFileBrowse
             // 
@@ -1681,7 +1709,7 @@ namespace Scanner_SDK_Sample_Application
             this.buttonElectricFenceWavFileBrowse.TabIndex = 1;
             this.buttonElectricFenceWavFileBrowse.Text = "Browse";
             this.buttonElectricFenceWavFileBrowse.UseVisualStyleBackColor = true;
-            this.buttonElectricFenceWavFileBrowse.Click += new System.EventHandler(this.buttonElectricFenceWavFileBrowse_Click);
+            this.buttonElectricFenceWavFileBrowse.Click += new System.EventHandler(this.btnElectricFenceWavFileBrowse_Click);
             // 
             // tabScan2Connect
             // 
@@ -1885,7 +1913,7 @@ namespace Scanner_SDK_Sample_Application
             this.grpSCdcSwitch.Controls.Add(this.btnSCdcSwitchDevices);
             this.grpSCdcSwitch.Controls.Add(this.chkSCdcSIsPermanent);
             this.grpSCdcSwitch.Controls.Add(this.chkSCdcSIsSilent);
-            this.grpSCdcSwitch.Controls.Add(this.comboSCdcSHostMode);
+            this.grpSCdcSwitch.Controls.Add(this.cmbSCdcSHostMode);
             this.grpSCdcSwitch.Controls.Add(this.lblSCdcSHostMode);
             this.grpSCdcSwitch.Location = new System.Drawing.Point(10, 109);
             this.grpSCdcSwitch.Margin = new System.Windows.Forms.Padding(2);
@@ -1928,24 +1956,15 @@ namespace Scanner_SDK_Sample_Application
             this.chkSCdcSIsSilent.Text = "Is Silent";
             this.chkSCdcSIsSilent.UseVisualStyleBackColor = true;
             // 
-            // comboSCdcSHostMode
+            // cmbSCdcSHostMode
             // 
-            this.comboSCdcSHostMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboSCdcSHostMode.FormattingEnabled = true;
-            this.comboSCdcSHostMode.Items.AddRange(new object[] {
-            "USB-IBMHID",
-            "USB-IBMTT",
-            "USB-HIDKB",
-            "USB-OPOS",
-            "USB-SNAPI with Imaging",
-            "USB-SNAPI without Imaging",
-            "USB-CDC Serial Emulation",
-            "USB-SSI over CDC"});
-            this.comboSCdcSHostMode.Location = new System.Drawing.Point(75, 27);
-            this.comboSCdcSHostMode.Margin = new System.Windows.Forms.Padding(2);
-            this.comboSCdcSHostMode.Name = "comboSCdcSHostMode";
-            this.comboSCdcSHostMode.Size = new System.Drawing.Size(143, 21);
-            this.comboSCdcSHostMode.TabIndex = 1;
+            this.cmbSCdcSHostMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSCdcSHostMode.FormattingEnabled = true;
+            this.cmbSCdcSHostMode.Location = new System.Drawing.Point(75, 27);
+            this.cmbSCdcSHostMode.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbSCdcSHostMode.Name = "cmbSCdcSHostMode";
+            this.cmbSCdcSHostMode.Size = new System.Drawing.Size(143, 21);
+            this.cmbSCdcSHostMode.TabIndex = 1;
             // 
             // lblSCdcSHostMode
             // 
@@ -2511,7 +2530,7 @@ namespace Scanner_SDK_Sample_Application
             // 
             this.grpGeneral.Controls.Add(this.lblSlctScnnr);
             this.grpGeneral.Controls.Add(this.grpTrigger);
-            this.grpGeneral.Controls.Add(this.combSlcrScnr);
+            this.grpGeneral.Controls.Add(this.cmbSlcrScnr);
             this.grpGeneral.Controls.Add(this.grpScanners);
             this.grpGeneral.Controls.Add(this.btnGetScanners);
             this.grpGeneral.Location = new System.Drawing.Point(7, 12);
@@ -2530,15 +2549,15 @@ namespace Scanner_SDK_Sample_Application
             this.lblSlctScnnr.TabIndex = 66;
             this.lblSlctScnnr.Text = "Select Scanner";
             // 
-            // combSlcrScnr
+            // cmbSlcrScnr
             // 
-            this.combSlcrScnr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combSlcrScnr.FormattingEnabled = true;
-            this.combSlcrScnr.Location = new System.Drawing.Point(246, 50);
-            this.combSlcrScnr.Name = "combSlcrScnr";
-            this.combSlcrScnr.Size = new System.Drawing.Size(183, 21);
-            this.combSlcrScnr.TabIndex = 1;
-            this.combSlcrScnr.SelectedIndexChanged += new System.EventHandler(this.combSlcrScnr_SelectedIndexChanged);
+            this.cmbSlcrScnr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSlcrScnr.FormattingEnabled = true;
+            this.cmbSlcrScnr.Location = new System.Drawing.Point(246, 50);
+            this.cmbSlcrScnr.Name = "cmbSlcrScnr";
+            this.cmbSlcrScnr.Size = new System.Drawing.Size(183, 21);
+            this.cmbSlcrScnr.TabIndex = 1;
+            this.cmbSlcrScnr.SelectedIndexChanged += new System.EventHandler(this.cmbSlcrScnr_SelectedIndexChanged);
             // 
             // grpScanners
             // 
@@ -2558,6 +2577,7 @@ namespace Scanner_SDK_Sample_Application
             this.clmType,
             this.clmModel,
             this.clmFrmwr,
+            this.clmCnfig,
             this.clmMnftrd,
             this.clmSerial,
             this.clmGuid});
@@ -2718,6 +2738,11 @@ namespace Scanner_SDK_Sample_Application
             // 
             this.openFileDialogDADF.Filter = "Driver ADF Script files (*.dadf)|*.dadf";
             // 
+            // clmCnfig
+            // 
+            this.clmCnfig.Text = "Config Name";
+            this.clmCnfig.Width = 119;
+            // 
             // frmScannerApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2819,18 +2844,6 @@ namespace Scanner_SDK_Sample_Application
 
         }
 
-
-        /// <summary>
-        /// This method allows only digits to be entered as pager motor duration
-        /// Sends DEVICE_PAGE_MOTOR_CONTROL
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TxtPagerMotorDuration_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
-        {
-            PerformPagerMotorTxtKeyPress(sender, e);
-        }
-
         #endregion
 
         private System.Windows.Forms.TabControl tabCtrl;
@@ -2919,8 +2932,8 @@ namespace Scanner_SDK_Sample_Application
         private System.Windows.Forms.GroupBox grpResult;
         private System.Windows.Forms.Button btnClearLogsArea;
         private System.Windows.Forms.TextBox txtResults;
-        private System.Windows.Forms.ComboBox combSlcrScnr;
-        private System.Windows.Forms.ComboBox comboBeep;
+        private System.Windows.Forms.ComboBox cmbSlcrScnr;
+        private System.Windows.Forms.ComboBox cmbBeep;
         private System.Windows.Forms.GroupBox grpHVS;
         private System.Windows.Forms.ComboBox cmbMode;
         private System.Windows.Forms.CheckBox chkShmPermChange;
@@ -2929,7 +2942,7 @@ namespace Scanner_SDK_Sample_Application
         private System.Windows.Forms.GroupBox grpboxBarcodeLbl;
         private System.Windows.Forms.TextBox txtBarcodeLbl;
         private System.Windows.Forms.GroupBox filterScnrs;
-        private System.Windows.Forms.ComboBox comboFilterScnrs;
+        private System.Windows.Forms.ComboBox cmbFilterScnrs;
         private System.Windows.Forms.Button btnSveImge;
         private System.Windows.Forms.SaveFileDialog saveImgFileDialog;
         private System.Windows.Forms.Label lblSlctScnnr;
@@ -2985,7 +2998,7 @@ namespace Scanner_SDK_Sample_Application
         private System.Windows.Forms.OpenFileDialog openFileDialogWavFile;
         private System.Windows.Forms.Button btnEraseTone;
         private System.Windows.Forms.Button buttonWavFileUpload;
-        private System.Windows.Forms.TextBox textBoxWavFile;
+        private System.Windows.Forms.TextBox txtWavFile;
         private System.Windows.Forms.Button buttonWavFileBrowse;
         private System.Windows.Forms.GroupBox grpCustomDecodeTone;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -3040,7 +3053,7 @@ namespace Scanner_SDK_Sample_Application
         private System.Windows.Forms.Button btnSCdcSwitchDevices;
         private System.Windows.Forms.CheckBox chkSCdcSIsPermanent;
         private System.Windows.Forms.CheckBox chkSCdcSIsSilent;
-        private System.Windows.Forms.ComboBox comboSCdcSHostMode;
+        private System.Windows.Forms.ComboBox cmbSCdcSHostMode;
         private System.Windows.Forms.Label lblSCdcSHostMode;
         private System.Windows.Forms.GroupBox grpPagerMotor;
         private System.Windows.Forms.Button btnEnablePagerMotor;
@@ -3048,9 +3061,12 @@ namespace Scanner_SDK_Sample_Application
         private System.Windows.Forms.TextBox txtPagerMotorDuration;
         private System.Windows.Forms.Button btnElectricFenceEraseTone;
         private System.Windows.Forms.Button buttonElectricFenceWavFileUpload;
-        private System.Windows.Forms.TextBox textBoxElectricFenceWaveFile;
+        private System.Windows.Forms.TextBox txtElectricFenceWaveFile;
         private System.Windows.Forms.Button buttonElectricFenceWavFileBrowse;
         private System.Windows.Forms.GroupBox grpElectricFenceCustomTone;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.ComboBox cmbEncoding;
+        private System.Windows.Forms.ColumnHeader clmCnfig;
     }
 }
 

@@ -389,8 +389,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,6,5,0
- PRODUCTVERSION 3,6,5,0
+ FILEVERSION 3,6,37,0
+ PRODUCTVERSION 3,6,37,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x21L
@@ -408,12 +408,12 @@ BEGIN
             VALUE "Comments", "This is a MFC GUI application that can describe all functinalities in a Zebra Scanner by using CoreScanner service"
             VALUE "CompanyName", "Zebra Technologies"
             VALUE "FileDescription", "Scanner SDK (CoreScanner) Sample Application"
-            VALUE "FileVersion", "3.6.5.0"
+            VALUE "FileVersion", "3.6.37.0"
             VALUE "InternalName", "ScannerSDKSampleApp.exe"
-            VALUE "LegalCopyright", "©2021 Zebra Technologies Corp. and/or its affiliates.  All rights reserved."
+            VALUE "LegalCopyright", "©2024 Zebra Technologies Corp. and/or its affiliates.  All rights reserved."
             VALUE "OriginalFilename", "ScannerSDKSampleApp.exe"
             VALUE "ProductName", "Scanner SDK Sample Application"
-            VALUE "ProductVersion", "3.6.5.0"
+            VALUE "ProductVersion", "3.6.37.0"
             VALUE "SpecialBuild", "Beta"
         END
     END

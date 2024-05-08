@@ -16,33 +16,20 @@ namespace Scanner_SDK_Sample_Application
 {
     public partial class frmScannerApp
     {
+        const int DEVICE_CAPTURE_IMAGE = 3000;
+        const int DEVICE_CAPTURE_BARCODE = 3500;
+        const int DEVICE_CAPTURE_VIDEO = 4000;
+        const ushort VIDEOVIEWFINDER_PARAMNUM = 0x0144;
+        const ushort VIDEOVIEWFINDER_ON = 0x0001; /* Video view finder on */
+        const ushort VIDEOVIEWFINDER_OFF = 0x0000; /* Video view finder off */
+        const int ABORT_IMAGE_XFER = 3001;
+        const ushort IMAGE_FILETYPE_PARAMNUM = 0x0130; /* These values may change with the scanner  */
+
         private void PerformBtnImageClick(object sender, EventArgs e)
         {
-            if (IsScannerConnected())
-            {
-                pbxImageVideo.Enabled = true;
-                pbxImageVideo.Image = null;
-                string inXml = GetScannerIDXml();
-                int opCode = DEVICE_CAPTURE_IMAGE;
-                string outXml = "";
-                int status = STATUS_FALSE;
-                ExecCmd(opCode, ref inXml, out outXml, out status);
-                DisplayResult(status, "SET_IMAGE_MODE");
-            }
-        }
-
-
-        private void PerformBtnBarcodeClick(object sender, EventArgs e)
-        {
-            if (IsScannerConnected())
-            {
-                string inXml = GetScannerIDXml();
-                int opCode = DEVICE_CAPTURE_BARCODE;
-                string outXml = "";
-                int status = STATUS_FALSE;
-                ExecCmd(opCode, ref inXml, out outXml, out status);
-                DisplayResult(status, "SET_BARCODE_MODE");
-            }
+            ExecuteActionCommand(DEVICE_CAPTURE_IMAGE, "SET_IMAGE_MODE");
+            pbxImageVideo.Enabled = true;
+            pbxImageVideo.Image = null;
         }
 
         private void PerformOnVideoViewFinderEnable(object sender, EventArgs e)
@@ -60,58 +47,42 @@ namespace Scanner_SDK_Sample_Application
             {
                 m_arViewFindParamsList[1] = VIDEOVIEWFINDER_OFF;
             }
+            SetParameters(m_arViewFindParamsList[0], m_arViewFindParamsList[1]);
+           
+        }
 
+        private void SetParameters(ushort id, ushort value)
+        {
             string inXml = "<inArgs>" +
-                    GetOnlyScannerIDXml() +
-                    "<cmdArgs>" +
-                      "<arg-xml>" +
-                        "<attrib_list>" +
-                          "<attribute>" +
-                            "<id>" + m_arViewFindParamsList[0] + "</id>" +
-                            "<datatype>B</datatype>" +
-                            "<value>" + m_arViewFindParamsList[1] + "</value>" +
-                          "</attribute>" +
-                        "</attrib_list>" +
-                      "</arg-xml>" +
-                    "</cmdArgs>" +
-                  "</inArgs>";
-
-            int opCode = DEVICE_SET_PARAMETERS;
-            string outXml = "";
-            int status = STATUS_FALSE;
-            ExecCmd(opCode, ref inXml, out outXml, out status);
-            DisplayResult(status, "SET_PARAMETERS");
+                   GetOnlyScannerIDXml() +
+                   "<cmdArgs>" +
+                     "<arg-xml>" +
+                       "<attrib_list>" +
+                         "<attribute>" +
+                           "<id>" + id + "</id>" +
+                           "<datatype>B</datatype>" +
+                           "<value>" + value + "</value>" +
+                         "</attribute>" +
+                       "</attrib_list>" +
+                     "</arg-xml>" +
+                   "</cmdArgs>" +
+                 "</inArgs>";
+            ExecuteActionCommand(DEVICE_SET_PARAMETERS, "SET_PARAMETERS", inXml);
         }
 
 
         private void PerformBtnVideoClick(object sender, EventArgs e)
         {
-            if (IsScannerConnected())
-            {
-                pbxImageVideo.Enabled = true;
-                pbxImageVideo.Image = null;
-                string inXml = GetScannerIDXml();
-                int opCode = DEVICE_CAPTURE_VIDEO;
-                string outXml = "";
-                int status = STATUS_FALSE;
-                ExecCmd(opCode, ref inXml, out outXml, out status);
-                DisplayResult(status, "SET_VIDEO_MODE");
-            }
+            ExecuteActionCommand(DEVICE_CAPTURE_VIDEO, "SET_VIDEO_MODE");
+            pbxImageVideo.Enabled = true;
+            pbxImageVideo.Image = null;
         }
 
         private void PerformBtnAbortImageXferClick(object sender, EventArgs e)
         {
-            if (IsScannerConnected())
-            {
-                pbxImageVideo.Image = null;
-                pbxImageVideo.Enabled = false;
-                string inXml = GetScannerIDXml();
-                int opCode = ABORT_IMAGE_XFER;
-                string outXml = "";
-                int status = STATUS_FALSE;
-                ExecCmd(opCode, ref inXml, out outXml, out status);
-                DisplayResult(status, "ABORT_IMAGE_XFER");
-            }
+            ExecuteActionCommand(ABORT_IMAGE_XFER, "ABORT_IMAGE_XFER");
+            pbxImageVideo.Image = null;
+            pbxImageVideo.Enabled = false;
         }
 
         private void PerformBtnSveImgeClick(object sender, EventArgs e)
@@ -122,123 +93,18 @@ namespace Scanner_SDK_Sample_Application
             }
         }
 
-        private void PerformOnJpg(object sender, EventArgs e)
+        /// <summary>
+        /// Set parameters based on file type
+        /// </summary>
+        /// <param name="FileSelection">File type</param>
+        private void PerformOnImageType(ushort FileSelection)
         {
-            if (rdoJPG.Checked)
+            if (!IsScannerConnected())
             {
-                if (!IsScannerConnected())
-                {
-                    return;
-                }
-
-
-                string inXml = "<inArgs>" +
-                                    GetOnlyScannerIDXml() +
-                                    "<cmdArgs>" +
-                                        "<arg-xml>" +
-                                            "<attrib_list>" +
-                                                "<attribute>" +
-                                                    "<id>" +
-                                                      IMAGE_FILETYPE_PARAMNUM +
-                                                    "</id>" +
-                                                    "<datatype>B</datatype>" +
-                                                    "<value>" +
-                                                      JPEG_FILE_SELECTION +
-                                                    "</value>" +
-                                                 "</attribute>" +
-                                              "</attrib_list>" +
-                                           "</arg-xml>" +
-                                       "</cmdArgs>" +
-                                     "</inArgs>";
-
-                int opCode = DEVICE_SET_PARAMETERS;
-                string outXml = "";
-                int status = STATUS_FALSE;
-                ExecCmd(opCode, ref inXml, out outXml, out status);
-                DisplayResult(status, "SET_PARAMETERS");
+                return;
             }
+            SetParameters(IMAGE_FILETYPE_PARAMNUM, FileSelection);
         }
-
-        private void PerformOnTiff(object sender, EventArgs e)
-        {
-            if (rdoTIFF.Checked)
-            {
-                if (!IsScannerConnected())
-                {
-                    return;
-                }
-                //string inXml = "<inArgs>" +
-                //                 GetOnlyScannerIDXml() +
-                //                 "<cmdArgs>" +
-                //                 "<arg-int>" + IMAGE_FILETYPE_PARAMNUM + "</arg-int>" +
-                //                 "<arg-int>" + TIFF_FILE_SELECTION + "</arg-int>" +
-                //                 "</cmdArgs>" +
-                //                 "</inArgs>";
-
-                string inXml = "<inArgs>" +
-                                    GetOnlyScannerIDXml() +
-                                    "<cmdArgs>" +
-                                        "<arg-xml>" +
-                                            "<attrib_list>" +
-                                                "<attribute>" +
-                                                    "<id>" +
-                                                      IMAGE_FILETYPE_PARAMNUM +
-                                                    "</id>" +
-                                                    "<datatype>B</datatype>" +
-                                                    "<value>" +
-                                                      TIFF_FILE_SELECTION +
-                                                    "</value>" +
-                                                 "</attribute>" +
-                                              "</attrib_list>" +
-                                           "</arg-xml>" +
-                                       "</cmdArgs>" +
-                                     "</inArgs>";
-
-                int opCode = DEVICE_SET_PARAMETERS;
-                string outXml = "";
-                int status = STATUS_FALSE;
-                ExecCmd(opCode, ref inXml, out outXml, out status);
-                DisplayResult(status, "SET_PARAMETERS");
-            }
-        }
-
-        private void PerformOnBmp(object sender, EventArgs e)
-        {
-            if (rdoBMP.Checked)
-            {
-                if (!IsScannerConnected())
-                {
-                    return;
-                }
-
-                string inXml = "<inArgs>" +
-                                   GetOnlyScannerIDXml() +
-                                   "<cmdArgs>" +
-                                       "<arg-xml>" +
-                                           "<attrib_list>" +
-                                               "<attribute>" +
-                                                   "<id>" +
-                                                     IMAGE_FILETYPE_PARAMNUM +
-                                                   "</id>" +
-                                                   "<datatype>B</datatype>" +
-                                                   "<value>" +
-                                                     BMP_FILE_SELECTION +
-                                                   "</value>" +
-                                                "</attribute>" +
-                                             "</attrib_list>" +
-                                          "</arg-xml>" +
-                                      "</cmdArgs>" +
-                                    "</inArgs>";
-
-                int opCode = DEVICE_SET_PARAMETERS;
-                string outXml = "";
-                int status = STATUS_FALSE;
-                ExecCmd(opCode, ref inXml, out outXml, out status);
-                DisplayResult(status, "SET_PARAMETERS");
-            }
-        }
-
-
 
         /// <summary>
         /// Set the captured image format
@@ -276,15 +142,7 @@ namespace Scanner_SDK_Sample_Application
             {
                 if (IMAGE_COMPLETE == eventType)
                 {
-                    Array arr = (Array)sfimageData;
-                    long len = arr.LongLength;
-                    byte[] byImage = new byte[len];
-                    arr.CopyTo(byImage, 0);
-
-                    MemoryStream ms = new MemoryStream();
-                    ms.Write(byImage, 0, byImage.Length);
-
-                    Image img = Image.FromStream(ms);
+                    Image img = BaseMethods.ProcessImageData(sfimageData);
                     pbxImageVideo.Image = img;
                     UpdateResults("Image Event fired");
                     UpdateOutXml(pScannerData);
@@ -326,17 +184,7 @@ namespace Scanner_SDK_Sample_Application
         {
             try
             {
-                Array arr = (Array)sfvideoData;
-                long len = arr.LongLength;
-                byte[] byImage = new byte[size];
-                arr.CopyTo(byImage, 0);
-
-                MemoryStream ms = new MemoryStream();
-                ms.Write(byImage, 0, byImage.Length);
-
-                Image img = Image.FromStream(ms);
-                pbxImageVideo.Image = img;
-
+                pbxImageVideo.Image = BaseMethods.ProcessImageData(sfvideoData);
                 UpdateOutXml(pScannerData);
             }
             catch (Exception)

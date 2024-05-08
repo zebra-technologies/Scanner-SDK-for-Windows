@@ -220,8 +220,9 @@ std::wstring CIntelDocCap::RSMGet(int opcode)
 	wchar_t a[5];
 	long status = 1;
 	CComBSTR outXml(L"");
-	
-	if ( !SC->cmdGet(SelectedScannerID,_itow((int)dpOpCode,a,10), &outXml, Async, &status) )
+	//enable the secure methode '_itow_s' resolve the unsafe functions
+	_itow_s((int)dpOpCode, a, 10);
+	if ( !SC->cmdGet(SelectedScannerID,a, &outXml, Async, &status) )
 	{
 		if ( !Async )
 		{
@@ -286,7 +287,9 @@ int CIntelDocCap::RSMSet(int attribID, std::wstring value, wstring dataType, boo
 	LONG status = -1;
 
 	wchar_t buff[10];
-	CString AttribID = _itow(attribID, buff, 10);
+	//enable the secure methode '_itow_s' resolve the unsafe functions
+	_itow_s(attribID, buff, 10);
+	CString AttribID = buff;
 	
 	AttributeList.append(L"<attribute><id>");
 	AttributeList.append(AttribID);
@@ -355,7 +358,7 @@ LPCTSTR CIntelDocCap::GetSymbology(int Code)
 	case ST_UPCD: return (_T("UPCD"));
 	case ST_TRIOPTIC: return (_T("TRIOPTIC"));
 	case ST_BOOKLAND: return (_T("BOOKLAND"));
-	case ST_UPCA_W_CODE128:return (_T("UPC-A w/Code 128 Supplemental"));
+	case ST_UPCA_W_CODE128:return (_T("Coupon Code"));
 	case ST_JAN13_W_CODE128:return (_T("EAN/JAN-13 w/Code 128 Supplemental"));
 	case ST_NW7: return (_T("NW7"));
 	case ST_ISBT128: return (_T("ISBT128"));

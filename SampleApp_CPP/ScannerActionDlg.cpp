@@ -230,7 +230,7 @@ void CScannerActionDlg::InitHostCombo(int CurrentHostProtocol)
 {
     m_cmbHostVariants.ResetContent();
 
-    if(CurrentHostProtocol > MODE_IBMTT || CurrentHostProtocol <= MODE_ALL || CurrentHostProtocol == MODE_SSI_BT ) return;
+    if(CurrentHostProtocol > MODE_IBMTT || CurrentHostProtocol <= MODE_ALL || CurrentHostProtocol == MODE_SSI_BT || CurrentHostProtocol == MODE_SSI_IP) return;
 
     for(int i = MODE_IBMHID; i <= MODE_IBMTT; ++i)
     {

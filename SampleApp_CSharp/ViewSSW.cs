@@ -909,7 +909,7 @@ namespace Scanner_SDK_Sample_Application
                     var ismatch = nonePrintable.IsMatch(userBankHex);
                     try
                     {
-                        userBankASCII = ismatch ? "Unable to decode ASCII." : GetReadableScanDataLabel(userBankHex);
+                        userBankASCII = ismatch ? "Unable to decode ASCII." : BaseMethods.GetReadableScanDataLabel(userBankHex);
                     }
                     catch
                     {

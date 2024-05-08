@@ -11,12 +11,12 @@ using System.IO;
 using System.Runtime.InteropServices;
 using CoreScanner;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace Scanner_SDK_Sample_Application
 {
     public partial class frmScannerApp
     {
-        
         private void GetAllAttributes()
         {
             if (IsScannerConnected())
@@ -24,14 +24,12 @@ namespace Scanner_SDK_Sample_Application
                 string inXML = "<inArgs>" +
                                     GetOnlyScannerIDXml() +
                                "</inArgs>";
-
                 string outXML = String.Empty;
-                int iOpcode = RSM_ATTR_GETALL;
                 int iStatus = STATUS_FALSE;
-
-                ExecCmd(iOpcode, ref inXML, out outXML, out iStatus);
+                ExecCmd(RSM_ATTR_GETALL, ref inXML, out outXML,out iStatus);
                 DisplayResult(iStatus, "ATTR_GETALL");
                 UpdateOutXml(outXML);
+                
 
                 if(iStatus == STATUS_SUCCESS)
                 {
@@ -39,94 +37,15 @@ namespace Scanner_SDK_Sample_Application
                     m_xml.ReadXmlString_RSMIDList(outXML, out lstIDs);
                     dgvAttributes.Rows.Clear();
 
-                    for (int index = 0; index < lstIDs.Count; index++)
+                    lstIDs.ForEach(id =>
                     {
-                        dgvAttributes.Rows.Add();
-                        dgvAttributes.Rows[index].Cells[0].Value = lstIDs[index].Key;
-                    }
+                        int index = dgvAttributes.Rows.Add();
+                        dgvAttributes.Rows[index].Cells[0].Value = id.Key;
+                    });
                 }
             }
         }
-        private bool performRSMSetStoreAttribute(Scanner.RSMAttribute rsmAttribute, bool isStore)
-        {
-            if (IsScannerConnected())
-            {
-
-                string inXml = "<inArgs>" +
-                                    GetOnlyScannerIDXml() +
-                                    "<cmdArgs>" +
-                                    "<arg-xml>" +
-                                    "<attrib_list>" +
-                                        "<attribute>" +
-                                            "<id>" + rsmAttribute.ID + "</id>" +
-                                            "<datatype>" + rsmAttribute.Type + "</datatype>" +
-                                            "<value>" + rsmAttribute.value + "</value>" +
-                                        "</attribute>" +
-                                    "</attrib_list>" +
-                                    "</arg-xml>" +
-                                    "</cmdArgs>" +
-                                    "</inArgs>";
-
-
-                string outXml = "";
-                int status = STATUS_FALSE;
-                int opCode = isStore ? RSM_ATTR_STORE : RSM_ATTR_SET;
-                ExecCmd(opCode, ref inXml, out outXml, out status);
-                UpdateOutXml(outXml);
-                string strOpCode = "RSM_ATTR_SET";
-                if (RSM_ATTR_STORE == opCode)
-                {
-                    strOpCode = "RSM_ATTR_STORE";
-                }
-                DisplayResult(status, strOpCode);
-            }
-            return false;
-        }
-        private bool PerformRSMGetAttribute( int attributeNo, out Scanner.RSMAttribute attribute )
-        {
-            value = null;
-            attribute = null;
-            if (IsScannerConnected())
-            {
-                string inXml = "<inArgs>" +
-                                GetOnlyScannerIDXml() +
-                                    "<cmdArgs>" +
-                                        "<arg-xml>" +
-                                            "<attrib_list>" +
-                                                attributeNo +
-                                            "</attrib_list>" +
-                                        "</arg-xml>" +
-                                    "</cmdArgs>" +
-                                "</inArgs>";
-
-                int opCode = RSM_ATTR_GET;
-                string outXml = "";
-                int status = STATUS_FALSE;
-                ExecCmd(opCode, ref inXml, out outXml, out status);
-                UpdateOutXml(outXml);
-                
-                if (!chkAsync.Checked)
-                {
-                    Scanner scanr = null;
-                    int nIndex = -1;
-                    int nAttrCount = 0;
-                    int nOpCode = -1;
-
-                    m_xml.ReadXmlString_RsmAttrGet(outXml, m_arScanners, out scanr, out nIndex, out nAttrCount, out nOpCode);
-                    if (scanr == null)
-                    {
-                        DisplayResult(STATUS_FALSE, "RSM_ATTR_GET");
-                        return false;
-                    }
-                    DisplayResult(STATUS_SUCCESS, "RSM_ATTR_GET");
-
-                    attribute = scanr.m_rsmAttribute;
-                    return true;
-                }
-            }
-
-            return false;
-        }
+        
         private void GetAttributes()
         {
             if (IsScannerConnected())
@@ -138,22 +57,10 @@ namespace Scanner_SDK_Sample_Application
                     return;
                 }
 
-                string inXML = "<inArgs>" +
-                                    GetOnlyScannerIDXml() +
-                                        "<cmdArgs>" +
-                                            "<arg-xml>" +
-                                                "<attrib_list>" +
-                                                    strNumbers +
-                                                "</attrib_list>" +
-                                            "</arg-xml>" +
-                                        "</cmdArgs>" +
-                                    "</inArgs>";
-
+                string inXML = GetInXmlForGetSetStore(strNumbers);
                 string outXML = "";
-                int iOpcode = RSM_ATTR_GET;
                 int iStatus = STATUS_FALSE;
-
-                ExecCmd(iOpcode, ref inXML, out outXML, out iStatus);
+                ExecCmd(RSM_ATTR_GET, ref inXML, out outXML, out iStatus);
                 UpdateOutXml(outXML);
                 DisplayResult(iStatus, "ATTR_GET");
 
@@ -161,24 +68,23 @@ namespace Scanner_SDK_Sample_Application
                 {
                     List<KeyValuePair<int, string[]>> lstIDProperty;
                     m_xml.ReadXmlString_RSMIDProperty(outXML, out lstIDProperty);
-
-                    int iRowCountSelected = dgvAttributes.Rows.GetRowCount(DataGridViewElementStates.Selected);
-
-                    for (int iOuterIndex = iRowCountSelected - 1; iOuterIndex >= 0; iOuterIndex--)
+                    if (lstIDProperty.Count == 0)
                     {
-                        object obj = dgvAttributes.SelectedRows[iOuterIndex].Cells[0].Value;
+                        UpdateResults("ATTR_GET" + " - null return");
+                        return;
+                    }
+                    foreach (DataGridViewRow selectedRow in dgvAttributes.SelectedRows)
+                    {
+                        object obj = selectedRow.Cells[0].Value;
 
-                        for (int iInnerIndex = 0; iInnerIndex < lstIDProperty.Count; iInnerIndex++)
+                        KeyValuePair<int, string[]> foundProperty = lstIDProperty
+                            .FirstOrDefault(prop => prop.Key == Convert.ToInt32(obj));
+
+                        if (!Equals(foundProperty, default(KeyValuePair<int, string[]>)))
                         {
-                            int val = lstIDProperty[iInnerIndex].Key;
-                            if (Convert.ToInt32(obj) == val)
-                            {
-                                dgvAttributes.SelectedRows[iOuterIndex].Cells[1].Value = lstIDProperty[iInnerIndex].Value[0];
-                                dgvAttributes.SelectedRows[iOuterIndex].Cells[2].Value = lstIDProperty[iInnerIndex].Value[1];
-                                dgvAttributes.SelectedRows[iOuterIndex].Cells[3].Value = lstIDProperty[iInnerIndex].Value[2];
-
-                                break; // Break the inner iteration
-                            }
+                            selectedRow.Cells[1].Value = foundProperty.Value[0];
+                            selectedRow.Cells[2].Value = foundProperty.Value[1];
+                            selectedRow.Cells[3].Value = foundProperty.Value[2];
                         }
                     }
                 }
@@ -190,23 +96,10 @@ namespace Scanner_SDK_Sample_Application
             if (IsScannerConnected())
             {
                 string strNumber = GetSelectedOneAttrNumber();
-              
-                string inXML = "<inArgs>" +
-                                    GetOnlyScannerIDXml() +
-                                        "<cmdArgs>" +
-                                            "<arg-xml>" +
-                                                "<attrib_list>" +
-                                                    strNumber +
-                                                "</attrib_list>" +
-                                            "</arg-xml>" +
-                                        "</cmdArgs>" +
-                                "</inArgs>";
-
-                int iOpcode = RSM_ATTR_GETNEXT;
+                string inXML = GetInXmlForGetSetStore(strNumber);
                 string outXML = "";
                 int iStatus = STATUS_FALSE;
-
-                ExecCmd(iOpcode, ref inXML, out outXML, out iStatus);
+                ExecCmd(RSM_ATTR_GETNEXT,ref inXML,out outXML,out iStatus);
                 UpdateOutXml(outXML);
                 DisplayResult(iStatus, "ATTR_GETNEXT");
 
@@ -238,28 +131,12 @@ namespace Scanner_SDK_Sample_Application
                 {
                     return;
                 }
-
-                string inXML = "<inArgs>" +
-                                    GetOnlyScannerIDXml() +
-                                        "<cmdArgs>" +
-                                            "<arg-xml>" +
-                                                "<attrib_list>" +
-                                                    strNumValPair +
-                                                "</attrib_list>" +
-                                            "</arg-xml>" +
-                                        "</cmdArgs>" +
-                                    "</inArgs>";
-
-                string outXML = "";
-                int iStatus = STATUS_FALSE;
-                ExecCmd(iOpcode, ref inXML, out outXML, out iStatus);
-                UpdateOutXml(outXML);
-
+                string inXML = GetInXmlForGetSetStore(strNumValPair); ;
                 string strOpCode = (iOpcode == RSM_ATTR_SET) ? "RSM_ATTR_SET" : "RSM_ATTR_STORE";
-                DisplayResult(iStatus, strOpCode);
+                string outXML = ExecuteActionCommand(iOpcode, strOpCode, inXML);
+                UpdateOutXml(outXML);
             }
         }
-
         private void SelectAllAttributes()
         {
             for (int index = 0; index < dgvAttributes.Rows.Count; index++)
@@ -278,32 +155,6 @@ namespace Scanner_SDK_Sample_Application
             }
         }
 
-        private void PerformBtnClearAllValuesClick(object sender, EventArgs e)
-        {
-            //clear "Value" cell of all rows
-            int nRowCount = dgvAttributes.RowCount;
-            if (0 < nRowCount)
-            {
-                for (int i = 0; i < nRowCount; i++)
-                {
-                    dgvAttributes.Rows[i].Cells[3].Value = "";
-                }
-            }
-        }
-
-        private void PerformBtnClearValueClick(object sender, EventArgs e)
-        {
-            //clear "Value" cell of all selected rows
-            int nSelectedRowCount = dgvAttributes.Rows.GetRowCount(DataGridViewElementStates.Selected);
-            if (0 < nSelectedRowCount)
-            {
-                for (int i = 0; i < nSelectedRowCount; i++)
-                {
-                    dgvAttributes.SelectedRows[i].Cells[3].Value = "";
-                }
-            }
-        }
-
         private string GetSelectedAttrNumbers()
         {
             string strNumbers = "";
@@ -312,19 +163,11 @@ namespace Scanner_SDK_Sample_Application
                 int nSelectedRowCount = dgvAttributes.Rows.GetRowCount(DataGridViewElementStates.Selected);
                 if (nSelectedRowCount > 0)
                 {
-                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                    for (int i = nSelectedRowCount - 1; i >= 0; i--)
-                    {
-                        if (null != dgvAttributes.SelectedRows[i].Cells[0].Value)
-                        {
-                            if (nSelectedRowCount - 1 != i)
-                            {
-                                sb.Append(",");
-                            }
-                            sb.Append(dgvAttributes.SelectedRows[i].Cells[0].Value.ToString());
-                        }
-                    }
-                    strNumbers = sb.ToString();
+                    var selectedValues = dgvAttributes.SelectedRows.Cast<DataGridViewRow>()
+                        .Select(row => row.Cells[0].Value)
+                        .Where(value => value != null)
+                        .Select(value => value.ToString());
+                    strNumbers = string.Join(",", selectedValues);
                 }
             }
             return strNumbers;
@@ -360,26 +203,27 @@ namespace Scanner_SDK_Sample_Application
                     sb.Append("<attribute>");
 
                     // ID
+                    string strID = dgvAttributes.SelectedRows[index].Cells[0].Value.ToString();
                     sb.Append("<id>");
-                    sb.Append(dgvAttributes.SelectedRows[index].Cells[0].Value.ToString());
+                    sb.Append(strID);
                     sb.Append("</id>");
 
                     // Data type
                     sb.Append("<datatype>");
-                    string strID = dgvAttributes.SelectedRows[index].Cells[0].Value.ToString();
+
                     if (strID == "6000" || strID == "6001" || strID == "6003")
                     {
                         sb.Append("X");
                     }
                     else
                     {
-                        sb.Append(dgvAttributes.SelectedRows[index].Cells[1].Value.ToString());
+                        sb.Append(Convert.ToString(dgvAttributes.SelectedRows[index].Cells[1].Value));
                     }
                     sb.Append("</datatype>");
 
                     // Value
                     sb.Append("<value>");
-                    sb.Append(dgvAttributes.SelectedRows[index].Cells[3].Value.ToString());
+                    sb.Append(Convert.ToString(dgvAttributes.SelectedRows[index].Cells[3].Value));
                     sb.Append("</value>");
 
                     sb.Append("</attribute>");
@@ -389,10 +233,9 @@ namespace Scanner_SDK_Sample_Application
             {
                 MessageBox.Show("Please select row/rows to set/store attributes", APP_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            
+
             return sb.ToString();
         }
-
 
         private void FillRsmList_Numbers(int nAttrCount, Scanner scanr)
         {
@@ -428,19 +271,6 @@ namespace Scanner_SDK_Sample_Application
                 dgvAttributes.Rows[nIndex].Cells[2].Value = scanr.m_arAttributes.GetValue(nIndex, Scanner.POS_ATTR_PROPERTY);
                 dgvAttributes.Rows[nIndex].Cells[3].Value = scanr.m_arAttributes.GetValue(nIndex, Scanner.POS_ATTR_VALUE);
             }
-        }
-
-        private Scanner GetScannerFromID(string scannerID)
-        {
-            foreach (Scanner scanrTmp in m_arScanners)
-            {
-                if ((null != scanrTmp) &&
-                     (scannerID == scanrTmp.SCANNERID))
-                {
-                    return scanrTmp;
-                }
-            }
-            return null;
         }
 
     }

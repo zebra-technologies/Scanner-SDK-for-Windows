@@ -70,7 +70,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseMethods.cs" />
+    <Compile Include="ScannerBarcode.cs" />
+    <Compile Include="DiscoverScanner.cs" />
+    <Compile Include="ScannerAction.cs" />
     <Compile Include="ScannerAttribute.cs" />
+    <Compile Include="ScanToConnect.cs" />
+    <Compile Include="CoreScannerHelper.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewDiscoverScanner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewIDC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewLogs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewScale.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ViewSSW.cs" />
     <Compile Include="ViewScanToConnect.cs">
       <SubType>Form</SubType>

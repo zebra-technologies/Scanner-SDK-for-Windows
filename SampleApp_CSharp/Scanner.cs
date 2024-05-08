@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Scanner_SDK_Sample_Application
 {
-    class Scanner
+    public class Scanner
     {
         #region constants
         public const string SCANNER_SNAPI = "SNAPI";
@@ -14,6 +14,7 @@ namespace Scanner_SDK_Sample_Application
         public const string SCANNER_IBMTT = "USBIBMTT";
         public const string SCALE_IBM = "USBIBMSCALE";
         public const string SCANNER_SSI_BT = "SSI_BT";
+        public const string SCANNER_SSI_IP = "SSI_IP";
         public const string SCANNER_OPOS = "USBOPOS";
         public const string SCANNER_HIDKB =	"USBHIDKB";
         public const string CAMERA_UVC = "UVC_CAMERA";
@@ -42,6 +43,7 @@ namespace Scanner_SDK_Sample_Application
         public const string TAG_SCANNER_IMBTT = SCANNER_IBMTT;
         public const string TAG_SCALE_IBM = SCALE_IBM;
         public const string TAG_SCANNER_SSI_BT = SCANNER_SSI_BT;
+        public const string TAG_SCANNER_SSI_IP = SCANNER_SSI_IP;
 
         public const string TAG_SCANNER_ID = "scannerID";
         public const string TAG_SCANNER_TYPE = "type";
@@ -53,6 +55,7 @@ namespace Scanner_SDK_Sample_Application
         public const string TAG_SCANNER_PID = "PID";
         public const string TAG_SCANNER_DOM = "DoM";
         public const string TAG_SCANNER_FW = "firmware";
+        public const string TAG_SCANNER_CN = "configname";
 
         public const string TAG_ATTRIBUTE = "attribute";
         public const string TAG_ATTR_ID = "id";
@@ -93,6 +96,7 @@ namespace Scanner_SDK_Sample_Application
         private string guid;
         private string port;
         private string firmware;
+        private string configname;
         private string mnfdate; //manufacture date
         private bool claimed;//scanner is claimed by this client-app
         private bool useHID; // Scanner is using HID channel for Binary Data transfer
@@ -130,6 +134,7 @@ namespace Scanner_SDK_Sample_Application
             SCANNERTYPE = "";
             SCANNERMNFDATE = "";
             SCANNERFIRMWARE = "";
+            SCANNERCONFIG= "";
         }
 
         #region Public Getters and Setters
@@ -142,6 +147,11 @@ namespace Scanner_SDK_Sample_Application
         {
             get { return firmware; }
             set { firmware = value; }
+        }
+        public string SCANNERCONFIG
+        {
+            get { return configname; }
+            set { configname = value; }
         }
         public string SCANNERNAME
         {

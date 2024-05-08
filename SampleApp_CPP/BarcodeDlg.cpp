@@ -87,7 +87,9 @@ LPCTSTR CBarcodeDlg::GetSymbology(int Code)
     case ST_BOOKLAND:
         return (_T("BOOKLAND"));
     case ST_UPCA_W_CODE128:
-        return (_T("UPC-A w/Code 128 Supplemental"));
+        //return (_T("UPC-A w/Code 128 Supplemental"));
+        // 0x17 was the old style coupon code that was a specific UPC-A that could have or not have a Code 128 Supplemental. Switched to GS1 Databar.
+        return (_T("Coupon Code"));
     case ST_JAN13_W_CODE128:
         return (_T("EAN/JAN-13 w/Code 128 Supplemental"));
     case ST_NW7:
@@ -181,7 +183,7 @@ LPCTSTR CBarcodeDlg::GetSymbology(int Code)
     case ST_CCA_UPCE:
         return (_T("CCA UPC-E"));
     case ST_CCC_EAN128:
-        return (_T("CCA EAN-128"));
+        return (_T("CCC EAN-128"));
     case ST_TLC39:
         return (_T("TLC-39"));
     case ST_CCB_EAN128:

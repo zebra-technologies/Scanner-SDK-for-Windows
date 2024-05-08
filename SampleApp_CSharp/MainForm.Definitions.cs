@@ -5,121 +5,6 @@ namespace Scanner_SDK_Sample_Application
         /*****************************************************************************************************
          * Constants
          *****************************************************************************************************/
-        // Symbology types 
-
-
-        const int ST_NOT_APP = 0x00;
-        const int ST_CODE_39 = 0x01;
-        const int ST_CODABAR = 0x02;
-        const int ST_CODE_128 = 0x03;
-        const int ST_D2OF5 = 0x04;
-        const int ST_IATA = 0x05;
-        const int ST_I2OF5 = 0x06;
-        const int ST_CODE93 = 0x07;
-        const int ST_UPCA = 0x08;
-        const int ST_UPCE0 = 0x09;
-        const int ST_EAN8 = 0x0a;
-        const int ST_EAN13 = 0x0b;
-        const int ST_CODE11 = 0x0c;
-        const int ST_CODE49 = 0x0d;
-        const int ST_MSI = 0x0e;
-        const int ST_EAN128 = 0x0f;
-        const int ST_UPCE1 = 0x10;
-        const int ST_PDF417 = 0x11;
-        const int ST_CODE16K = 0x12;
-        const int ST_C39FULL = 0x13;
-        const int ST_UPCD = 0x14;
-        const int ST_TRIOPTIC = 0x15;
-        const int ST_BOOKLAND = 0x16;
-        const int ST_UPCA_W_CODE128 = 0x17; // For UPC-A w/Code 128 Supplemental
-        const int ST_JAN13_W_CODE128 = 0x78; // For EAN/JAN-13 w/Code 128 Supplemental
-        const int ST_NW7 = 0x18;
-        const int ST_ISBT128 = 0x19;
-        const int ST_MICRO_PDF = 0x1a;
-        const int ST_DATAMATRIX = 0x1b;
-        const int ST_QR_CODE = 0x1c;
-        const int ST_MICRO_PDF_CCA = 0x1d;
-        const int ST_POSTNET_US = 0x1e;
-        const int ST_PLANET_CODE = 0x1f;
-        const int ST_CODE_32 = 0x20;
-        const int ST_ISBT128_CON = 0x21;
-        const int ST_JAPAN_POSTAL = 0x22;
-        const int ST_AUS_POSTAL = 0x23;
-        const int ST_DUTCH_POSTAL = 0x24;
-        const int ST_MAXICODE = 0x25;
-        const int ST_CANADIN_POSTAL = 0x26;
-        const int ST_UK_POSTAL = 0x27;
-        const int ST_MACRO_PDF = 0x28;
-        const int ST_MACRO_QR_CODE = 0x29;
-        const int ST_MICRO_QR_CODE = 0x2c;
-        const int ST_AZTEC = 0x2d;
-        const int ST_AZTEC_RUNE = 0x2e;
-        const int ST_DISTANCE = 0x2f;
-        const int ST_GS1_DATABAR = 0x30;
-        const int ST_GS1_DATABAR_LIMITED = 0x31;
-        const int ST_GS1_DATABAR_EXPANDED = 0x32;
-        const int ST_PARAMETER = 0x33;
-        const int ST_USPS_4CB = 0x34;
-        const int ST_UPU_FICS_POSTAL = 0x35;
-        const int ST_ISSN = 0x36;
-        const int ST_SCANLET = 0x37;
-        const int ST_CUECODE = 0x38;
-        const int ST_MATRIX2OF5 = 0x39;
-        const int ST_UPCA_2 = 0x48;
-        const int ST_UPCE0_2 = 0x49;
-        const int ST_EAN8_2 = 0x4a;
-        const int ST_EAN13_2 = 0x4b;
-        const int ST_UPCE1_2 = 0x50;
-        const int ST_CCA_EAN128 = 0x51;
-        const int ST_CCA_EAN13 = 0x52;
-        const int ST_CCA_EAN8 = 0x53;
-        const int ST_CCA_RSS_EXPANDED = 0x54;
-        const int ST_CCA_RSS_LIMITED = 0x55;
-        const int ST_CCA_RSS14 = 0x56;
-        const int ST_CCA_UPCA = 0x57;
-        const int ST_CCA_UPCE = 0x58;
-        const int ST_CCC_EAN128 = 0x59;
-        const int ST_TLC39 = 0x5A;
-        const int ST_CCB_EAN128 = 0x61;
-        const int ST_CCB_EAN13 = 0x62;
-        const int ST_CCB_EAN8 = 0x63;
-        const int ST_CCB_RSS_EXPANDED = 0x64;
-        const int ST_CCB_RSS_LIMITED = 0x65;
-        const int ST_CCB_RSS14 = 0x66;
-        const int ST_CCB_UPCA = 0x67;
-        const int ST_CCB_UPCE = 0x68;
-        const int ST_SIGNATURE_CAPTURE = 0x69;
-        const int ST_MOA = 0x6A;
-        const int ST_PDF417_PARAMETER = 0x70;
-        const int ST_CHINESE2OF5 = 0x72;
-        const int ST_KOREAN_3_OF_5 = 0x73;
-        const int ST_DATAMATRIX_PARAM = 0x74;
-        const int ST_CODE_Z = 0x75;
-        const int ST_UPCA_5 = 0x88;
-        const int ST_UPCE0_5 = 0x89;
-        const int ST_EAN8_5 = 0x8a;
-        const int ST_EAN13_5 = 0x8b;
-        const int ST_UPCE1_5 = 0x90;
-        const int ST_MACRO_MICRO_PDF = 0x9A;
-        const int ST_OCRB = 0xA0;
-        const int ST_OCRA =  0xA1;
-        const int ST_PARSED_DRIVER_LICENSE  = 0xB1;
-        const int ST_PARSED_UID  = 0xB2;
-        const int ST_PARSED_NDC  = 0xB3;
-        const int ST_DATABAR_COUPON  =  0xB4;
-        const int ST_PARSED_XML  = 0xB6;
-        const int ST_HAN_XIN_CODE = 0xB7;
-        const int ST_CALIBRATION  = 0xC0;
-        const int ST_GS1_DATAMATRIX = 0xC1;
-        const int ST_GS1_QR = 0xC2;
-        const int BT_MAINMARK = 0xC3;
-        const int BT_DOTCODE = 0xC4;
-        const int BT_GRID_MATRIX = 0xC8;
-        const int BT_UDI_CODE = 0xCC;
-        const int ST_EPC_RAW = 0xE0;
-
-
-        //End Symbology Types
 
         const string APP_TITLE = "Scanner Multi-Interface Test Utility";
         const string STR_OPEN = "Start";
@@ -207,23 +92,11 @@ namespace Scanner_SDK_Sample_Application
         const ushort PARAM_USE_HID = 1004;
         const ushort PARAM_USE_HID_OLD = 122;
         const ushort PARAM_CLEAR_MEMORY = 806;
-        const ushort IMAGE_FILETYPE_PARAMNUM = 0x0130; /* These values may change with the scanner  */
         const ushort BMP_FILE_SELECTION = 0x0003; /* models. Please refer scanner PRGs for     */
         const ushort TIFF_FILE_SELECTION = 0x0004; /* more information on scanner parameters.   */
         const ushort JPEG_FILE_SELECTION = 0x0001;
-        const ushort VIDEOVIEWFINDER_PARAMNUM = 0x0144;
-        const ushort VIDEOVIEWFINDER_ON = 0x0001; /* Video view finder on */
-        const ushort VIDEOVIEWFINDER_OFF = 0x0000; /* Video view finder off */
         const int PARAM_PERSISTANCE_ON = 0x0001; /* Parameters persistance on */
         const int PARAM_PERSISTANCE_OFF = 0x0000; /* Parameters persistance off */
-
-        const int LED_1_ON = 43; /* Green  LED On */
-        const int LED_2_ON = 45; /* Yellow  LED On */
-        const int LED_3_ON = 47; /* Red  LED On */
-
-        const int LED_1_OFF = 42; /* Green  LED Off */
-        const int LED_2_OFF = 46; /* Yellow  LED Off */
-        const int LED_3_OFF = 48; /* Red  LED Off */
       
         //****** CORESCANNER PROTOCOL ******//
         const int GET_VERSION = 1000;
@@ -240,22 +113,12 @@ namespace Scanner_SDK_Sample_Application
         const int GET_ALL_PARAMETERS = 2006;
         const int GET_PARAMETERS = 2007;
         const int DEVICE_GET_SCANNER_CAPABILITIES = 2008;
-        const int DEVICE_LED_OFF = 2009;
-        const int DEVICE_LED_ON = 2010;
         const int DEVICE_PULL_TRIGGER = 2011;
         const int DEVICE_RELEASE_TRIGGER = 2012;
-        const int DEVICE_SCAN_DISABLE = 2013;
-        const int DEVICE_SCAN_ENABLE = 2014;
         const int SET_PARAMETER_DEFAULTS = 2015;
         const int DEVICE_SET_PARAMETERS = 2016;
         const int SET_PARAMETER_PERSISTANCE = 2017;
-        const int DEVICE_BEEP_CONTROL = 2018;
-        const int REBOOT_SCANNER = 2019;
-        const int DISCONNECT_BT_SCANNER = 2023;
-        const int DEVICE_CAPTURE_IMAGE = 3000;
-        const int ABORT_IMAGE_XFER = 3001;
-        const int DEVICE_CAPTURE_BARCODE = 3500;
-        const int DEVICE_CAPTURE_VIDEO = 4000;
+        
         public const int RSM_ATTR_GETALL = 5000;
         public const int RSM_ATTR_GET = 5001;
         public const int RSM_ATTR_GETNEXT = 5002;
@@ -271,8 +134,6 @@ namespace Scanner_SDK_Sample_Application
         const int UPDATE_ELECTRIC_FENCE_CUSTOM_TONE = 5052;
         const int ERASE_ELECTRIC_FENCE_CUSTOM_TONE = 5053;
         const int SET_ACTION = 6000;
-
-        const int PAGER_MOTOR_ACTION = 6033;
         
         const int KEYBOARD_EMULATOR_ENABLE = 6300; //6300
         const int KEYBOARD_EMULATOR_SET_LOCALE = 6301; //6301
@@ -285,10 +146,7 @@ namespace Scanner_SDK_Sample_Application
         const int DEVICE_SET_SERIAL_PORT_SETTINGS = 6101;
         // Serial - end //
 
-        // USBHIDKB //
-        const int DEVICE_SWITCH_HOST_MODE = 6200;
-        const int SWITCH_CDC_DEVICES = 6201;
-        // USBHIDKB - end //
+
 
         //Scale Commands //
         const int SCALE_READ_WEIGHT = 0x1b58; //7000

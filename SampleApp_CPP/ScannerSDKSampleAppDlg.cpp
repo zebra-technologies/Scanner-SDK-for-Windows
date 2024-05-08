@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-* ©2020 Zebra Technologies Corp. and/or its affiliates.
+* Â©2020 Zebra Technologies Corp. and/or its affiliates.
 *
 ********************************************************************************************/
 #include "stdafx.h"
@@ -338,6 +338,18 @@ bool CScannerSDKSampleAppDlg::TranslateProtocolNames(SCANNER& Scanner, CString& 
 		return false;
 	}
 
+	if (wcsncmp(Name, L"SSI_IP", 6) == 0)
+	{
+		if (Protocol == SCANNER_TYPES_SSI_IP || Protocol == SCANNER_TYPES_ALL)
+		{
+			TranslatedName = L"SSI_IP";
+			Scanner.HostMode = MODE_SSI_IP;
+			return true;
+		}
+		return false;
+	}
+
+
 	if(wcsncmp(Name, L"SSI", 3) == 0)
 	{
 		if(Protocol == SCANNER_TYPES_SSI || Protocol == SCANNER_TYPES_ALL)
@@ -368,7 +380,7 @@ bool CScannerSDKSampleAppDlg::ShowScanners(BSTR outXml)
 {
 	CQuickXmlParser x(outXml);
 
-	CQuickXmlParser::TAGDATA tag[9] = {0};
+	CQuickXmlParser::TAGDATA tag[10] = {0};
 	tag[0].Tag.Name = L"scanner";
 	tag[0].Attribs[0].Name = L"type";
 	tag[1].Tag.Name = L"scannerID";
@@ -379,8 +391,9 @@ bool CScannerSDKSampleAppDlg::ShowScanners(BSTR outXml)
 	tag[6].Tag.Name = L"modelnumber";
 	tag[7].Tag.Name = L"firmware";
 	tag[8].Tag.Name = L"DoM";
+	tag[9].Tag.Name = L"configname";
 
-	x.Configure(tag, 9);
+	x.Configure(tag, 10);
 
 	CQuickXmlParser::xptr p = 0;
 	m_ScannerListControl.DeleteAllItems();
@@ -416,17 +429,21 @@ bool CScannerSDKSampleAppDlg::ShowScanners(BSTR outXml)
 		sc.Firmware = val;
 		m_ScannerListControl.SetField( 3, val);
 
+		val = x.Translate(tag[9].Value); //Config Name
+		sc.ConfigName = val;
+		m_ScannerListControl.SetField(4, val);
+
 		val = x.Translate(tag[8].Value); //Date of manufacture
 		sc.DoM = val;
-		m_ScannerListControl.SetField( 4, val);
+		m_ScannerListControl.SetField( 5, val);
 
 		val =  x.Translate(tag[2].Value); //Serial Number
 		sc.Serial = val;
-		m_ScannerListControl.SetField( 5, val);
+		m_ScannerListControl.SetField( 6, val);
 
 		val = x.Translate(tag[3].Value); //GUID
 		sc.GUID = val;
-		m_ScannerListControl.SetField( 6, val); 
+		m_ScannerListControl.SetField( 7, val); 
 		m_ScannerMap[sc.ID] = sc;
 		
 		if(p == 0) break;
@@ -457,9 +474,10 @@ void CScannerSDKSampleAppDlg::RefreshScannerList()
 		m_ScannerListControl.SetField( 1, (LPTSTR)sc.Type.GetBuffer()); //Com Interface
 		m_ScannerListControl.SetField( 2, sc.Model.GetBuffer());		//Model #
 		m_ScannerListControl.SetField( 3, sc.Firmware.GetBuffer());		//Firmware
-		m_ScannerListControl.SetField( 4, sc.DoM.GetBuffer());			//Built
-		m_ScannerListControl.SetField( 5, sc.Serial.GetBuffer());		//Serial # or Port #
-		m_ScannerListControl.SetField( 6, sc.GUID.GetBuffer());			//GUID
+		m_ScannerListControl.SetField( 4, sc.ConfigName.GetBuffer());		//Config Name
+		m_ScannerListControl.SetField( 5, sc.DoM.GetBuffer());			//Built
+		m_ScannerListControl.SetField( 6, sc.Serial.GetBuffer());		//Serial # or Port #
+		m_ScannerListControl.SetField( 7, sc.GUID.GetBuffer());			//GUID
 	}
 
 	m_ScannerListControl.SetItemState(0, LVIS_SELECTED, LVIS_SELECTED | LVIS_FOCUSED);
@@ -473,7 +491,7 @@ bool CScannerSDKSampleAppDlg::AddScannersOnPnP(BSTR outXml)
 {
 	CQuickXmlParser x(outXml);
 
-	CQuickXmlParser::TAGDATA tag[7] = {0};
+	CQuickXmlParser::TAGDATA tag[8] = {0};
 	tag[0].Tag.Name = L"scanner";
 	tag[0].Attribs[0].Name = L"type";
 	tag[1].Tag.Name = L"scannerID";
@@ -482,8 +500,9 @@ bool CScannerSDKSampleAppDlg::AddScannersOnPnP(BSTR outXml)
 	tag[4].Tag.Name = L"VID";
 	tag[5].Tag.Name = L"PID";
 	tag[6].Tag.Name = L"modelnumber";
+	tag[7].Tag.Name = L"configname";
 
-	x.Configure(tag, 7);
+	x.Configure(tag, 8);
 	CQuickXmlParser::xptr p = 0;
 
 	wchar_t *val = 0;
@@ -515,6 +534,7 @@ bool CScannerSDKSampleAppDlg::AddScannersOnPnP(BSTR outXml)
 		sc.GUID = x.Translate(tag[3].Value);
 		sc.Firmware = map[20004].c_str();
 		sc.DoM = map[535].c_str();
+		sc.ConfigName = x.Translate(tag[7].Value);
 
 		m_ScannerMap[sc.ID] = sc;
 		
@@ -735,7 +755,8 @@ void CScannerSDKSampleAppDlg::InitScannerListControl()
 	m_ScannerListControl.SetHeader(_T("#"), 25);
 	m_ScannerListControl.SetHeader(_T("Com Interface"), 100);
 	m_ScannerListControl.SetHeader(_T("Model #"), 125);
-	m_ScannerListControl.SetHeader(_T("Firmware"), 125);
+	m_ScannerListControl.SetHeader(_T("Firmware"), 125); 
+	m_ScannerListControl.SetHeader(_T("Config Name"), 125);
 	m_ScannerListControl.SetHeader(_T("Built"), 75);
 	m_ScannerListControl.SetHeader(_T("Serial # or Port #"), 125);
 	m_ScannerListControl.SetHeader(_T("GUID"), 200);

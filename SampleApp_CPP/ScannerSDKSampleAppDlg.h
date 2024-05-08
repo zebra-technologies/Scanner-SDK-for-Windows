@@ -23,7 +23,8 @@ enum HostMode
 	MODE_USB_SSI_CDC = 6,
 	MODE_IBMTT = 7,
 	MODE_SSI = 8,
-	MODE_SSI_BT =9
+	MODE_SSI_BT =9,
+	MODE_SSI_IP = 10
 };
 
 //This structure is the basic unit of a Scanner List which contains Information for all
@@ -39,6 +40,7 @@ typedef struct _SCANNER
 	CString PID;
 	CString DoM;
 	CString Firmware;
+	CString ConfigName;
 	int HostMode{ -2 };
 
 } SCANNER, *PSCANNER;

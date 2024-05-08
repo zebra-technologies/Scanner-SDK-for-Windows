@@ -406,11 +406,15 @@ long CScannerCommands::cmdGetBluetoothPairingBarcode(wstring ScannerID,int Async
     HRESULT hr = S_FALSE;
     wchar_t tempBuffer[10];
     wstring inXml=L"<inArgs><cmdArgs><arg-int>3</arg-int><arg-int>";
-    inXml.append(_itow(protocol, tempBuffer, 10));
+    //enable the secure methode '_itow_s' resolve the unsafe functions
+    _itow_s(protocol, tempBuffer, 10);
+    inXml.append(tempBuffer);
     inXml.append(L",");
-    inXml.append(_itow(defaultOption, tempBuffer, 10));
+    _itow_s(defaultOption, tempBuffer, 10);
+    inXml.append(tempBuffer);
     inXml.append(L",");
-    inXml.append(_itow(size, tempBuffer, 10));
+    _itow_s(size, tempBuffer, 10);
+    inXml.append(tempBuffer);
     inXml.append(L"</arg-int></cmdArgs></inArgs>");
 
     BSTR outXml;

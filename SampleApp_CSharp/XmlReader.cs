@@ -4,6 +4,7 @@ using System.Text;
 using System.Xml;
 using System.IO;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace Scanner_SDK_Sample_Application
 {
@@ -52,7 +53,8 @@ namespace Scanner_SDK_Sample_Application
                                 (Scanner.TAG_SCALE_IBM == strScannerType) ||
                                 (Scanner.SCANNER_SSI_BT == strScannerType) ||
                                 (Scanner.CAMERA_UVC == strScannerType) ||
-                                (Scanner.TAG_SCANNER_HIDKB == strScannerType)))//n = xmlRead.AttributeCount;
+                                (Scanner.TAG_SCANNER_HIDKB == strScannerType) ||
+                                (Scanner.SCANNER_SSI_IP == strScannerType)))//n = xmlRead.AttributeCount;
                             {
                                 if (arScanner.GetLength(0) > nIndex)
                                 {
@@ -91,6 +93,9 @@ namespace Scanner_SDK_Sample_Application
                                         break;
                                     case Scanner.TAG_SCANNER_FW:
                                         scanr.SCANNERFIRMWARE = sElmValue;
+                                        break;
+                                    case Scanner.TAG_SCANNER_CN:
+                                        scanr.SCANNERCONFIG= sElmValue;
                                         break;
                                     case Scanner.TAG_SCANNER_DOM:
                                         scanr.SCANNERMNFDATE = sElmValue;
@@ -222,7 +227,8 @@ namespace Scanner_SDK_Sample_Application
                                 (Scanner.TAG_SCALE_IBM == strScannerType) ||
                                 (Scanner.SCANNER_SSI_BT == strScannerType) ||
                                 (Scanner.CAMERA_UVC == strScannerType) ||
-                                (Scanner.TAG_SCANNER_HIDKB == strScannerType)))//n = xmlRead.AttributeCount;
+                                (Scanner.TAG_SCANNER_HIDKB == strScannerType) ||
+                                (Scanner.SCANNER_SSI_IP == strScannerType)))//n = xmlRead.AttributeCount;
                             {
                                 nIndex = nScannerCount;
                                 arScanr.SetValue(new Scanner(), nIndex);
@@ -258,6 +264,9 @@ namespace Scanner_SDK_Sample_Application
                                         break;
                                     case Scanner.TAG_SCANNER_FW:
                                         arScanr[nIndex].SCANNERFIRMWARE = sElmValue;
+                                        break;
+                                    case Scanner.TAG_SCANNER_CN:
+                                        arScanr[nIndex].SCANNERCONFIG= sElmValue;
                                         break;
                                     case Scanner.TAG_SCANNER_DOM:
                                         arScanr[nIndex].SCANNERMNFDATE = sElmValue;
@@ -794,14 +803,8 @@ namespace Scanner_SDK_Sample_Application
             {
                 xmlDoc.LoadXml(strXML);
 
-                XmlNodeList xnList = xmlDoc.SelectNodes("/outArgs/arg-xml/response/attrib_list/attribute");
-                foreach (XmlNode xn in xnList)
-                {
-                    int iKey = Convert.ToInt32(xn.InnerText);
-                    string sValue = xn.Attributes[0].Value;
-
-                    lstAttrList.Add(new KeyValuePair<int, string>(iKey, sValue));
-                }
+                lstAttrList = xmlDoc.SelectNodes("/outArgs/arg-xml/response/attrib_list/attribute").Cast<XmlNode>()
+                                    .Select(xn => new KeyValuePair<int, string>(Convert.ToInt32(xn.InnerText),xn.Attributes[0].Value)).ToList();
             }
             catch (Exception ex)
             {
@@ -813,27 +816,64 @@ namespace Scanner_SDK_Sample_Application
         {
             lstProperty = new List<KeyValuePair<int, string[]>>();
             XmlDocument xmlDoc = new XmlDocument();
-
+            if (String.IsNullOrEmpty(strXML))
+            {
+                return;
+            }
             try
             {
                 xmlDoc.LoadXml(strXML);
 
-                XmlNodeList xnList = xmlDoc.SelectNodes("/outArgs/arg-xml/response/attrib_list/attribute");
-                foreach (XmlNode xn in xnList)
-                {
-                    int iID = Convert.ToInt32(xn.ChildNodes[0].InnerText);
-                    string sDataType = xn.ChildNodes[2].InnerText;
-                    string sPermission = xn.ChildNodes[3].InnerText;
-                    string sValue = xn.ChildNodes[4].InnerText;
-
-                    string[] arr = new string[] { sDataType, sPermission, sValue };
-
-                    lstProperty.Add(new KeyValuePair<int, string[]>(iID, arr));
-                }
+                 lstProperty = xmlDoc.SelectNodes("/outArgs/arg-xml/response/attrib_list/attribute").Cast<XmlNode>()
+                                .Select(xn => new
+                                {
+                                  iID = Convert.ToInt32(xn.ChildNodes[0].InnerText),
+                                  sDataType = xn.ChildNodes[2].InnerText,
+                                  sPermission = xn.ChildNodes[3].InnerText,
+                                  sValue = xn.ChildNodes[4].InnerText
+                                 }).Select(x => new KeyValuePair<int, string[]>(x.iID, new string[] { x.sDataType, x.sPermission, x.sValue })).ToList();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+            }
+        }
+
+        public string IndentXmlString(string strXml)
+        {
+            string outXml = string.Empty;
+            MemoryStream ms = new MemoryStream();
+            // Create a XMLTextWriter that will send its output to a memory stream (file)
+            XmlTextWriter xtw = new XmlTextWriter(ms, Encoding.Unicode);
+            XmlDocument doc = new XmlDocument();
+
+            try
+            {
+                // Load the unformatted XML text string into an instance
+                // of the XML Document Object Model (DOM)
+                doc.LoadXml(strXml);
+
+                // Set the formatting property of the XML Text Writer to indented
+                // the text writer is where the indenting will be performed
+                xtw.Formatting = Formatting.Indented;
+
+                // write dom xml to the xmltextwriter
+                doc.WriteContentTo(xtw);
+                // Flush the contents of the text writer
+                // to the memory stream, which is simply a memory file
+                xtw.Flush();
+
+                // set to start of the memory stream (file)
+                ms.Seek(0, SeekOrigin.Begin);
+                // create a reader to read the contents of
+                // the memory stream (file)
+                StreamReader sr = new StreamReader(ms);
+                // return the formatted string to caller
+                return sr.ReadToEnd();
+            }
+            catch (Exception)
+            {
+                return string.Empty;
             }
         }
     }

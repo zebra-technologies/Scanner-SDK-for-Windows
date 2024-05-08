@@ -17,6 +17,7 @@
 #define SCANNER_TYPES_IBM      10
 #define SCANNER_TYPES_SSI_BT   11
 #define SCANNER_TYPES_OPOS     13
+#define SCANNER_TYPES_SSI_IP   15
 
 
 //---- Total number of scanner types ----//
@@ -174,7 +175,7 @@ typedef enum
 #define   ST_UPCD                   0x14  
 #define   ST_TRIOPTIC               0x15  
 #define   ST_BOOKLAND               0x16  
-#define   ST_UPCA_W_CODE128         0x17   // For UPC-A w/Code 128 Supplemental
+#define   ST_UPCA_W_CODE128         0x17 // For Old Style Coupon Code
 #define   ST_JAN13_W_CODE128        0x78 // For EAN/JAN-13 w/Code 128 Supplemental
 #define   ST_NW7                    0x18  
 #define   ST_ISBT128                0x19  
