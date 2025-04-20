@@ -28,6 +28,7 @@ namespace Scanner_SDK_Sample_Application
         bool m_bSuccessOpen;//Is open success
 		
         Scanner[] m_arScanners;
+        List<RtaPublicEventDetails> rtaPublicEvents= new List<RtaPublicEventDetails>();
         XmlReader m_xml;
         bool m_bIgnoreIndexChange;
         short m_nNumberOfTypes;
@@ -98,6 +99,7 @@ namespace Scanner_SDK_Sample_Application
             m_pCoreScanner.ParameterBarcode += new _ICoreScannerEvents_ParameterBarcodeEventHandler(OnParameterBarcodeEvent);
             m_docCapMsg.DocCapImage += new DocCapMessage.DocCapImageHandler(OnDocCapImage);
             m_docCapMsg.DocCapDecode += new DocCapMessage.DocCapDecodeHandler(OnDocCapDecode);
+            RtaEventReceived += FrmScannerApp_RtaEventReceived;
 
             discoverScanner = DiscoverScanner.GetInstance(m_pCoreScanner);
 
@@ -114,7 +116,10 @@ namespace Scanner_SDK_Sample_Application
             InitISO_15434_tab();
 
             tabCtrl.TabPages.Remove(tabSSW);
+            tabCtrl.TabPages.Remove(tabRta);
         }
+              
+
         private void frmScannerApp_Load(object sender, EventArgs e)
         {
             GetLanguageConfigInfo();
@@ -139,6 +144,7 @@ namespace Scanner_SDK_Sample_Application
         private void lstvScanners_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             btnClearAll_Click(sender, null);
+            btnClean_Click(sender, null);
         }
 
         private void lstvScanners_SelectedIndexChanged(object sender, EventArgs e)
@@ -713,5 +719,692 @@ namespace Scanner_SDK_Sample_Application
             txtResults.Clear();
         }
         #endregion
-    } 
+
+        #region RTA
+        private void btnClean_Click(object sender, EventArgs e)
+        {
+            dgRtaView.Columns.Clear();
+            cbSuspend.Checked = false; 
+        }
+
+        private void btnGetSuppRTAEvents_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //Get the list of registered RTA events to update the "Registered" state in the data grid. 
+                List<RtaEventDetails> registeredRtaEvents = GetRTAEventDetails(false);
+                List<RtaEventDetails> supportedRtaEvents = GetRTAEventDetails(true);
+
+                if (supportedRtaEvents != null)
+                {    
+                    if (supportedRtaEvents.Count == 0)
+                    {
+                        dgRtaView.Columns.Clear();
+                        MessageBox.Show("RTA Events are not supported in the selected device.", "INFO - Get Supported RTA Events", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {                        
+                        if(registeredRtaEvents !=null && registeredRtaEvents.Count > 0)
+                        {
+                            foreach(RtaEventDetails supportedRtaEvent in supportedRtaEvents)
+                            {
+                                RtaEventDetails matchInstance = registeredRtaEvents.Where(x => (x.Event.Equals(supportedRtaEvent.Event)) && (x.Stat.Equals(supportedRtaEvent.Stat))).FirstOrDefault();
+                                if(matchInstance !=null)
+                                {
+                                    supportedRtaEvent.Registered = true; 
+                                }
+                            }
+                        }
+
+                        dgRtaView.DataSource = supportedRtaEvents;
+                        SetRtaGridViewSettings();
+                    }
+                }
+                else
+                {
+                    dgRtaView.Columns.Clear();
+                    MessageBox.Show("Selected scanner does not support RTA",APP_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        private void btnGetRegRTAEvents_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                List<RtaEventDetails> supportedRtaEvents = GetRTAEventDetails(true);
+                List<RtaEventDetails> registeredRtaEvents = GetRTAEventDetails(false);
+
+                if (registeredRtaEvents == null || supportedRtaEvents == null)
+                {
+                    dgRtaView.Columns.Clear();
+                    return;
+                }
+
+                if (registeredRtaEvents.Count == 0)
+                {
+                    dgRtaView.Columns.Clear();
+                    MessageBox.Show("RTA Events are not registered in the selected device.", "INFO - Get Registered RTA Events", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                // Update item numbers and limits
+                for (int index = 0; index < registeredRtaEvents.Count; index++)
+                {
+                    registeredRtaEvents[index].ItemNumber = index + 1;
+                    var supportedEvent = supportedRtaEvents.FirstOrDefault(rtaEvent =>
+                        rtaEvent.Event == registeredRtaEvents[index].Event && rtaEvent.Stat == registeredRtaEvents[index].Stat
+                    );
+
+                    if (supportedEvent != null)
+                    {
+                        registeredRtaEvents[index].OffLimit = supportedEvent.OffLimit;
+                        registeredRtaEvents[index].OnLimit = supportedEvent.OnLimit;
+                    }
+                }
+
+                // Enable the registered state in the list
+                registeredRtaEvents.ForEach(rtaItem => rtaItem.Registered = true);
+
+                dgRtaView.DataSource = registeredRtaEvents;
+                SetRtaGridViewSettings();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+
+        private void btnRegisterRTAEvents_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgRtaView.Rows.Count > 0)
+                {
+                    List<RtaEventDetails> rtaDataToSet = new List<RtaEventDetails>();
+                    for (int i = 0; i < dgRtaView.Rows.Count; i++)
+                    {
+                        RtaEventDetails rowBoundItem = this.dgRtaView.Rows[i].DataBoundItem as RtaEventDetails;
+
+                        if(rowBoundItem == null)
+                        {
+                            ShowNoDataAvailableToRegisterMessage();
+                            return; 
+                        }
+                        
+                        int onLimitValue = -1, offLimitValue = -1;
+
+                        if ((rowBoundItem.OnLimit == null) || (rowBoundItem.OffLimit == null)) //Validate On-Limit Off-Limit values(should not be empty)
+                        {
+                            MessageBox.Show("On-Limit or Off-Limit should not be empty" + forText + EventPrefix + rowBoundItem.Event + " and " + StatPrefix + rowBoundItem.Stat , RegisterRtaErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        //Validate user is registering by not setting (value=not-set) on-limit/ off-limit values
+                        if ((rowBoundItem.OnLimit.Equals(RtaLimitNotSet) || rowBoundItem.OffLimit.Equals(RtaLimitNotSet)) && rowBoundItem.Registered)
+                        {
+                            MessageBox.Show("On-Limit/Off-Limit should be set" + forText + EventPrefix + rowBoundItem.Event + " and " + StatPrefix + rowBoundItem.Stat, RegisterRtaErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        //Validations for Gifted Battery Percentage range limits
+                        else if (rowBoundItem.Event.Equals(GiftedBatteryPercentageAttribute))
+                        {
+                            //Validate On-Limit value
+                            if ((!rowBoundItem.OnLimit.Equals(RtaLimitNotSet)) && (!rowBoundItem.OnLimit.Equals(RtaLimitNotSupported)))
+                            {
+                                if (int.TryParse(rowBoundItem.OnLimit, out onLimitValue))
+                                {
+                                    if ((onLimitValue > RtaRangeMaxLimitGiftedBatt || onLimitValue < RtaRangeMinLimit))
+                                    {
+                                        MessageBox.Show(RtaInvalidOnLimitMessage + forText + EventPrefix + GiftedBatteryPercentageAttribute + " and " + StatPrefix + RtaStatOverMax.ToString(), RegisterRtaErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return;
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show(RtaInvalidOnLimitMessage + forText + EventPrefix + GiftedBatteryPercentageAttribute + " and " + StatPrefix + RtaStatOverMax.ToString(), RegisterRtaErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+                            }
+
+                            //Validate Off-Limit value
+                            if ((!rowBoundItem.OffLimit.Equals(RtaLimitNotSet)) && (!rowBoundItem.OffLimit.Equals(RtaLimitNotSupported)))
+                            {
+                                if (int.TryParse(rowBoundItem.OffLimit, out offLimitValue))
+                                {
+                                    if ((offLimitValue > RtaRangeMaxLimitGiftedBatt || offLimitValue < RtaRangeMinLimit))
+                                    {
+                                        MessageBox.Show(RtaInvalidOffLimitMessage + forText + EventPrefix + GiftedBatteryPercentageAttribute + " and " + StatPrefix + RtaStatOverMax.ToString(), RegisterRtaErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return;
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show(RtaInvalidOffLimitMessage + forText + EventPrefix + GiftedBatteryPercentageAttribute + " and " + StatPrefix + RtaStatOverMax.ToString(), RegisterRtaErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+                            }
+
+                            int currentStat = -1;
+                            //Check the validation for min and max stat for offlimit and onlimit. 
+                            if (int.TryParse(rowBoundItem.Stat, out currentStat))
+                            {
+                                if (currentStat == RtaStatOverMax) //Max value Stat
+                                {
+                                    if ((offLimitValue > 0) && (onLimitValue > 0) && (offLimitValue >= onLimitValue))
+                                    {
+                                        MessageBox.Show("Value set for Off-Limit should be less than On-Limit" + forText + EventPrefix + GiftedBatteryPercentageAttribute + " and " + StatPrefix + RtaStatOverMax.ToString(), RegisterRtaErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return;
+                                    }
+                                }
+
+                                if (currentStat == RtaStatBelowMin) //Min value Stat
+                                {
+                                    if ((offLimitValue > 0) && (onLimitValue > 0) && (offLimitValue <= onLimitValue))
+                                    {
+                                        MessageBox.Show("Value set for Off-Limit should be greater than On-Limit" + forText + GiftedBatteryPercentageAttribute + " and " + StatPrefix + RtaStatBelowMin.ToString(), RegisterRtaErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                        else if ((rowBoundItem.Event.Equals(ScannerOutOfCradleAttribute)) || (rowBoundItem.Event.Equals(ScannerIdleAttribute)))
+                        {
+                            onLimitValue = -1; offLimitValue = -1;
+
+                            //Validate On-Limit value
+                            if ((!rowBoundItem.OnLimit.Equals(RtaLimitNotSet)) && (!rowBoundItem.OnLimit.Equals(RtaLimitNotSupported)))
+                            {
+                                if (int.TryParse(rowBoundItem.OnLimit, out onLimitValue))
+                                {
+                                    if ((onLimitValue > RtaRangeMaxLimitScannerOutOfCradle || onLimitValue < RtaRangeMinLimit))
+                                    {
+                                        MessageBox.Show(RtaInvalidOnLimitMessage + forText + EventPrefix + rowBoundItem.Event + " and " + StatPrefix + rowBoundItem.Stat, RegisterRtaErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return;
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show(RtaInvalidOnLimitMessage + forText + EventPrefix + rowBoundItem.Event + " and " + StatPrefix + rowBoundItem.Stat, RegisterRtaErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+                            }
+
+                            //Validate Off-Limit value
+                            if ((!rowBoundItem.OffLimit.Equals(RtaLimitNotSet)) && (!rowBoundItem.OffLimit.Equals(RtaLimitNotSupported)))
+                            {
+                                if (int.TryParse(rowBoundItem.OffLimit, out offLimitValue))
+                                {
+                                    if ((offLimitValue > RtaRangeMaxLimitScannerOutOfCradle || offLimitValue < RtaRangeMinLimit))
+                                    {
+                                        MessageBox.Show(RtaInvalidOffLimitMessage + forText + EventPrefix + rowBoundItem.Event + " and " + StatPrefix + rowBoundItem.Stat, RegisterRtaErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return;
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show(RtaInvalidOffLimitMessage + forText + EventPrefix + rowBoundItem.Event + " and " + StatPrefix + rowBoundItem.Stat, RegisterRtaErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+                            }
+
+                            //Validate if off limit is greater than on limit.
+                            if ((offLimitValue > 0) && (onLimitValue > 0) && (offLimitValue <= onLimitValue))
+                            {
+                                MessageBox.Show("Value set for Off-Limit should be greater than On-Limit" + forText + EventPrefix + rowBoundItem.Event + " and " + StatPrefix + rowBoundItem.Stat, RegisterRtaErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+
+                        }
+                        if (rowBoundItem != null && rowBoundItem.Registered) rtaDataToSet.Add(rowBoundItem);
+                    }
+                    RegisterRTAEvents(rtaDataToSet);                    
+                }
+                else
+                {
+                    ShowNoDataAvailableToRegisterMessage(); 
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void ShowNoDataAvailableToRegisterMessage()
+        {
+            MessageBox.Show("No data available to register RTA Events." + Environment.NewLine + Environment.NewLine + "Retrieve Supported/Registered RTA events, select new registrations and then proceed with Registering RTA events.", "ERROR - Register RTA Events", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void btnSetRTAEventStatus_Click(object sender, EventArgs e)
+        {
+            List<RtaEventDetails> registeredRtaEvents = GetRTAEventDetails(false);
+            List<RtaEventDetails> unregisterRtaEvents = new List<RtaEventDetails>();
+            try
+            {
+                if (dgRtaView.Rows.Count > 0)
+                {
+                    List<RtaAlertStatusDetails> rtaDataToSet = new List<RtaAlertStatusDetails>();
+                    for (int i = 0; i < dgRtaView.Rows.Count; i++)
+                    {
+                        RtaAlertStatusDetails rowBoundItem = this.dgRtaView.Rows[i].DataBoundItem as RtaAlertStatusDetails;
+
+                        if (rowBoundItem != null)
+                        {
+                            RtaEventDetails foundRtaEvent = registeredRtaEvents.Find(rtaEvent => (rtaEvent.Event == rowBoundItem.Event && rtaEvent.Stat == rowBoundItem.Stat));
+                            if (foundRtaEvent != null)
+                            {
+                                if (!rowBoundItem.Registered)
+                                {
+                                    unregisterRtaEvents.Add(foundRtaEvent); //Keeping a seperate list to unregister events
+                                }
+                                else
+                                {
+                                    rtaDataToSet.Add(rowBoundItem);                                  
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ShowNoDataAvailableToSetRTAStatusMessage();
+                            return;
+                        }
+
+                    }
+
+                    if (unregisterRtaEvents != null && unregisterRtaEvents.Count > 0) UnregisterRTAEvents(unregisterRtaEvents);
+                    if (rtaDataToSet != null && rtaDataToSet.Count > 0) SetRtaAlertStatus(rtaDataToSet, cbSuspend.Checked);
+                    DisplayResult(0, "RTA_SET_EVENT_STATUS");
+                }
+                else
+                {
+                    ShowNoDataAvailableToSetRTAStatusMessage();
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void ShowNoDataAvailableToSetRTAStatusMessage()
+        {
+            MessageBox.Show("No data available to set RTA Alert Status." + Environment.NewLine + Environment.NewLine + "Get RTA event status, select new status updates and then proceed with Setting RTA event status.", "ERROR - Set RTA Event Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void btnGetRTAEventStatus_Click(object sender, EventArgs e)
+        {
+            try
+            {                
+                List<RtaAlertStatusDetails> privateRtaAlertStatusTemp = new List<RtaAlertStatusDetails>();
+                List<RtaAlertStatusDetails> rtaAlertStatus = GetRtaAlertStatus();
+
+                if (rtaAlertStatus != null)
+                {
+                    if (rtaAlertStatus.Count == 0)
+                    {
+                        dgRtaView.Columns.Clear();
+                        MessageBox.Show("RTA alert status could not be retrieved from the selected device.","ERROR - Get RTA Event Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+
+                        for (int index = 0; index < rtaAlertStatus.Count(); index++)
+                        {
+                            rtaAlertStatus[index].ItemNumber = index + 1;
+                        }
+                        
+
+                        dgRtaView.DataSource = rtaAlertStatus;
+                        SetRtaAlertGridViewSettings();
+                    }
+                }
+                else
+                {
+                    dgRtaView.Columns.Clear();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void SetRtaEventReponsesGridViewSettings()
+        {
+            //Set Column Names
+
+            dgRtaEventResponse.Columns[TimeStamp].HeaderText = "DateTime";
+            dgRtaEventResponse.Columns[ModelColumn].HeaderText = "Model";
+            dgRtaEventResponse.Columns[SerialNumberColumn].HeaderText = "Serial Number";
+            dgRtaEventResponse.Columns[EventColumn].HeaderText = "Event";
+            dgRtaEventResponse.Columns[StatColumn].HeaderText = "Stat";
+            dgRtaEventResponse.Columns[Data1Column].HeaderText = "Data1";
+            dgRtaEventResponse.Columns[Data2Column].HeaderText = "Data2";
+            dgRtaEventResponse.Columns[RawData].Visible = false;
+
+            //Set Column alignment
+            foreach (DataGridViewColumn col in dgRtaEventResponse.Columns)
+            {
+                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
+
+            //Set column width
+            dgRtaEventResponse.Columns[TimeStamp].Width = 120;
+            dgRtaEventResponse.Columns[ModelColumn].Width = 140;
+            dgRtaEventResponse.Columns[SerialNumberColumn].Width = 100;
+            dgRtaEventResponse.Columns[EventColumn].Width = 40;
+            dgRtaEventResponse.Columns[StatColumn].Width = 30;
+            dgRtaEventResponse.Columns[Data1Column].Width = 40;
+            dgRtaEventResponse.Columns[Data2Column].Width = 40;
+
+            //Set column read-only status
+            dgRtaEventResponse.Columns[TimeStamp].ReadOnly = true; 
+            dgRtaEventResponse.Columns[ModelColumn].ReadOnly = true;
+            dgRtaEventResponse.Columns[SerialNumberColumn].ReadOnly = true;
+            dgRtaEventResponse.Columns[EventColumn].ReadOnly = true;
+            dgRtaEventResponse.Columns[StatColumn].ReadOnly = true;
+            dgRtaEventResponse.Columns[Data1Column].ReadOnly = true;
+            dgRtaEventResponse.Columns[Data2Column].ReadOnly = true;
+
+            //Set column Order
+            dgRtaEventResponse.Columns[TimeStamp].DisplayIndex = 0; 
+            dgRtaEventResponse.Columns[ModelColumn].DisplayIndex = 1;
+            dgRtaEventResponse.Columns[SerialNumberColumn].DisplayIndex = 2;
+            dgRtaEventResponse.Columns[EventColumn].DisplayIndex = 3;
+            dgRtaEventResponse.Columns[StatColumn].DisplayIndex = 4;
+            dgRtaEventResponse.Columns[Data1Column].DisplayIndex = 5;
+            dgRtaEventResponse.Columns[Data2Column].DisplayIndex = 6;
+        }
+
+        private void SetRtaAlertGridViewSettings()
+        {
+            //Set Column Names
+            dgRtaView.Columns[ItemNumberColumn].HeaderText = "No";            
+            dgRtaView.Columns[EventColumn].HeaderText = "Event";
+            dgRtaView.Columns[StatColumn].HeaderText = "Stat";            
+            dgRtaView.Columns[ScopeColumn].HeaderText = "Scope";
+            dgRtaView.Columns[RegisteredColumn].HeaderText = "Registered";
+            dgRtaView.Columns[ReportedColumn].HeaderText = "Reported";
+            dgRtaView.Columns[InitializedColumn].HeaderText = "Initialized";
+            dgRtaView.Columns[MeasuringColumn].HeaderText = "Measuring";
+                        
+            //Set Column alignment
+            foreach (DataGridViewColumn col in dgRtaView.Columns)
+            {
+                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
+
+            //Set column width
+            dgRtaView.Columns[ItemNumberColumn].Width = 40;
+            dgRtaView.Columns[EventColumn].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgRtaView.Columns[StatColumn].Width = 40;
+            dgRtaView.Columns[ScopeColumn].Width = 40;
+            dgRtaView.Columns[RegisteredColumn].Width = 65;
+            dgRtaView.Columns[ReportedColumn].Width = 58;
+            dgRtaView.Columns[InitializedColumn].Width = 60;
+            dgRtaView.Columns[MeasuringColumn].Width = 60;
+
+            //Set column read/write status
+            dgRtaView.Columns[ItemNumberColumn].ReadOnly = true;
+            dgRtaView.Columns[EventColumn].ReadOnly = true;
+            dgRtaView.Columns[StatColumn].ReadOnly = true;
+            dgRtaView.Columns[ScopeColumn].ReadOnly = true;
+            dgRtaView.Columns[RegisteredColumn].ReadOnly = false;
+            dgRtaView.Columns[ReportedColumn].ReadOnly = false;
+            dgRtaView.Columns[InitializedColumn].ReadOnly = true;
+            dgRtaView.Columns[MeasuringColumn].ReadOnly = true;
+
+            //Set column Index
+            dgRtaView.Columns[ItemNumberColumn].DisplayIndex = 0;
+            dgRtaView.Columns[EventColumn].DisplayIndex = 1;
+            dgRtaView.Columns[StatColumn].DisplayIndex = 2;
+            dgRtaView.Columns[ScopeColumn].DisplayIndex = 3;
+            dgRtaView.Columns[RegisteredColumn].DisplayIndex = 4;
+            dgRtaView.Columns[ReportedColumn].DisplayIndex = 5;
+            dgRtaView.Columns[InitializedColumn].DisplayIndex = 6;
+            dgRtaView.Columns[MeasuringColumn].DisplayIndex = 7;
+
+            dgRtaView.Columns[SuspendState].Visible = false; 
+        }
+
+        private void SetRtaGridViewSettings()
+        {
+            dgRtaView.Columns[ItemNumberColumn].HeaderText = "No";
+            dgRtaView.Columns[RegisteredColumn].HeaderText = "Registered";
+            dgRtaView.Columns[EventColumn].HeaderText = "Event";
+            dgRtaView.Columns[StatColumn].HeaderText = "Stat";
+            dgRtaView.Columns[OnLimitColumn].HeaderText = "On-Limit";
+            dgRtaView.Columns[OffLimitColumn].HeaderText = "Off-Limit";
+
+            foreach (DataGridViewColumn col in dgRtaView.Columns)
+            {
+                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
+
+            dgRtaView.Columns[ItemNumberColumn].Width = 40;
+            dgRtaView.Columns[RegisteredColumn].Width = 70;
+            dgRtaView.Columns[EventColumn].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgRtaView.Columns[StatColumn].Width = 70;
+            dgRtaView.Columns[OnLimitColumn].Width = 80;
+            dgRtaView.Columns[OffLimitColumn].Width = 80;
+
+            dgRtaView.Columns[RegisteredColumn].ReadOnly = false;
+            btnRegisterRTAEvents.Enabled = true;
+
+            dgRtaView.Columns[ItemNumberColumn].ReadOnly = true;
+            dgRtaView.Columns[EventColumn].ReadOnly = true;
+            dgRtaView.Columns[StatColumn].ReadOnly = true;
+            dgRtaView.Columns[OnLimitColumn].ReadOnly = false;
+            dgRtaView.Columns[OffLimitColumn].ReadOnly = false;
+
+            // Set column Index
+            dgRtaView.Columns[ItemNumberColumn].DisplayIndex = 0;
+            dgRtaView.Columns[RegisteredColumn].DisplayIndex = 1;
+            dgRtaView.Columns[EventColumn].DisplayIndex = 2;
+            dgRtaView.Columns[StatColumn].DisplayIndex = 3;
+            dgRtaView.Columns[OnLimitColumn].DisplayIndex = 4;
+            dgRtaView.Columns[OffLimitColumn].DisplayIndex = 5;
+        }
+
+        void dgRtaView_CellFormatting(object sender,DataGridViewCellFormattingEventArgs e)
+        {
+            try
+            {
+                if ((e.ColumnIndex == this.dgRtaView.Columns[EventColumn].Index) && e.Value != null)
+                {
+                    DataGridViewCell cell = this.dgRtaView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    if (m_xml.RtaEventMap.ContainsKey(Convert.ToInt32(e.Value))) cell.ToolTipText = m_xml.RtaEventMap[Convert.ToInt32(e.Value)][0];
+                }
+
+                if ((e.ColumnIndex == this.dgRtaView.Columns[StatColumn].Index) && e.Value != null)
+                {
+                    DataGridViewCell cell = this.dgRtaView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    if (m_xml.RtaStatType.ContainsKey(Convert.ToInt32(e.Value))) cell.ToolTipText = m_xml.RtaStatType[Convert.ToInt32(e.Value)];
+                }
+
+
+                if (dgRtaView.Columns[OnLimitColumn] != null)
+                {
+                    if ((e.ColumnIndex == this.dgRtaView.Columns[OnLimitColumn].Index) && e.Value != null)
+                    {
+                        RtaEventDetails rowBoundItem = this.dgRtaView.Rows[e.RowIndex].DataBoundItem as RtaEventDetails;
+                        if (rowBoundItem != null)
+                        {
+                            if (string.Equals(Convert.ToString(e.Value), RtaLimitNotSupported))
+                            {
+                                DataGridViewCell cell = this.dgRtaView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                                cell.ReadOnly = true;
+                            }
+
+                            else if (m_xml.RtaEventMap.ContainsKey(Convert.ToInt32(rowBoundItem.Event)))
+                            {
+                                DataGridViewCell cell = this.dgRtaView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                                cell.ToolTipText = m_xml.RtaEventMap[Convert.ToInt32(rowBoundItem.Event)][1];
+                            }
+                        }
+                    }
+                }
+
+                if (dgRtaView.Columns[OffLimitColumn] != null)
+                {
+                    if ((e.ColumnIndex == this.dgRtaView.Columns[OffLimitColumn].Index) && e.Value != null)
+                    {
+                        RtaEventDetails rowBoundItem = this.dgRtaView.Rows[e.RowIndex].DataBoundItem as RtaEventDetails;
+                        if (rowBoundItem != null)
+                        {
+                            if (string.Equals(Convert.ToString(e.Value), RtaLimitNotSupported))
+                            {
+                                DataGridViewCell cell = this.dgRtaView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                                cell.ReadOnly = true;
+                            }
+
+                            else if (m_xml.RtaEventMap.ContainsKey(Convert.ToInt32(rowBoundItem.Event)))
+                            {
+                                DataGridViewCell cell = this.dgRtaView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                                cell.ToolTipText = m_xml.RtaEventMap[Convert.ToInt32(rowBoundItem.Event)][2];
+                            }
+                        }
+                    }
+                }
+
+                if (dgRtaView.Columns[InitializedColumn] != null)
+                {
+                    if ((e.ColumnIndex == this.dgRtaView.Columns[InitializedColumn].Index) && e.Value != null)
+                    {
+                        DataGridViewCell cell = this.dgRtaView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                        cell.ToolTipText = RtaValueCannotBeModified;
+                    }
+                }
+
+                if (dgRtaView.Columns[MeasuringColumn] != null)
+                {
+                    if ((e.ColumnIndex == this.dgRtaView.Columns[MeasuringColumn].Index) && e.Value != null)
+                    {
+                        DataGridViewCell cell = this.dgRtaView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                        cell.ToolTipText = RtaValueCannotBeModified;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        #endregion
+
+        private void dgRtaEventResponse_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            try
+            {
+                if ((e.ColumnIndex == this.dgRtaEventResponse.Columns[EventColumn].Index) && e.Value != null)
+                {
+                    DataGridViewCell cell = this.dgRtaEventResponse.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    if (m_xml.RtaEventMap.ContainsKey(Convert.ToInt32(e.Value))) cell.ToolTipText = m_xml.RtaEventMap[Convert.ToInt32(e.Value)][0];
+                }
+
+                if ((e.ColumnIndex == this.dgRtaEventResponse.Columns[StatColumn].Index) && e.Value != null)
+                {
+                    DataGridViewCell cell = this.dgRtaEventResponse.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    if (m_xml.RtaStatType.ContainsKey(Convert.ToInt32(e.Value))) cell.ToolTipText = m_xml.RtaStatType[Convert.ToInt32(e.Value)];
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void btnCleanEvents_Click(object sender, EventArgs e)
+        {
+            dgRtaEventResponse.Columns.Clear();
+            ClearRtaEventData(); 
+        }
+
+        private void FrmScannerApp_RtaEventReceived(object sender, EventArgs e)
+        {
+            //This avoids rendering RTA event details if the tab is hidden
+            if (!tabCtrl.TabPages.Contains(tabRta))
+            {
+                return;
+            }
+
+            if (dgRtaEventResponse.InvokeRequired)
+            {
+                dgRtaEventResponse.Invoke(new MethodInvoker(delegate
+                {
+                    dgRtaEventResponse.DataSource = null;
+                    dgRtaEventResponse.DataSource = GetRtaEventResponseDetails();
+                    SetRtaEventReponsesGridViewSettings();
+                }));
+            }
+            else
+            {
+                dgRtaEventResponse.DataSource = null;
+                dgRtaEventResponse.DataSource = GetRtaEventResponseDetails();
+                SetRtaEventReponsesGridViewSettings();
+            }
+        }
+
+        private void btnGetRTAState_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                
+                lblRTAState.Text = getRtaState();
+                if (!lblRTAState.Visible) lblRTAState.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void dgRtaView_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            string headerText = dgRtaView.Columns[e.ColumnIndex].HeaderText;
+
+            if ((headerText.Equals("On-Limit")) || (headerText.Equals("Off-Limit")))
+            {
+                DataGridViewCell cell = dgRtaView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                cell.ErrorText = null;
+
+                if (int.TryParse(cell.EditedFormattedValue.ToString(), out _) || (cell.EditedFormattedValue.Equals(RtaLimitNotSet)))
+                {
+                    return;
+                }
+                
+                if (!int.TryParse(cell.EditedFormattedValue.ToString(), out _)) 
+                {
+                    if (!cell.ReadOnly)
+                    {
+                        if (cell.EditedFormattedValue.Equals(RtaLimitNotSupported))
+                        {
+                            MessageBox.Show("Invalid value set for On-Limit/Off-Limit", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            dgRtaView.EditingControl.Text = RtaLimitNotSet;
+                        }
+                        else 
+                            cell.ErrorText = RtaNotDigitMessage;
+                    }
+                }
+                
+            }
+            return;
+        }
+
+        private void cbSuspend_CheckedChanged(object sender, EventArgs e)
+        {
+            setSuspendState(cbSuspend.Checked);
+        }
+    }
 }

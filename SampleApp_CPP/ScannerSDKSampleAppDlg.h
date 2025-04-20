@@ -85,7 +85,7 @@ public:
 
 protected:
 
-	virtual void DoDataExchange(CDataExchange* pDX);	
+	virtual void DoDataExchange(CDataExchange* pDX);
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
 	afx_msg void OnPaint();

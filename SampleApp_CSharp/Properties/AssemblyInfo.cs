@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Zebra Technologies")]
 [assembly: AssemblyProduct("Zebra Scanner SDK")]
-[assembly: AssemblyCopyright("©2024 Zebra Technologies Corp. and/or its affiliates.  All rights reserved.")]
+[assembly: AssemblyCopyright("©2024 Zebra Technologies Corp. and/or its affiliates. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("3.6.15.0")]
-[assembly: AssemblyFileVersion("3.6.15.0")]
+[assembly: AssemblyVersion("3.7.1.0")]
+[assembly: AssemblyFileVersion("3.7.1.0")]

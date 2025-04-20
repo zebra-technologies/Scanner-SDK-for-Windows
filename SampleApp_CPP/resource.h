@@ -21,6 +21,7 @@
 #define IDD_TOPOLOGY1                   145
 #define IDD_DadfScript                  146
 #define IDD_ScanToConnect               148
+#define IDD_RTA                         156
 #define IDC_TAB1                        1000
 #define IDC_BUTTON1                     1001
 #define IDC_BUTTON2                     1002
@@ -64,10 +65,8 @@
 #define IDC_EDIT_Attrib                 1029
 #define IDC_CHECK18                     1029
 #define IDC_TREE1                       1030
-#define IDC_BUTTON8                     1031
 #define IDC_BUTTON_DISABLE              1031
 #define IDC_PROGRESS1                   1032
-#define IDC_LIST2                       1033
 #define IDC_RADIO1                      1034
 #define IDC_RADIO2                      1035
 #define IDC_RADIO3                      1036
@@ -133,14 +132,19 @@
 #define IDC_SAVE_IMAGE                  1086
 #define IDC_BUTTON_IDC_SAVE_IMAGE       1086
 #define IDC_BUTTON_ENABLE               1087
+#define IDC_LIST2                       1089
+#define IDC_RTAEventsLog                1089
+#define IDC_BUTTON8                     1090
+#define IDC_LIST3                       1091
+#define IDC_RTA_STATE                   1092
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        154
+#define _APS_NEXT_RESOURCE_VALUE        159
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1088
+#define _APS_NEXT_CONTROL_VALUE         1093
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

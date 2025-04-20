@@ -78,6 +78,14 @@ typedef enum
     DEVICE_UPDATE_FIRMWARE              = 0x1398,   //5016
     DEVICE_UPDATE_FIRMWARE_FROM_PLUGIN  = 0x1399,   //5017
     
+    //RTA Event Configuration OpCodes
+    RTA_GET_SUPPORTED                   = 0x157C,   //5500
+    RTA_REGISTER_EVENTS                 = 0x157D,   //5501
+    RTA_UNREGISTER_EVENTS               = 0x157E,   //5502
+    RTA_GET_EVENT_STATUS                = 0x157F,   //5503
+    RTA_SET_EVENT_STATUS                = 0x1580,   //5504
+    RTA_SUSPEND                         = 0x1581,   //5505
+    RTA_GETSTATE                        = 0x1582,   //5506
    
     DEVICE_SET_SERIAL_PORT_SETTINGS     = 0x17D5,   //6101
     SET_ACTION                          = 0x1770,   //6000
@@ -150,6 +158,7 @@ typedef enum
 #define VIDEO_MODE      3
 #define DEVICE_ENABLED  13
 #define DEVICE_DISABLED 14
+#define RTA_EVENT       2000 // Adding RTA notification support to C++ Sample Application
 
 //----- Symbology Types ---------------//
 #define   ST_NOT_APP                0x00  

@@ -190,6 +190,7 @@ namespace Scanner_SDK_Sample_Application
             try
             {
                 XmlTextReader xmlRead = new XmlTextReader(new StringReader(outXml));
+                xmlRead.XmlResolver = null;
                 xmlRead.WhitespaceHandling = WhitespaceHandling.Significant;
                 ScannerAttribute scannerAttribute = null;
                 string elementName = String.Empty, elementValue = String.Empty;

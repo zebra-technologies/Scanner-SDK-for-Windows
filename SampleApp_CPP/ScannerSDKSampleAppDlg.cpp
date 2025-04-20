@@ -20,9 +20,9 @@
 #include <exception>
 #include "QuickXmlParser.h"
 #include "ScanToConnectDlg.h"
-
 #include "ScannerCommands.h"
 #include <sstream>
+#include "RTADlg.h"
 
 #ifdef _DEBUG
 	#define new DEBUG_NEW
@@ -99,9 +99,11 @@ BOOL CScannerSDKSampleAppDlg::OnInitDialog()
 	m_TabWndMgr.SetTabClass<CMiscellaneousDlg>(this);
 	m_TabWndMgr.SetTabClass<CScaleDlg>(this);
 	m_TabWndMgr.SetTabClass<CLogsDlg>(this);
+	m_TabWndMgr.SetTabClass<CRTADlg>(this); 
 
+	GetTabManager().GetTabDlg<CRTADlg>().UIButtonsState(FALSE);
+	GetTabManager().GetTabDlg<CRTADlg>().EnableWindow(FALSE);
 	GetTabManager().ShowTab<CBarcodeDlg>();
-
 	InitScannerListControl();
 	Async = 0;
 
@@ -204,6 +206,10 @@ void CScannerSDKSampleAppDlg::OnNotificationEvent(short notificationType,BSTR pS
 		case DEVICE_DISABLED:
 			LOG(-1, "Scanner Notification : Divice Disabled");
 			break;
+		case RTA_EVENT: // Adding RTA notification support to C++ Sample Application
+			LOG(-1, "Scanner Notification : RTA Event Received");
+			GetTabManager().GetTabDlg<CRTADlg>().UpdateRtaEvent(pScannerData);
+			break;
 	}
 	GetTabManager().GetTabDlg<CLogsDlg>().ShowOutXml(pScannerData);
 }
@@ -271,6 +277,12 @@ void CScannerSDKSampleAppDlg::UpdateScannerStatus()
 			Status += Temp;
 		}
 		txtScannerSummary += Status;
+	}
+	else 
+	{
+		// If The list control is empty disable the RTA Tab items
+		GetTabManager().GetTabDlg<CRTADlg>().UIButtonsState(FALSE);
+		GetTabManager().GetTabDlg<CRTADlg>().EnableWindow(FALSE);
 	}
 	UpdateData(0);
 
@@ -764,6 +776,7 @@ void CScannerSDKSampleAppDlg::InitScannerListControl()
 
 void CScannerSDKSampleAppDlg::OnListItemchanged(NMHDR *pNMHDR, LRESULT *pResult)
 {
+	GetTabManager().GetTabDlg<CRTADlg>().OnClearAll(); //Clear RTA Events grid
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 	POSITION p = m_ScannerListControl.GetFirstSelectedItemPosition();
 	while ( p )
@@ -771,6 +784,7 @@ void CScannerSDKSampleAppDlg::OnListItemchanged(NMHDR *pNMHDR, LRESULT *pResult)
 		int nSelected = m_ScannerListControl.GetNextSelectedItem(p);
 
 		SelectedScannerID = m_ScannerListControl.GetItemText(nSelected, 0);
+
 
 		CString s = m_ScannerListControl.GetItemText(nSelected, 0);
 	    int scnID = _ttoi(s);
@@ -793,7 +807,24 @@ void CScannerSDKSampleAppDlg::OnListItemchanged(NMHDR *pNMHDR, LRESULT *pResult)
 		GetTabManager().GetTabDlg<CScaleDlg>().SetScannerID(&SelectedScannerID);
 		GetTabManager().GetTabDlg<CIntelDocCap>().SetScannerID(&SelectedScannerID);
 		GetTabManager().GetTabDlg<CConfigurationDlg>().UpdateClaimedStatus(scnID);
+		GetTabManager().GetTabDlg<CRTADlg>().SetScannerID(&SelectedScannerID);
 
+		try {
+			vector<vector<wstring>> supportedRTAEvents = GetTabManager().GetTabDlg<CRTADlg>().GetSupportedRTA();
+			if (!supportedRTAEvents.size() == 0) {
+				GetTabManager().GetTabDlg<CRTADlg>().UIButtonsState(TRUE);
+				GetTabManager().GetTabDlg<CRTADlg>().EnableWindow(TRUE);
+			}
+			else
+			{
+				GetTabManager().GetTabDlg<CRTADlg>().UIButtonsState(FALSE);
+				GetTabManager().GetTabDlg<CRTADlg>().EnableWindow(FALSE);
+			}
+		}
+		catch (exception ex) {
+			GetTabManager().GetTabDlg<CRTADlg>().EnableWindow(0);
+		}
+		
 		/*SCANNER* p = GetScannerInfo(SelectedScannerID);
 		if(p->HostMode == MODE_SNAPI_IMG || p->HostMode == MODE_SSI|| p->HostMode == MODE_SSI_BT)
 		{
@@ -887,6 +918,7 @@ void CScannerSDKSampleAppDlg::SetCommandMode(int Async)
 	GetTabManager().GetTabDlg<CMiscellaneousDlg>().SetAsync(&Async);
 	GetTabManager().GetTabDlg<CImageVideoDlg>().SetAsync(&Async);
 	GetTabManager().GetTabDlg<CScaleDlg>().SetAsync(&Async);
+	GetTabManager().GetTabDlg<CRTADlg>().SetAsync(&Async);
 
 	if(Async == 1)
 		LOG(0, "COMMAND SET TO ASYNC MODE")

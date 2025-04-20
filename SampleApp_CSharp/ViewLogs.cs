@@ -10,16 +10,19 @@ namespace Scanner_SDK_Sample_Application
     {
         private void UpdateOutXml(string strOut)
         {
-            if (txtOutXml.InvokeRequired)
+            if (strOut != null)
             {
-                txtOutXml.Invoke(new MethodInvoker(delegate
+                if (txtOutXml.InvokeRequired)
+                {
+                    txtOutXml.Invoke(new MethodInvoker(delegate
+                    {
+                        txtOutXml.Text = m_xml.IndentXmlString(strOut);
+                    }));
+                }
+                else
                 {
                     txtOutXml.Text = m_xml.IndentXmlString(strOut);
-                }));
-            }
-            else
-            {
-                txtOutXml.Text = m_xml.IndentXmlString(strOut);
+                }
             }
         }
 

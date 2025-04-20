@@ -13,7 +13,6 @@ namespace Scanner_SDK_Sample_Application
         const string STR_FIND = "Discover Scanners";
         const int NUM_SCANNER_EVENTS = 6;
 
-
         // Scanner types
         public const short SCANNER_TYPES_ALL = 1;
         public const short SCANNER_TYPES_SNAPI = 2;
@@ -71,6 +70,7 @@ namespace Scanner_SDK_Sample_Application
         const int VIDEO_MODE = 3;
         const int DEVICE_ENABLED = 13;
         const int DEVICE_DISABLED = 14;
+        const int RTA_EVENT = 2000; 
 
         // Firmware download events //
         const int SCANNER_UF_SESS_START	= 11; // Triggered when flash download session starts 
@@ -134,13 +134,77 @@ namespace Scanner_SDK_Sample_Application
         const int UPDATE_ELECTRIC_FENCE_CUSTOM_TONE = 5052;
         const int ERASE_ELECTRIC_FENCE_CUSTOM_TONE = 5053;
         const int SET_ACTION = 6000;
-        
+
+        //RTA Event Configuration OpCodes
+        public const int RTA_GET_SUPPORTED = 5500;
+        public const int RTA_REGISTER = 5501;
+        public const int RTA_UNREGISTER = 5502;
+        public const int RTA_GET_EVENT_STATUS = 5503; 
+        public const int RTA_SET_EVENT_STATUS = 5504;
+        public const int RTA_SUSPEND = 5505;
+        public const int RTA_GETSTATE = 5506;
+
         const int KEYBOARD_EMULATOR_ENABLE = 6300; //6300
         const int KEYBOARD_EMULATOR_SET_LOCALE = 6301; //6301
         const int KEYBOARD_EMULATOR_GET_CONFIG = 6302; //6302
 
         const int CONFIGURE_DADF = 6400;
         const int RESET_DADF = 6401;
+
+        //RTA Constants
+        public const string ItemNumberColumn = "ItemNumber";
+        public const string RegisteredColumn = "Registered";
+        public const string EventColumn = "Event";
+        public const string StatColumn = "Stat";
+        public const string OnLimitColumn = "OnLimit";
+        public const string OffLimitColumn = "OffLimit";
+        public const string ReportedColumn = "Reported";
+        public const string InitializedColumn = "Initialized";
+        public const string MeasuringColumn = "Measuring";
+        public const string ScopeColumn = "Scope";
+        public const string SuspendState = "SuspendState";
+        public const string ModelColumn = "Model";
+        public const string SerialNumberColumn = "SerialNumber";
+        public const string Data1Column = "Data1";
+        public const string Data2Column = "Data2";
+        public const string RawData = "RawData";
+        public const string TimeStamp = "EventTimeStamp"; 
+        public const int RSM_GET_SUPPORTED_RTA = 5427;
+        public const int RSM_GET_REGISTERED_RTA = 5426;
+        public const int RSM_REGISTER_RTA = 5425;
+        public const int RSM_GET_ALERTS = 5429;
+        public const int RSM_SET_ALERTS = 5428;
+        public const int RSM_RTA_STATE = 38000;
+        public const string forText = " for "; 
+        public const string GiftedBatteryPercentageAttribute = "30012";
+        public const string ScannerOutOfCradleAttribute = "38004";
+        public const string ScannerIdleAttribute = "38001";
+        public const string RtaMaxOnOffLimit = "65520";
+        public const string RtaNotApplicableLimit = "65521";
+        public const string RtaLimitNotSet = "Not set";
+        public const string RtaLimitNotSupported = "Not applicable";
+        public const string FormatToWord = "X4";
+        public const string FormatToByte = "X2"; 
+        public const string RtaFutureUseBytes = "fff0";
+        public const string RtaNotApplicableBytes = "fff1";
+        public const string RtaResponseEnd = "ffff";
+        public const string HexPrefix = "0x";
+        public const string RtaValueCannotBeModified = "Value cannot be modified";
+        public const string RtaSuspendEnabled = "01";
+        public const string RtaSuspendDisabled = "00";
+        public const string RegisterRtaErrorTitle = "ERROR - Register RTA Events";
+        public const string RtaInvalidOnLimitMessage = "Invalid values set for On-Limit"; 
+        public const string RtaInvalidOffLimitMessage = "Invalid values set for Off-Limit";
+        public const string RtaNotDigitMessage = "Not a digit";
+        public const int RtaRangeMinLimit = 5;
+        public const int RtaRangeMaxLimitGiftedBatt = 95;
+        public const int RtaRangeMaxLimitScannerOutOfCradle = 600;
+        public const int RtaStatOverMax = 7;
+        public const int RtaStatBelowMin = 9;
+        public const string EventPrefix = "Event: ";
+        public const string StatPrefix = "Stat: "; 
+
+
 
         // Serial //
         const int DEVICE_SET_SERIAL_PORT_SETTINGS = 6101;

@@ -217,7 +217,6 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     PUSHBUTTON      "Get All IDs",IDC_BUTTON1,34,239,65,14
     GROUPBOX        "RSM",IDC_STATIC,7,3,298,303
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,24,20,266,201
     PUSHBUTTON      "Get Value",IDC_BUTTON2,34,260,65,14
     PUSHBUTTON      "Next Value",IDC_BUTTON3,34,280,65,14
     EDITTEXT        IDC_EDIT_Attrib,219,31,40,14,ES_AUTOHSCROLL | NOT WS_VISIBLE
@@ -227,6 +226,7 @@ BEGIN
     PUSHBUTTON      "Clear All",IDC_BUTTON7,232,259,48,14
     GROUPBOX        "Attributes Get/Set",IDC_STATIC,25,225,183,74
     GROUPBOX        "Select/Clear",IDC_STATIC,226,225,61,73
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,24,20,266,201
 END
 
 IDD_Configuration DIALOGEX 0, 0, 310, 308
@@ -382,6 +382,27 @@ BEGIN
     PUSHBUTTON      "Save Barcode",IDC_BUTTON_SaveBarcode,177,162,74,14,WS_DISABLED
 END
 
+IDD_RTA DIALOGEX 0, 0, 306, 317
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "RTA Configuration Settings",IDC_STATIC,7,7,290,130
+    GROUPBOX        "RTA Event Log",IDC_STATIC,7,184,292,126
+    CONTROL         "Suspend Reporting Alerts",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,191,15,99,10
+    PUSHBUTTON      "Get Supported RTA Events",IDC_BUTTON1,15,142,93,15
+    PUSHBUTTON      "Get Registered RTA Events",IDC_BUTTON2,112,142,95,15
+    PUSHBUTTON      "Register RTA Events",IDC_BUTTON3,211,142,81,15
+    PUSHBUTTON      "Set RTA Event Status",IDC_BUTTON4,15,161,93,15
+    PUSHBUTTON      "Get RTA Event Status",IDC_BUTTON5,112,161,95,15
+    PUSHBUTTON      "Clear All",IDC_BUTTON6,211,161,81,15
+    PUSHBUTTON      "Get RTA State",IDC_BUTTON7,15,289,90,14
+    PUSHBUTTON      "Clear All",IDC_BUTTON8,199,290,93,14
+    CONTROL         "",IDC_RTAEventsLog,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,15,194,276,91
+    CONTROL         "",IDC_LIST3,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,15,27,276,102
+    LTEXT           "RTA State",IDC_RTA_STATE,108,289,88,19
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -389,8 +410,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,6,37,0
- PRODUCTVERSION 3,6,37,0
+ FILEVERSION 3,7,1,0
+ PRODUCTVERSION 3,7,1,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x21L
@@ -408,12 +429,12 @@ BEGIN
             VALUE "Comments", "This is a MFC GUI application that can describe all functinalities in a Zebra Scanner by using CoreScanner service"
             VALUE "CompanyName", "Zebra Technologies"
             VALUE "FileDescription", "Scanner SDK (CoreScanner) Sample Application"
-            VALUE "FileVersion", "3.6.37.0"
+            VALUE "FileVersion", "3.7.1.0"
             VALUE "InternalName", "ScannerSDKSampleApp.exe"
-            VALUE "LegalCopyright", "©2024 Zebra Technologies Corp. and/or its affiliates.  All rights reserved."
+            VALUE "LegalCopyright", "©2024 Zebra Technologies Corp. and/or its affiliates. All rights reserved."
             VALUE "OriginalFilename", "ScannerSDKSampleApp.exe"
             VALUE "ProductName", "Scanner SDK Sample Application"
-            VALUE "ProductVersion", "3.6.37.0"
+            VALUE "ProductVersion", "3.7.1.0"
             VALUE "SpecialBuild", "Beta"
         END
     END
@@ -559,6 +580,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 274
     END
+
+    IDD_RTA, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 299
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 310
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -605,6 +634,16 @@ BEGIN
 END
 
 IDD_Configuration AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_RTA AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_RSM AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

@@ -27,6 +27,7 @@ namespace Scanner_SDK_Sample_Application
             registerForEvents();
             ShowScanners();
             GetPairingBarcode();
+            GetRtaPublicEvents();
         }
         private void SetControlsForScannerSelection(bool bEnable)
         {
@@ -43,6 +44,21 @@ namespace Scanner_SDK_Sample_Application
             grpCustomDecodeTone.Enabled = bEnable;
             grpElectricFenceCustomTone.Enabled = bEnable;
             grpHVS.Enabled = bEnable;
+
+            //RTA Button States
+            btnGetSuppRTAEvents.Enabled = bEnable;
+            btnGetRegRTAEvents.Enabled = bEnable;
+            btnRegisterRTAEvents.Enabled = bEnable;
+            btnSetRTAEventStatus.Enabled = bEnable;
+            btnGetRTAEventStatus.Enabled = bEnable;
+            btnClean.Enabled = bEnable;
+            btnCleanEvents.Enabled = bEnable; 
+            cbSuspend.Enabled = bEnable;
+            btnGetRTAState.Enabled = bEnable;
+                       
+            ToolTip suspendStateTooltip = new ToolTip();
+            suspendStateTooltip.ShowAlways = true;
+            suspendStateTooltip.SetToolTip(cbSuspend, "To suspend RTA alerts, place a check in the box and click on \"Set RTA Alert Status\"");
         }
         /// <summary>
         /// Calls Open command
@@ -121,6 +137,62 @@ namespace Scanner_SDK_Sample_Application
                 ExecCmd(opCode, ref inXml, out outXml, out status);
                 DisplayResult(status, "REGISTER_FOR_EVENTS");
             }
+        }
+
+        /// <summary>
+        /// Get RTA public events to store in globally to filter out the private events when required.
+        /// </summary>
+        private void GetRtaPublicEvents()
+        {            
+            List<RtaAlertStatusDetails> rtaAlertsStatus = new List<RtaAlertStatusDetails>();
+            bool rtaSupportedDeviceSeen = false;
+           
+            for (int i = 0; i < m_nTotalScanners; i++)
+            {
+
+                rtaAlertsStatus = GetRtaAlertStatus(m_arScanners[i].SCANNERID);
+                
+
+                if (rtaAlertsStatus != null && rtaAlertsStatus.Count > 0)
+                {
+                    rtaSupportedDeviceSeen = true;
+
+                    if (!tabCtrl.TabPages.Contains(tabRta))
+                    {
+                        if (tabCtrl.InvokeRequired)
+                        {
+                            tabCtrl.Invoke(new MethodInvoker(delegate
+                            {
+                                tabCtrl.TabPages.Add(tabRta);
+                            }));
+                        }
+                        else
+                        {
+                            tabCtrl.TabPages.Add(tabRta);
+                        }
+                    }
+                }
+                else
+                {
+                    if (tabCtrl.TabPages.Contains(tabRta) && !rtaSupportedDeviceSeen)
+                    {
+                        if (tabCtrl.InvokeRequired)
+                        {
+                            tabCtrl.Invoke(new MethodInvoker(delegate
+                            {
+                                tabCtrl.TabPages.Remove(tabRta);
+                            }));
+                        }
+                        else
+                        {
+                            tabCtrl.TabPages.Remove(tabRta);
+                        }
+                    }
+                    
+                }
+               
+            }                
+                
         }
 
         /// <summary>

@@ -61,7 +61,7 @@ long CScannerCommands::cmdCreateInstance(void)
         ScannerEventSink = new CEventSink(m_AppDialog);
         ScannerEventSinkUnknown = ScannerEventSink->GetIDispatch(FALSE);
         //Advice or make a connection
-        BOOL stat = AfxConnectionAdvise(ScannerInterface, DIID__ICoreScannerEvents, ScannerEventSinkUnknown, FALSE, &m_dwCookie);
+        BOOL stat = AfxConnectionAdvise(ScannerInterface, DIID__ICoreScannerEvents, ScannerEventSinkUnknown, TRUE, &m_dwCookie);
     }
     m_pThis = this;
     return hr;
@@ -84,8 +84,8 @@ void CScannerCommands::cmdDestroyInstance()
         {
             if(m_dwCookie != 0 && ScannerEventSink)
             {
-                BOOL stat = AfxConnectionUnadvise(ScannerInterface, DIID__ICoreScannerEvents, ScannerEventSinkUnknown, FALSE, m_dwCookie);
-                delete ScannerEventSink;
+                BOOL stat = AfxConnectionUnadvise(ScannerInterface, DIID__ICoreScannerEvents, ScannerEventSinkUnknown, TRUE, m_dwCookie);
+                ScannerEventSink = NULL;
                 ScannerEventSink = 0;
                 m_dwCookie = 0;
             }
@@ -952,4 +952,125 @@ long CScannerCommands::cmdResetDADFSource(int Async, long *Status) //VRQW74
     CComBSTR input = inXml.c_str();
 
     return Execute(RESET_DADF, &input, &outXml, Async, Status); 
+}
+
+long CScannerCommands::cmdGetRTAEventStatus(wstring ScannerID, BSTR* outXml, long* Status)
+{
+
+    wstring inXml = L"<inArgs><scannerID>";
+    inXml.append(ScannerID);
+    inXml.append(L"</scannerID></inArgs>");
+    CComBSTR input = inXml.c_str();
+
+    return Execute(RTA_GET_EVENT_STATUS, &input, outXml, 0, Status);
+
+}
+
+long CScannerCommands::cmdSetRTAEventStatus(wstring ScannerID, BSTR* outXml, long* Status, vector<vector<wstring>> events)
+{
+
+    wstring inXml = L"<inArgs><scannerID>";
+    inXml.append(ScannerID);
+    inXml.append(L"</scannerID><cmdArgs><arg-xml><rtaevent_list>");
+
+    for (const auto& rtaEvent : events)
+    {
+        
+            inXml.append(L"<rtaevent>");
+            inXml.append(L"<id>" + rtaEvent[0] + L"</id>");
+            inXml.append(L"<stat>" + rtaEvent[1] + L"</stat>");
+            inXml.append(L"<reported>" + to_wstring(rtaEvent[2] == L"TRUE" ? 1 : 0) + L"</reported>");
+            inXml.append(L"</rtaevent>");
+    }
+
+    inXml.append(L"</rtaevent_list></arg-xml></cmdArgs></inArgs>");
+    CComBSTR input = inXml.c_str();
+
+    return Execute(RTA_SET_EVENT_STATUS, &input, outXml, 0, Status);
+
+}
+
+long CScannerCommands::cmdUnregisterRTAEvent(wstring ScannerID, BSTR* outXml, long* Status, vector<vector<wstring>> events)
+{
+
+    wstring inXml = L"<inArgs><scannerID>";
+    inXml.append(ScannerID);
+    inXml.append(L"</scannerID><cmdArgs><arg-xml><rtaevent_list>");
+
+    for (const auto& rtaEvent : events)
+    {
+
+        inXml.append(L"<rtaevent>");
+        inXml.append(L"<id>" + rtaEvent[0] + L"</id>");
+        inXml.append(L"<stat>" + rtaEvent[1] + L"</stat>");
+        inXml.append(L"</rtaevent>");
+    }
+
+    inXml.append(L"</rtaevent_list></arg-xml></cmdArgs></inArgs>");
+    CComBSTR input = inXml.c_str();
+
+    return Execute(RTA_UNREGISTER_EVENTS, &input, outXml, 0, Status);
+
+}
+
+long CScannerCommands::cmdSuspendRTAEvent(wstring ScannerID, BSTR* outXml, long* Status, BOOL status)
+{
+    wstring inXml = L"<inArgs><scannerID>";
+    inXml.append(ScannerID);
+    inXml.append(L"</scannerID><cmdArgs><arg-bool>");
+    inXml.append(status ? L"true" : L"false");
+    inXml.append(L"</arg-bool></cmdArgs></inArgs>");
+    CComBSTR input = inXml.c_str();
+
+    return Execute(RTA_SUSPEND, &input, outXml, 0, Status);
+
+}
+
+long CScannerCommands::cmdGetRTAState(wstring ScannerID, BSTR* outXml, long* Status)
+{
+
+    wstring inXml = L"<inArgs><scannerID>";
+    inXml.append(ScannerID);
+    inXml.append(L"</scannerID></inArgs>");
+    CComBSTR input = inXml.c_str();
+
+    return Execute(RTA_GETSTATE, &input, outXml, 0, Status);
+
+}
+
+long CScannerCommands::cmdGetSupportedRTAEvents(wstring ScannerID, BSTR* outXml, long* Status)
+{
+    HRESULT hr = S_FALSE;
+    wstring inXml = L"<inArgs><scannerID>";
+    inXml.append(ScannerID);
+    inXml.append(L"</scannerID></inArgs>");
+    CComBSTR input = inXml.c_str();
+
+    return Execute(RTA_GET_SUPPORTED, &input, outXml, 0, Status);
+}
+
+long CScannerCommands::cmdRegisterRTAEvents(wstring ScannerID, long* Status, vector<vector<wstring>> eventDetailsList)
+{
+    HRESULT hr = S_FALSE;
+    BSTR outXml;
+    wstring inXml = L"<inArgs><scannerID>";
+    inXml.append(ScannerID);
+    inXml.append(L"</scannerID><cmdArgs><arg-xml><rtaevent_list>");
+
+    for (const auto& eventDetails : eventDetailsList)
+    {
+        inXml.append(L"<rtaevent>")
+            .append(L"<id>").append(eventDetails[0]).append(L"</id>")
+            .append(L"<stat>").append(eventDetails[1]).append(L"</stat>")
+            .append(L"<onlimit>").append(eventDetails[2]).append(L"</onlimit>")
+            .append(L"<offlimit>").append(eventDetails[3]).append(L"</offlimit>")
+            .append(L"</rtaevent>");
+    }
+
+    // Complete the XML
+    inXml.append(L"</rtaevent_list></arg-xml></cmdArgs></inArgs>");
+
+    // Convert the XML string to CComBSTR
+    CComBSTR input = inXml.c_str();
+    return Execute(RTA_REGISTER_EVENTS, &input, &outXml, 0, Status);
 }

@@ -134,7 +134,7 @@ namespace Scanner_SDK_Sample_Application
             {
                 int opCode = CLAIM_DEVICE;
                 string strCode = "CLAIM_DEVICE";
-                string serialno = lstvScanners.SelectedItems[0].SubItems[5].Text;
+                string serialno = lstvScanners.SelectedItems[0].SubItems[6].Text;
 
                 if (!chkClaim.Checked)
                 {

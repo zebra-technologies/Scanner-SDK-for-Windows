@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace Scanner_SDK_Sample_Application
@@ -379,6 +380,7 @@ namespace Scanner_SDK_Sample_Application
             try
             {
                 XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.XmlResolver = null; 
                 xmlDocument.LoadXml(scanDataXml);
                 return xmlDocument.DocumentElement.GetElementsByTagName("datalabel").Item(0).InnerText;
             }
@@ -398,6 +400,7 @@ namespace Scanner_SDK_Sample_Application
             try
             {
                 XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.XmlResolver = null;
                 xmlDocument.LoadXml(scanDataXml);
                 return (int)Convert.ToInt32(xmlDocument.DocumentElement.GetElementsByTagName("datatype").Item(0).InnerText.Trim());
             }
@@ -421,6 +424,7 @@ namespace Scanner_SDK_Sample_Application
             {
                 System.Diagnostics.Debug.WriteLine("Initial XML" + strXml);
                 XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.XmlResolver = null;
                 xmlDoc.LoadXml(strXml);
 
                 string strData = String.Empty;

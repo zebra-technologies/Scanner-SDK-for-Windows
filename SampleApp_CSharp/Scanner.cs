@@ -18,6 +18,7 @@ namespace Scanner_SDK_Sample_Application
         public const string SCANNER_OPOS = "USBOPOS";
         public const string SCANNER_HIDKB =	"USBHIDKB";
         public const string CAMERA_UVC = "UVC_CAMERA";
+        public const string SCANNER_PRODUCE = "PRODUCE";
 
         public const int MAX_ATTRIBUTE_COUNT = 2000;
         public const int MAX_ATTRIBUTE_ITEMS = 5;//att-id, att-type, att-prop, att-value, att-name// ( is not used) 

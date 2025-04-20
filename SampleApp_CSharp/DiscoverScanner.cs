@@ -212,6 +212,7 @@ namespace Scanner_SDK_Sample_Application
                 case Scanner.SCANNER_SSI_BT:
                 case Scanner.CAMERA_UVC:
                 case Scanner.SCANNER_SSI_IP:
+                case Scanner.SCANNER_PRODUCE:
                     strItems = new string[] { objScanner.SCANNERID, objScanner.SCANNERTYPE, objScanner.MODELNO, objScanner.SCANNERFIRMWARE, objScanner.SCANNERCONFIG, objScanner.SCANNERMNFDATE, objScanner.SERIALNO, objScanner.GUID };
                     break;
 

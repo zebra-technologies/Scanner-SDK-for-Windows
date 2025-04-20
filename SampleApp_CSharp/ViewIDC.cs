@@ -24,6 +24,7 @@ namespace Scanner_SDK_Sample_Application
             string channel = "";
             checkUseHID.CheckedChanged -= this.checkUseHID_CheckedChanged;
             XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.XmlResolver = null;
             xmlDoc.LoadXml(pScannerData);
             string txchannel = xmlDoc.DocumentElement.GetElementsByTagName("channel").Item(0).InnerText;
             if (txchannel == "usb_HID")
@@ -299,6 +300,7 @@ namespace Scanner_SDK_Sample_Application
             return inXml;
 
         }
+
         private bool PerformRSMGetAttribute(int attributeNo, out Scanner.RSMAttribute attribute)
         {
             value = null;

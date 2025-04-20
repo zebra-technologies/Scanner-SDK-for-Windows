@@ -24,6 +24,7 @@ namespace Scanner_SDK_Sample_Application
         public void buildTopologyTree(string strXml)
         {
             XmlDocument xdoc = new XmlDocument();
+            xdoc.XmlResolver = null;
             xdoc.LoadXml(strXml);
             treeView1.Nodes.Clear();
 

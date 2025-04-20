@@ -41,6 +41,10 @@ namespace Scanner_SDK_Sample_Application
                     case DEVICE_DISABLED:
                         UpdateResults("Scanner Notification : Device Disabled");
                         break;
+                    case RTA_EVENT:
+                        UpdateResults("Scanner Notification : RTA Event Received");
+                        UpdateRtaEvent(pScannerData); 
+                        break; 
                 }
 
                 UpdateOutXml(pScannerData);
@@ -85,6 +89,7 @@ namespace Scanner_SDK_Sample_Application
                                     nAdd = 2;//already exist ...don't add
                                     if (SCANNER_ATTACHED == eventType)
                                     {
+                                        GetRtaPublicEvents();
                                     }
                                     else if (SCANNER_DETTACHED == eventType)
                                     {
@@ -111,6 +116,7 @@ namespace Scanner_SDK_Sample_Application
                                         }
                                         m_nTotalScanners--;
                                         FillScannerList();
+                                        GetRtaPublicEvents();
                                         SetControls();
                                     }
                                     break;
@@ -123,6 +129,7 @@ namespace Scanner_SDK_Sample_Application
                                 m_arScanners.SetValue((Scanner)scnTmp, m_nTotalScanners);
                                 m_nTotalScanners++;
                                 FillScannerList();
+                                GetRtaPublicEvents();
                                 SetControls();
                             }
                         }
@@ -130,8 +137,9 @@ namespace Scanner_SDK_Sample_Application
                 }
                 progressBarFWUpdate.Value = 0;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show("Error PNP - " + ex.Message, APP_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         /// <summary>
@@ -353,6 +361,7 @@ namespace Scanner_SDK_Sample_Application
             InitScannersCount();
 
             bool deviceFound = false;
+            
             if (tabCtrl.TabPages.Contains(tabSSW))
             {
                 if (tabCtrl.InvokeRequired)
@@ -367,7 +376,6 @@ namespace Scanner_SDK_Sample_Application
                     tabCtrl.TabPages.Remove(tabSSW);
                 }
             }
-
             for (int index = 0; index < m_nTotalScanners; index++)
             {
                 Scanner objScanner = (Scanner)m_arScanners.GetValue(index);
@@ -375,6 +383,8 @@ namespace Scanner_SDK_Sample_Application
                 {
                     deviceFound = objScanner.MODELNO.StartsWith("DS9908");
                 }
+
+
 
                 string[] strItems = new string[] { "", "", "", "", "" };
 
@@ -600,6 +610,7 @@ namespace Scanner_SDK_Sample_Application
                 m_pCoreScanner.ExecCommand(KEYBOARD_EMULATOR_GET_CONFIG, ref inXML, out outXML, out iStatus);
 
                 XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.XmlResolver = null;
                 xmlDoc.LoadXml(outXML);
 
                 string strEnable = xmlDoc.DocumentElement.GetElementsByTagName("KeyEnumState").Item(0).InnerText;

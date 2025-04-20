@@ -24,6 +24,7 @@ namespace Scanner_SDK_Sample_Application
                 try
                 {
                     XmlTextReader xmlRead = new XmlTextReader(new StringReader(strXml));
+                    xmlRead.XmlResolver = null;
                     // Skip non-significant whitespace   
                     xmlRead.WhitespaceHandling = WhitespaceHandling.Significant;
                     string sElementName = "", sElmValue = "";

@@ -13,6 +13,7 @@
 #include "ScannerSDKSampleAppDlg.h"
 #include <string>
 #include "EventSink.h"
+#include <vector>
 
 using namespace std;
 
@@ -89,6 +90,15 @@ public:
     long cmdReadWeight(wstring,BSTR * outXml,int,long *Status);
     long cmdZeroScale(wstring,int,long *Status);
     long cmdRestScale(wstring,int,long *Status);
+
+    long cmdGetRTAEventStatus(wstring, BSTR* outXml, long* Status);
+    long cmdSetRTAEventStatus(wstring, BSTR* outXml, long* Status, vector<vector<wstring>> events);
+    long cmdRegisterRTAEvents(wstring ScannerID, long* Status, vector<vector<wstring>> eventDetailsList);
+    long cmdUnregisterRTAEvent(wstring, BSTR* outXml, long* Status, vector<vector<wstring>> events);
+    long cmdGetSupportedRTAEvents(wstring ScannerID, BSTR* outXml, long* Status);
+    long cmdSuspendRTAEvent(wstring, BSTR* outXml, long* Status, BOOL status);
+    long cmdGetRTAState(wstring, BSTR* outXml, long* Status);
+    
 
 
     static CScannerCommands* GetScannerCommand(){ return m_pThis;}

@@ -1,12 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleApp_CPP", "SampleApp_CPP\ScannerSDKSampleApp.vcxproj", "{F84774C6-FE5C-4DAD-9DF1-2A10CBE79934}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34601.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScannerSDK_SampleApp_CPP", "SampleApp_CPP\ScannerSDKSampleApp.vcxproj", "{F84774C6-FE5C-4DAD-9DF1-2A10CBE79934}"
 EndProject
 Global
-	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
-		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
@@ -14,6 +13,8 @@ Global
 		Release|x64 = Release|x64
 		SCMRlease|Win32 = SCMRlease|Win32
 		SCMRlease|x64 = SCMRlease|x64
+		Sonar|Win32 = Sonar|Win32
+		Sonar|x64 = Sonar|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F84774C6-FE5C-4DAD-9DF1-2A10CBE79934}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -28,8 +29,18 @@ Global
 		{F84774C6-FE5C-4DAD-9DF1-2A10CBE79934}.SCMRlease|Win32.Build.0 = SCMRlease|Win32
 		{F84774C6-FE5C-4DAD-9DF1-2A10CBE79934}.SCMRlease|x64.ActiveCfg = SCMRlease|x64
 		{F84774C6-FE5C-4DAD-9DF1-2A10CBE79934}.SCMRlease|x64.Build.0 = SCMRlease|x64
+		{F84774C6-FE5C-4DAD-9DF1-2A10CBE79934}.Sonar|Win32.ActiveCfg = Sonar|Win32
+		{F84774C6-FE5C-4DAD-9DF1-2A10CBE79934}.Sonar|Win32.Build.0 = Sonar|Win32
+		{F84774C6-FE5C-4DAD-9DF1-2A10CBE79934}.Sonar|x64.ActiveCfg = Sonar|x64
+		{F84774C6-FE5C-4DAD-9DF1-2A10CBE79934}.Sonar|x64.Build.0 = Sonar|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A596CD3B-329D-4877-9D09-154E427AA701}
+	EndGlobalSection
+	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
+		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
 	EndGlobalSection
 EndGlobal

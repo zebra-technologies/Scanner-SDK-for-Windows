@@ -157,6 +157,21 @@ namespace Scanner_SDK_Sample_Application
             this.buttonElectricFenceWavFileUpload = new System.Windows.Forms.Button();
             this.txtElectricFenceWaveFile = new System.Windows.Forms.TextBox();
             this.buttonElectricFenceWavFileBrowse = new System.Windows.Forms.Button();
+            this.tabRta = new System.Windows.Forms.TabPage();
+            this.btnClean = new System.Windows.Forms.Button();
+            this.btnGetRTAEventStatus = new System.Windows.Forms.Button();
+            this.btnSetRTAEventStatus = new System.Windows.Forms.Button();
+            this.btnRegisterRTAEvents = new System.Windows.Forms.Button();
+            this.btnGetRegRTAEvents = new System.Windows.Forms.Button();
+            this.btnGetSuppRTAEvents = new System.Windows.Forms.Button();
+            this.grpRTAEventLog = new System.Windows.Forms.GroupBox();
+            this.lblRTAState = new System.Windows.Forms.Label();
+            this.btnGetRTAState = new System.Windows.Forms.Button();
+            this.btnCleanEvents = new System.Windows.Forms.Button();
+            this.dgRtaEventResponse = new System.Windows.Forms.DataGridView();
+            this.grpRTAConfig = new System.Windows.Forms.GroupBox();
+            this.cbSuspend = new System.Windows.Forms.CheckBox();
+            this.dgRtaView = new System.Windows.Forms.DataGridView();
             this.tabScan2Connect = new System.Windows.Forms.TabPage();
             this.grpScan2Connect = new System.Windows.Forms.GroupBox();
             this.btnSaveBarcode = new System.Windows.Forms.Button();
@@ -237,6 +252,7 @@ namespace Scanner_SDK_Sample_Application
             this.clmType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmModel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmFrmwr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmCnfig = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmMnftrd = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmSerial = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmGuid = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -257,7 +273,6 @@ namespace Scanner_SDK_Sample_Application
             this.openFileDialogWavFile = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogDADF = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialogBarcodePath = new System.Windows.Forms.FolderBrowserDialog();
-            this.clmCnfig = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabCtrl.SuspendLayout();
             this.tabBarcode.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -294,6 +309,11 @@ namespace Scanner_SDK_Sample_Application
             this.grpFWoptns.SuspendLayout();
             this.grpScannerProp.SuspendLayout();
             this.grpElectricFenceCustomTone.SuspendLayout();
+            this.tabRta.SuspendLayout();
+            this.grpRTAEventLog.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgRtaEventResponse)).BeginInit();
+            this.grpRTAConfig.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgRtaView)).BeginInit();
             this.tabScan2Connect.SuspendLayout();
             this.grpScan2Connect.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBBarcode)).BeginInit();
@@ -326,6 +346,7 @@ namespace Scanner_SDK_Sample_Application
             this.tabCtrl.Controls.Add(this.tabScnAction);
             this.tabCtrl.Controls.Add(this.tabRsm);
             this.tabCtrl.Controls.Add(this.tabConfig);
+            this.tabCtrl.Controls.Add(this.tabRta);
             this.tabCtrl.Controls.Add(this.tabScan2Connect);
             this.tabCtrl.Controls.Add(this.tabMisc);
             this.tabCtrl.Controls.Add(this.tabScale);
@@ -1711,6 +1732,169 @@ namespace Scanner_SDK_Sample_Application
             this.buttonElectricFenceWavFileBrowse.UseVisualStyleBackColor = true;
             this.buttonElectricFenceWavFileBrowse.Click += new System.EventHandler(this.btnElectricFenceWavFileBrowse_Click);
             // 
+            // tabRta
+            // 
+            this.tabRta.Controls.Add(this.btnClean);
+            this.tabRta.Controls.Add(this.btnGetRTAEventStatus);
+            this.tabRta.Controls.Add(this.btnSetRTAEventStatus);
+            this.tabRta.Controls.Add(this.btnRegisterRTAEvents);
+            this.tabRta.Controls.Add(this.btnGetRegRTAEvents);
+            this.tabRta.Controls.Add(this.btnGetSuppRTAEvents);
+            this.tabRta.Controls.Add(this.grpRTAEventLog);
+            this.tabRta.Controls.Add(this.grpRTAConfig);
+            this.tabRta.Location = new System.Drawing.Point(4, 22);
+            this.tabRta.Name = "tabRta";
+            this.tabRta.Size = new System.Drawing.Size(511, 468);
+            this.tabRta.TabIndex = 12;
+            this.tabRta.Text = "RTA";
+            this.tabRta.UseVisualStyleBackColor = true;
+            // 
+            // btnClean
+            // 
+            this.btnClean.Location = new System.Drawing.Point(359, 250);
+            this.btnClean.Name = "btnClean";
+            this.btnClean.Size = new System.Drawing.Size(134, 23);
+            this.btnClean.TabIndex = 8;
+            this.btnClean.Text = "Clear All";
+            this.btnClean.UseVisualStyleBackColor = true;
+            this.btnClean.Click += new System.EventHandler(this.btnClean_Click);
+            // 
+            // btnGetRTAEventStatus
+            // 
+            this.btnGetRTAEventStatus.Location = new System.Drawing.Point(191, 250);
+            this.btnGetRTAEventStatus.Name = "btnGetRTAEventStatus";
+            this.btnGetRTAEventStatus.Size = new System.Drawing.Size(161, 23);
+            this.btnGetRTAEventStatus.TabIndex = 7;
+            this.btnGetRTAEventStatus.Text = "Get RTA Event Status";
+            this.btnGetRTAEventStatus.UseVisualStyleBackColor = true;
+            this.btnGetRTAEventStatus.Click += new System.EventHandler(this.btnGetRTAEventStatus_Click);
+            // 
+            // btnSetRTAEventStatus
+            // 
+            this.btnSetRTAEventStatus.Location = new System.Drawing.Point(16, 250);
+            this.btnSetRTAEventStatus.Name = "btnSetRTAEventStatus";
+            this.btnSetRTAEventStatus.Size = new System.Drawing.Size(168, 23);
+            this.btnSetRTAEventStatus.TabIndex = 6;
+            this.btnSetRTAEventStatus.Text = "Set RTA Event Status";
+            this.btnSetRTAEventStatus.UseVisualStyleBackColor = true;
+            this.btnSetRTAEventStatus.Click += new System.EventHandler(this.btnSetRTAEventStatus_Click);
+            // 
+            // btnRegisterRTAEvents
+            // 
+            this.btnRegisterRTAEvents.Location = new System.Drawing.Point(359, 219);
+            this.btnRegisterRTAEvents.Name = "btnRegisterRTAEvents";
+            this.btnRegisterRTAEvents.Size = new System.Drawing.Size(134, 23);
+            this.btnRegisterRTAEvents.TabIndex = 5;
+            this.btnRegisterRTAEvents.Text = "Register RTA Events";
+            this.btnRegisterRTAEvents.UseVisualStyleBackColor = true;
+            this.btnRegisterRTAEvents.Click += new System.EventHandler(this.btnRegisterRTAEvents_Click);
+            // 
+            // btnGetRegRTAEvents
+            // 
+            this.btnGetRegRTAEvents.Location = new System.Drawing.Point(191, 220);
+            this.btnGetRegRTAEvents.Name = "btnGetRegRTAEvents";
+            this.btnGetRegRTAEvents.Size = new System.Drawing.Size(161, 23);
+            this.btnGetRegRTAEvents.TabIndex = 4;
+            this.btnGetRegRTAEvents.Text = "Get Registered RTA Events";
+            this.btnGetRegRTAEvents.UseVisualStyleBackColor = true;
+            this.btnGetRegRTAEvents.Click += new System.EventHandler(this.btnGetRegRTAEvents_Click);
+            // 
+            // btnGetSuppRTAEvents
+            // 
+            this.btnGetSuppRTAEvents.Location = new System.Drawing.Point(16, 220);
+            this.btnGetSuppRTAEvents.Name = "btnGetSuppRTAEvents";
+            this.btnGetSuppRTAEvents.Size = new System.Drawing.Size(168, 23);
+            this.btnGetSuppRTAEvents.TabIndex = 3;
+            this.btnGetSuppRTAEvents.Text = "Get Supported RTA Events";
+            this.btnGetSuppRTAEvents.UseVisualStyleBackColor = true;
+            this.btnGetSuppRTAEvents.Click += new System.EventHandler(this.btnGetSuppRTAEvents_Click);
+            // 
+            // grpRTAEventLog
+            // 
+            this.grpRTAEventLog.Controls.Add(this.lblRTAState);
+            this.grpRTAEventLog.Controls.Add(this.btnGetRTAState);
+            this.grpRTAEventLog.Controls.Add(this.btnCleanEvents);
+            this.grpRTAEventLog.Controls.Add(this.dgRtaEventResponse);
+            this.grpRTAEventLog.Location = new System.Drawing.Point(10, 280);
+            this.grpRTAEventLog.Name = "grpRTAEventLog";
+            this.grpRTAEventLog.Size = new System.Drawing.Size(491, 181);
+            this.grpRTAEventLog.TabIndex = 2;
+            this.grpRTAEventLog.TabStop = false;
+            this.grpRTAEventLog.Text = "RTA Event Log";
+            // 
+            // lblRTAState
+            // 
+            this.lblRTAState.AutoSize = true;
+            this.lblRTAState.Location = new System.Drawing.Point(120, 158);
+            this.lblRTAState.Name = "lblRTAState";
+            this.lblRTAState.Size = new System.Drawing.Size(57, 13);
+            this.lblRTAState.TabIndex = 3;
+            this.lblRTAState.Text = "RTA State";
+            this.lblRTAState.Visible = false;
+            // 
+            // btnGetRTAState
+            // 
+            this.btnGetRTAState.Location = new System.Drawing.Point(10, 153);
+            this.btnGetRTAState.Name = "btnGetRTAState";
+            this.btnGetRTAState.Size = new System.Drawing.Size(104, 23);
+            this.btnGetRTAState.TabIndex = 2;
+            this.btnGetRTAState.Text = "Get RTA State";
+            this.btnGetRTAState.UseVisualStyleBackColor = true;
+            this.btnGetRTAState.Click += new System.EventHandler(this.btnGetRTAState_Click);
+            // 
+            // btnCleanEvents
+            // 
+            this.btnCleanEvents.Location = new System.Drawing.Point(349, 153);
+            this.btnCleanEvents.Name = "btnCleanEvents";
+            this.btnCleanEvents.Size = new System.Drawing.Size(134, 23);
+            this.btnCleanEvents.TabIndex = 1;
+            this.btnCleanEvents.Text = "Clear All";
+            this.btnCleanEvents.UseVisualStyleBackColor = true;
+            this.btnCleanEvents.Click += new System.EventHandler(this.btnCleanEvents_Click);
+            // 
+            // dgRtaEventResponse
+            // 
+            this.dgRtaEventResponse.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.dgRtaEventResponse.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgRtaEventResponse.Location = new System.Drawing.Point(10, 16);
+            this.dgRtaEventResponse.Name = "dgRtaEventResponse";
+            this.dgRtaEventResponse.Size = new System.Drawing.Size(473, 131);
+            this.dgRtaEventResponse.TabIndex = 0;
+            this.dgRtaEventResponse.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgRtaEventResponse_CellFormatting);
+            // 
+            // grpRTAConfig
+            // 
+            this.grpRTAConfig.Controls.Add(this.cbSuspend);
+            this.grpRTAConfig.Controls.Add(this.dgRtaView);
+            this.grpRTAConfig.Location = new System.Drawing.Point(10, 15);
+            this.grpRTAConfig.Name = "grpRTAConfig";
+            this.grpRTAConfig.Size = new System.Drawing.Size(489, 198);
+            this.grpRTAConfig.TabIndex = 1;
+            this.grpRTAConfig.TabStop = false;
+            this.grpRTAConfig.Text = "RTA Configuration Settings";
+            // 
+            // cbSuspend
+            // 
+            this.cbSuspend.AutoSize = true;
+            this.cbSuspend.Location = new System.Drawing.Point(340, 13);
+            this.cbSuspend.Name = "cbSuspend";
+            this.cbSuspend.Size = new System.Drawing.Size(146, 17);
+            this.cbSuspend.TabIndex = 2;
+            this.cbSuspend.Text = "Suspend Reporting Alerts";
+            this.cbSuspend.UseVisualStyleBackColor = true;
+            this.cbSuspend.CheckedChanged += new System.EventHandler(this.cbSuspend_CheckedChanged);
+            // 
+            // dgRtaView
+            // 
+            this.dgRtaView.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.dgRtaView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgRtaView.Location = new System.Drawing.Point(10, 34);
+            this.dgRtaView.Name = "dgRtaView";
+            this.dgRtaView.Size = new System.Drawing.Size(473, 156);
+            this.dgRtaView.TabIndex = 1;
+            this.dgRtaView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgRtaView_CellFormatting);
+            this.dgRtaView.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dgRtaView_CellValidating);
+            // 
             // tabScan2Connect
             // 
             this.tabScan2Connect.Controls.Add(this.grpScan2Connect);
@@ -2616,6 +2800,11 @@ namespace Scanner_SDK_Sample_Application
             this.clmFrmwr.Text = "Firmware";
             this.clmFrmwr.Width = 119;
             // 
+            // clmCnfig
+            // 
+            this.clmCnfig.Text = "Config Name";
+            this.clmCnfig.Width = 119;
+            // 
             // clmMnftrd
             // 
             this.clmMnftrd.Text = "Built";
@@ -2738,11 +2927,6 @@ namespace Scanner_SDK_Sample_Application
             // 
             this.openFileDialogDADF.Filter = "Driver ADF Script files (*.dadf)|*.dadf";
             // 
-            // clmCnfig
-            // 
-            this.clmCnfig.Text = "Config Name";
-            this.clmCnfig.Width = 119;
-            // 
             // frmScannerApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2811,6 +2995,13 @@ namespace Scanner_SDK_Sample_Application
             this.grpScannerProp.PerformLayout();
             this.grpElectricFenceCustomTone.ResumeLayout(false);
             this.grpElectricFenceCustomTone.PerformLayout();
+            this.tabRta.ResumeLayout(false);
+            this.grpRTAEventLog.ResumeLayout(false);
+            this.grpRTAEventLog.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgRtaEventResponse)).EndInit();
+            this.grpRTAConfig.ResumeLayout(false);
+            this.grpRTAConfig.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgRtaView)).EndInit();
             this.tabScan2Connect.ResumeLayout(false);
             this.grpScan2Connect.ResumeLayout(false);
             this.grpScan2Connect.PerformLayout();
@@ -3067,6 +3258,21 @@ namespace Scanner_SDK_Sample_Application
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.ComboBox cmbEncoding;
         private System.Windows.Forms.ColumnHeader clmCnfig;
+        private System.Windows.Forms.TabPage tabRta;
+        private System.Windows.Forms.Button btnClean;
+        private System.Windows.Forms.Button btnGetRTAEventStatus;
+        private System.Windows.Forms.Button btnSetRTAEventStatus;
+        private System.Windows.Forms.Button btnRegisterRTAEvents;
+        private System.Windows.Forms.Button btnGetRegRTAEvents;
+        private System.Windows.Forms.Button btnGetSuppRTAEvents;
+        private System.Windows.Forms.GroupBox grpRTAEventLog;
+        private System.Windows.Forms.GroupBox grpRTAConfig;
+        private System.Windows.Forms.DataGridView dgRtaView;
+        private System.Windows.Forms.CheckBox cbSuspend;
+        private System.Windows.Forms.Button btnCleanEvents;
+        private System.Windows.Forms.DataGridView dgRtaEventResponse;
+        private System.Windows.Forms.Label lblRTAState;
+        private System.Windows.Forms.Button btnGetRTAState;
     }
 }
 
